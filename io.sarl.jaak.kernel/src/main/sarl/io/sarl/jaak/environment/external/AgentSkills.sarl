@@ -34,6 +34,7 @@ import io.sarl.jaak.kernel.internal.SkillBinder
 import java.io.Serializable
 import org.arakhne.afc.math.continous.object2d.Vector2f
 import org.arakhne.afc.math.discrete.object2d.Point2i
+import org.arakhne.afc.math.continous.object2d.Point2f
 
 skill PhysicBodySkill implements PhysicBody {
 	
@@ -139,7 +140,7 @@ skill PhysicBodySkill implements PhysicBody {
 		physicSpace.influence(binder.currentTime, new SemanticChangeInfluence(semantic))
 	}
 
-	def getPosition : Point2i {
+	def getPosition : Point2f {
 		binder.body.position
 	}
 

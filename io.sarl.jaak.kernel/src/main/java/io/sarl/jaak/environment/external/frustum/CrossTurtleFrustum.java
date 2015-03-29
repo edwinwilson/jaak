@@ -25,6 +25,7 @@ import java.util.BitSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a frustum for for a turtle which is
@@ -61,7 +62,7 @@ public class CrossTurtleFrustum implements TurtleFrustum {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterator<Point2i> getPerceivedCells(Point2i origin, float direction, EnvironmentArea environment) {
+	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
 		return new CrossIterator(origin, this.crossLength, environment);
 	}
 
@@ -74,33 +75,33 @@ public class CrossTurtleFrustum implements TurtleFrustum {
 	 * @mavengroupid $GroupId$
 	 * @mavenartifactid $ArtifactId$
 	 */
-	private static class CrossIterator implements Iterator<Point2i> {
+	private static class CrossIterator implements Iterator<Point2f> {
 
 		private final EnvironmentArea environment;
-		private final Point2i origin;
-		private final int length;
+		private final Point2f origin;
+		private final float length;
 		private final BitSet directions = new BitSet(4);
 		private int level = 1;
 		private int nextDirectionIndex;
-		private Point2i next;
+		private Point2f next;
 
 		/**
 		 * @param origin
 		 * @param length
 		 * @param environment
 		 */
-		public CrossIterator(Point2i origin, int length, EnvironmentArea environment) {
+		public CrossIterator(Point2f origin, int length, EnvironmentArea environment) {
 			this.origin = origin;
 			this.environment = environment;
 			this.length = length;
 			this.directions.set(0, SIDES);
 			this.nextDirectionIndex = 0;
-			this.next = new Point2i(this.origin);
+			this.next = new Point2f(this.origin);
 		}
 
 		private void searchNext() {
 			this.next = null;
-			Point2i p = new Point2i();
+			Point2f p = new Point2f();
 			while (this.next == null
 					&& !this.directions.isEmpty()
 					&& this.level <= this.length) {
@@ -155,8 +156,8 @@ public class CrossTurtleFrustum implements TurtleFrustum {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public Point2i next() {
-			Point2i n = this.next;
+		public Point2f next() {
+			Point2f n = this.next;
 			if (n == null) {
 				throw new NoSuchElementException();
 			}

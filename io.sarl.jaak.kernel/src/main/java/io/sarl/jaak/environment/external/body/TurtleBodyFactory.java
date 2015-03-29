@@ -24,6 +24,7 @@ import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** Factory of bodies for turtles.
@@ -58,7 +59,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition,
+			Point2f desiredPosition,
 			float desiredAngle,
 			Serializable semantic);
 
@@ -84,7 +85,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition,
+			Point2f desiredPosition,
 			float desiredAngle);
 
 	/** Create an instance of a turtle body
@@ -104,7 +105,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition);
+			Point2f desiredPosition);
 
 	/** Create an instance of a turtle body
 	 * with to the given attributes.
@@ -170,7 +171,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition,
+			Point2f desiredPosition,
 			Serializable semantic);
 
 	/** Create an instance of a turtle body
@@ -197,7 +198,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition,
+			Point2f desiredPosition,
 			float desiredAngle,
 			Serializable semantic,
 			TurtleFrustum frustum);
@@ -225,7 +226,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition,
+			Point2f desiredPosition,
 			float desiredAngle,
 			TurtleFrustum frustum);
 
@@ -247,7 +248,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition,
+			Point2f desiredPosition,
 			TurtleFrustum frustum);
 
 	/** Create an instance of a turtle body
@@ -321,7 +322,7 @@ public interface TurtleBodyFactory {
 	 */
 	TurtleBody createTurtleBody(
 			UUID turtleId,
-			Point2i desiredPosition,
+			Point2f desiredPosition,
 			Serializable semantic,
 			TurtleFrustum frustum);
 
@@ -332,6 +333,6 @@ public interface TurtleBodyFactory {
 	 * @return <code>true</code> if the new body could be put on the
 	 * cell, otherwise <code>false</code>.
 	 */
-	boolean isFreeCell(Point2i position);
+	boolean isFreeCell(Point2f position);
 
 }

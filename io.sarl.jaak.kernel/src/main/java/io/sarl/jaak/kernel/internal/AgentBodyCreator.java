@@ -30,6 +30,7 @@ import io.sarl.jaak.environment.internal.spawner.JaakBodyCreator;
 import java.lang.reflect.Constructor;
 import java.util.UUID;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** Creator of bodies for the SARL agents.
@@ -55,7 +56,7 @@ class AgentBodyCreator implements JaakBodyCreator {
 	 * @return <code>true</code> if the position if forced.
 	 */
 	public boolean isPositionForced(JaakEnvironment environment) {
-		Point2i p = new Point2i(this.parameters.x, this.parameters.y);
+		Point2f p = new Point2f(this.parameters.x, this.parameters.y);
 		return (environment.isFree(p.x(), p.y()));
 	}
 

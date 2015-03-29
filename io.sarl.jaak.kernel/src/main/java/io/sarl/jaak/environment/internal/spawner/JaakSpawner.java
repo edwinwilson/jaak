@@ -28,7 +28,7 @@ import io.sarl.jaak.environment.external.time.TimeManager;
 import java.io.Serializable;
 import java.util.UUID;
 
-import org.arakhne.afc.math.discrete.object2d.Point2i;
+import org.arakhne.afc.math.continous.object2d.Point2f;
 
 /** Provide implementation for a turtle spawner in Jaak environment.
  *
@@ -124,7 +124,7 @@ public abstract class JaakSpawner implements BodySpawner {
 	 * @param desiredPosition is the position desired by the factory invoker.
 	 * @return a position.
 	 */
-	protected abstract Point2i computeCurrentSpawningPosition(Point2i desiredPosition);
+	protected abstract Point2f computeCurrentSpawningPosition(Point2f desiredPosition);
 
 	/** Provide implementation for a body factory dedicated to spawners.
 	 *
@@ -151,7 +151,7 @@ public abstract class JaakSpawner implements BodySpawner {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean isFreeCell(Point2i position) {
+		public boolean isFreeCell(Point2f position) {
 			return this.factory.isFreeCell(position);
 		}
 
@@ -160,9 +160,9 @@ public abstract class JaakSpawner implements BodySpawner {
 		 * @param desiredPosition is the desired position given by the factory invoker.
 		 * @return a free position
 		 */
-		public Point2i computeValidPosition(Point2i desiredPosition) {
-			Point2i dp = desiredPosition;
-			Point2i p;
+		public Point2f computeValidPosition(Point2f desiredPosition) {
+			Point2f dp = desiredPosition;
+			Point2f p;
 			for (int i = 0; i < FREE_POSITION_COMPUTATION_RETRIES; ++i) {
 				p = computeCurrentSpawningPosition(dp);
 				assert (p != null);
@@ -179,8 +179,8 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, float desiredAngle, Serializable semantic) {
-			Point2i p = computeValidPosition(desiredPosition);
+				Point2f desiredPosition, float desiredAngle, Serializable semantic) {
+			Point2f p = computeValidPosition(desiredPosition);
 			if (p == null) {
 				return null;
 			}
@@ -196,8 +196,8 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, float desiredAngle) {
-			Point2i p = computeValidPosition(desiredPosition);
+				Point2f desiredPosition, float desiredAngle) {
+			Point2f p = computeValidPosition(desiredPosition);
 			if (p == null) {
 				return null;
 			}
@@ -212,8 +212,8 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition) {
-			Point2i p = computeValidPosition(desiredPosition);
+				Point2f desiredPosition) {
+			Point2f p = computeValidPosition(desiredPosition);
 			if (p == null) {
 				return null;
 			}
@@ -228,7 +228,7 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId) {
-			Point2i p = computeValidPosition(null);
+			Point2f p = computeValidPosition(null);
 			if (p == null) {
 				return null;
 			}
@@ -244,7 +244,7 @@ public abstract class JaakSpawner implements BodySpawner {
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				float desiredAngle, Serializable semantic) {
-			Point2i p = computeValidPosition(null);
+			Point2f p = computeValidPosition(null);
 			if (p == null) {
 				return null;
 			}
@@ -261,7 +261,7 @@ public abstract class JaakSpawner implements BodySpawner {
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Serializable semantic) {
-			Point2i p = computeValidPosition(null);
+			Point2f p = computeValidPosition(null);
 			if (p == null) {
 				return null;
 			}
@@ -277,8 +277,8 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, Serializable semantic) {
-			Point2i p = computeValidPosition(null);
+				Point2f desiredPosition, Serializable semantic) {
+			Point2f p = computeValidPosition(null);
 			if (p == null) {
 				return null;
 			}
@@ -294,9 +294,9 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, float desiredAngle, Serializable semantic,
+				Point2f desiredPosition, float desiredAngle, Serializable semantic,
 				TurtleFrustum frustum) {
-			Point2i p = computeValidPosition(desiredPosition);
+			Point2f p = computeValidPosition(desiredPosition);
 			if (p == null) {
 				return null;
 			}
@@ -313,9 +313,9 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, float desiredAngle,
+				Point2f desiredPosition, float desiredAngle,
 				TurtleFrustum frustum) {
-			Point2i p = computeValidPosition(desiredPosition);
+			Point2f p = computeValidPosition(desiredPosition);
 			if (p == null) {
 				return null;
 			}
@@ -331,8 +331,8 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, TurtleFrustum frustum) {
-			Point2i p = computeValidPosition(desiredPosition);
+				Point2f desiredPosition, TurtleFrustum frustum) {
+			Point2f p = computeValidPosition(desiredPosition);
 			if (p == null) {
 				return null;
 			}
@@ -348,7 +348,7 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId, TurtleFrustum frustum) {
-			Point2i p = computeValidPosition(null);
+			Point2f p = computeValidPosition(null);
 			if (p == null) {
 				return null;
 			}
@@ -365,7 +365,7 @@ public abstract class JaakSpawner implements BodySpawner {
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				float desiredAngle, Serializable semantic, TurtleFrustum frustum) {
-			Point2i p = computeValidPosition(null);
+			Point2f p = computeValidPosition(null);
 			if (p == null) {
 				return null;
 			}
@@ -383,7 +383,7 @@ public abstract class JaakSpawner implements BodySpawner {
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Serializable semantic, TurtleFrustum frustum) {
-			Point2i p = computeValidPosition(null);
+			Point2f p = computeValidPosition(null);
 			if (p == null) {
 				return null;
 			}
@@ -400,8 +400,8 @@ public abstract class JaakSpawner implements BodySpawner {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, Serializable semantic, TurtleFrustum frustum) {
-			Point2i p = computeValidPosition(desiredPosition);
+				Point2f desiredPosition, Serializable semantic, TurtleFrustum frustum) {
+			Point2f p = computeValidPosition(desiredPosition);
 			if (p == null) {
 				return null;
 			}

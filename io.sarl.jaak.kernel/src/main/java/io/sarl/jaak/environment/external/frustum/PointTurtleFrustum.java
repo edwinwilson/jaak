@@ -24,6 +24,7 @@ import io.sarl.jaak.environment.external.EnvironmentArea;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a frustum for for a turtle which is
@@ -41,7 +42,7 @@ public class PointTurtleFrustum implements TurtleFrustum {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterator<Point2i> getPerceivedCells(Point2i origin, float direction, EnvironmentArea environment) {
+	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
 		return Collections.singleton(origin).iterator();
 	}
 

@@ -60,14 +60,14 @@ public interface TurtleBody extends TurtleObject {
 	 *
 	 * @param cells is the count of cells to traverse.
 	 */
-	void moveForward(int cells);
+	void moveForward(float cells);
 
 	/** Move the turtle backward about the given number
 	 * of cells.
 	 *
 	 * @param cells is the count of cells to traverse.
 	 */
-	void moveBackward(int cells);
+	void moveBackward(float cells);
 
 	/** Turn the head on the left of the turtle about the given
 	 * number of radians.

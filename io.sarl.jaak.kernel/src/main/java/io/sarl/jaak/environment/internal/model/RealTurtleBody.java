@@ -42,6 +42,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.arakhne.afc.math.MathUtil;
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
@@ -65,8 +66,8 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	private transient MotionInfluence lastMotionInfluence;
 	private MotionInfluenceStatus lastMotionInfluenceStatus;
 	private transient List<Influence> otherInfluences;
-	private int x;
-	private int y;
+	private float x;
+	private float y;
 	private float heading;
 	private Vector2f headingVector;
 	private float speed;
@@ -348,7 +349,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized void moveBackward(int cells) {
+	public synchronized void moveBackward(float cells) {
 		if (cells > 0) {
 			fireInfluenceReception();
 			Vector2f head = getHeadingVector();
@@ -368,7 +369,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized void moveForward(int cells) {
+	public synchronized void moveForward(float cells) {
 		if (cells > 0) {
 			fireInfluenceReception();
 			Vector2f head = getHeadingVector();
@@ -560,15 +561,15 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized Point2i getPosition() {
-		return new Point2i(this.x, this.y);
+	public synchronized Point2f getPosition() {
+		return new Point2f(this.x, this.y);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized int getX() {
+	public synchronized float getX() {
 		return this.x;
 	}
 
@@ -576,7 +577,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized int getY() {
+	public synchronized float getY() {
 		return this.y;
 	}
 

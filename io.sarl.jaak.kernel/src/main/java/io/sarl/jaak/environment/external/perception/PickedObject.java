@@ -23,6 +23,7 @@ import io.sarl.jaak.environment.external.body.TurtleBody;
 
 import java.io.Serializable;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a object which was picked up from the cell
@@ -63,7 +64,7 @@ public class PickedObject implements Perceivable, Serializable {
 		buffer.append("PICKED("); //$NON-NLS-1$
 		buffer.append(this.pickedObject.getEnvironmentalObjectIdentifier());
 		buffer.append(")@("); //$NON-NLS-1$
-		Point2i position = getPosition();
+		Point2f position = getPosition();
 		buffer.append(position.getX());
 		buffer.append(';');
 		buffer.append(position.getY());
@@ -75,20 +76,20 @@ public class PickedObject implements Perceivable, Serializable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Point2i getPosition() {
+	public Point2f getPosition() {
 		return this.pickedObject.getPosition();
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Point2i getRelativePosition(TurtleBody body) {
-		Point2i p = this.pickedObject.getPosition();
+	public Point2f getRelativePosition(TurtleBody body) {
+		Point2f p = this.pickedObject.getPosition();
 		if (body == null) {
 			return p;
 		}
-		Point2i bp = body.getPosition();
-		return new Point2i(bp.x() - p.x(), bp.y() - p.y());
+		Point2f bp = body.getPosition();
+		return new Point2f(bp.x() - p.x(), bp.y() - p.y());
 	}
 
 	/**

@@ -15,6 +15,7 @@ import java.util.Set
 import org.arakhne.afc.math.discrete.object2d.Point2i
 
 import static io.sarl.jaak.demos.ants.AntColonyConstants.*
+import org.arakhne.afc.math.continous.object2d.Point2f
 
 /** This class defines the simulation environment for the ant colony problem.
  * 
@@ -27,7 +28,7 @@ agent AntColonyProblem extends JaakKernelAgent {
 
 	var isWrappedEnvironment = true
 
-	val positions : Set<Point2i> = newTreeSet([o1,o2|
+	val positions : Set<Point2f> = newTreeSet([o1,o2|
 			if (o1===o2) return 0;
 			if (o1===null) return Integer.MIN_VALUE
 			if (o2===null) return Integer.MAX_VALUE
@@ -59,13 +60,13 @@ agent AntColonyProblem extends JaakKernelAgent {
 	 */
 	def createColony(colonyId : int) : JaakSpawner {
 		var actionApplier = physicEnvironment.actionApplier
-		var position = new Point2i(
-				RandomNumber::nextInt(physicEnvironment.width),
-				RandomNumber::nextInt(physicEnvironment.height))
+		var position = new Point2f(
+				RandomNumber::nextFloat()*physicEnvironment.width,
+				RandomNumber::nextFloat()*physicEnvironment.height)
 		while (positions.contains(position)) {
 			position.set(
-				RandomNumber::nextInt(physicEnvironment.width),
-				RandomNumber::nextInt(physicEnvironment.height))
+				RandomNumber::nextFloat()*physicEnvironment.width,
+				RandomNumber::nextFloat()*physicEnvironment.height)
 		}
 		positions += position
 		var antColonyObject = new AntColony(colonyId)
@@ -100,13 +101,13 @@ agent AntColonyProblem extends JaakKernelAgent {
 		var actionApplier = environment.actionApplier;
 	
 		for(var i=0; i<FOOD_SOURCES; i++) {
-			var p = new Point2i(
-					RandomNumber::nextInt(environment.width),
-					RandomNumber::nextInt(environment.height))
+			var p = new Point2f(
+					RandomNumber::nextFloat()*environment.width,
+					RandomNumber::nextFloat()*environment.height)
 			while (positions.contains(p)) {
 				p.set(
-						RandomNumber::nextInt(environment.width),
-						RandomNumber::nextInt(environment.height))
+						RandomNumber::nextFloat()*environment.width,
+						RandomNumber::nextFloat()*environment.height)
 			}
 			positions += p
 			var food = new Food(Math.max(10,RandomNumber::nextInt(MAX_FOOD_PER_SOURCE)))

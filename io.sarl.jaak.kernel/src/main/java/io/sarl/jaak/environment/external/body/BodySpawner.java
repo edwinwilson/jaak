@@ -19,6 +19,8 @@
  */
 package io.sarl.jaak.environment.external.body;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.continous.object2d.Shape2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 import org.arakhne.afc.math.discrete.object2d.Shape2i;
 
@@ -35,12 +37,12 @@ public interface BodySpawner {
 	 *
 	 * @return a position.
 	 */
-	Point2i getReferenceSpawningPosition();
+	Point2f getReferenceSpawningPosition();
 
 	/** Replies the shape of spawning for this spawner.
 	 *
 	 * @return a shape.
 	 */
-	Shape2i toShape();
+	Shape2f toShape();
 
 }

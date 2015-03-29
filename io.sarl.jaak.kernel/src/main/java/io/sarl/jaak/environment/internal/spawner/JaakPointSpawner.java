@@ -19,6 +19,9 @@
  */
 package io.sarl.jaak.environment.internal.spawner;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.continous.object2d.Rectangle2f;
+import org.arakhne.afc.math.continous.object2d.Shape2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
 import org.arakhne.afc.math.discrete.object2d.Shape2i;
@@ -32,35 +35,35 @@ import org.arakhne.afc.math.discrete.object2d.Shape2i;
  */
 public abstract class JaakPointSpawner extends JaakSpawner {
 
-	private final Point2i position;
+	private final Point2f position;
 
 	/**
 	 * @param x is the position of the spawner.
 	 * @param y is the position of the spawner.
 	 */
 	public JaakPointSpawner(int x, int y) {
-		this.position = new Point2i(x, y);
+		this.position = new Point2f(x, y);
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Point2i computeCurrentSpawningPosition(Point2i desiredPosition) {
+	public Point2f computeCurrentSpawningPosition(Point2f desiredPosition) {
 		return this.position;
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Point2i getReferenceSpawningPosition() {
+	public Point2f getReferenceSpawningPosition() {
 		return this.position;
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Shape2i toShape() {
-		return new Rectangle2i(this.position.x(), this.position.y(), 1, 1);
+	public Shape2f toShape() {
+		return new Rectangle2f(this.position.x(), this.position.y(), 1, 1);
 	}
 
 }

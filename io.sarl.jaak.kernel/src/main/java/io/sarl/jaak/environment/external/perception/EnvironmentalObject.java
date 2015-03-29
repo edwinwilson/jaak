@@ -64,7 +64,7 @@ public class EnvironmentalObject extends AbstractPerceivable implements JaakObje
 	 * @param x is the new position of the object.
 	 * @param y is the new position of the object.
 	 */
-	void setPosition(int x, int y) {
+	void setPosition(float x, float y) {
 		this.position.setX(x);
 		this.position.setY(y);
 	}

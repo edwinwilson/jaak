@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
@@ -55,9 +56,10 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
  */
 public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSolver {
 
-	private static final Comparator<Point2i> POINT_COMPARATOR = new Comparator<Point2i>() {
+	private static final Comparator<Point2f> POINT_COMPARATOR = new Comparator<Point2f>() {
 		@Override
-		public int compare(Point2i o1, Point2i o2) {
+		public int compare(Point2f o1, Point2f o2) {
+			//TODO: adapt to float ?
 			int cmp = o1.x() - o2.x();
 			if (cmp != 0) {
 				return cmp;
@@ -68,10 +70,10 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 
 	private void detectMotionConflictsAndApplyNonMotionInfluence(
 			Collection<Path> paths,
-			Map<Point2i, List<PathElement>> conflictingCells,
+			Map<Point2f, List<PathElement>> conflictingCells,
 			Influence influence,
 			ActionApplier actionApplier) {
-		Point2i position;
+		Point2f position;
 
 		if (influence instanceof MotionInfluence) {
 			MotionInfluence mi = (MotionInfluence) influence;
@@ -83,14 +85,14 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 			assert (position != null);
 
 			// Compute target position
-			Point2i newPosition = new Point2i(
+			Point2f newPosition = new Point2f(
 					Math.round(position.getX() + mi.getLinearMotionX()),
 					Math.round(position.getY() + mi.getLinearMotionY()));
 
-			Iterator<Point2i> iterator = Bresenham.line(
+			Iterator<Point2f> iterator = Bresenham.line(
 					position.x(), position.y(),
 					newPosition.x(), newPosition.y());
-			Point2i p;
+			Point2f p;
 			PathElement pathElement;
 			List<PathElement> conflictingElements;
 			PathElement previousElement = null;
@@ -153,7 +155,7 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 		assert (grid != null);
 
 		Collection<Path> paths = new LinkedList<>();
-		Map<Point2i, List<PathElement>> conflictingCells = new TreeMap<>(POINT_COMPARATOR);
+		Map<Point2f, List<PathElement>> conflictingCells = new TreeMap<>(POINT_COMPARATOR);
 
 		// Appling no-motion influences and localizing the motion influence targets
 		// from the endogenous engine
@@ -189,7 +191,7 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 		MotionInfluence motionInfluence;
 		MotionInfluenceStatus motionInfluenceStatus;
 		TurtleBody body;
-		Point2i bodyPosition;
+		Point2f bodyPosition;
 		Vector2f motion = new Vector2f();
 		for (Path path : paths) {
 			motionInfluence = path.influence;
@@ -237,7 +239,7 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 			this.influence = mi;
 		}
 
-		private static void unmarkConflicts(Map<Point2i, List<PathElement>> conflictingCells, PathElement element) {
+		private static void unmarkConflicts(Map<Point2f, List<PathElement>> conflictingCells, PathElement element) {
 			PathElement current = element;
 			List<PathElement> list;
 			while (current != null) {
@@ -258,7 +260,7 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 			}
 		}
 
-		public PathElement getLastTraversableElementInPath(Map<Point2i, List<PathElement>> conflictingCells) {
+		public PathElement getLastTraversableElementInPath(Map<Point2f, List<PathElement>> conflictingCells) {
 			assert (this.firstElement != null);
 			PathElement lastTraversable = null;
 			PathElement current = this.firstElement;
@@ -300,7 +302,7 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 	private static class PathElement {
 
 		/** Path. */
-		final Point2i position;
+		final Point2f position;
 		/** Next element in path. */
 		PathElement next;
 		/** Indicates if this element is not traversable. */
@@ -310,7 +312,7 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 		 * @param position
 		 * @param path
 		 */
-		public PathElement(Point2i position, Path path) {
+		public PathElement(Point2f position, Path path) {
 			this.position = position;
 			this.next = null;
 			if (path.firstElement == null) {

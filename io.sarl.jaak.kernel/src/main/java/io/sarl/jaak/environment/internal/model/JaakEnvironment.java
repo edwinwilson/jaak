@@ -49,6 +49,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
@@ -76,10 +77,11 @@ public class JaakEnvironment implements EnvironmentArea {
 	/** Defines the default perception distance for turtles.
 	 */
 	public static final int DEFAULT_PERCEPTION_DISTANCE = 7;
-
+	
 	private final UUID id = UUID.randomUUID();
 	private final Map<UUID, RealTurtleBody> bodies = new TreeMap<>();
-	private final JaakGrid grid;
+	//TODO : replace grid by trees
+	private JaakGrid grid;
 	private TimeManager timeManager;
 	private final AtomicBoolean isWrapped = new AtomicBoolean(false);
 	private volatile EnvironmentEndogenousEngine endogenousEngine;
@@ -96,8 +98,8 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @param height is the height of the world grid.
 	 * @param timeManager is the time manager used to run Jaak.
 	 */
-	public JaakEnvironment(int width, int height, TimeManager timeManager) {
-		this.grid = new JaakGrid(width, height, new StandardObjectManipulator());
+	public JaakEnvironment(float width, float height, TimeManager timeManager) {
+		//this.grid = new JaakGrid(width, height, new StandardObjectManipulator());
 		this.timeManager = timeManager;
 	}
 
@@ -105,7 +107,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @param width is the width of the world grid.
 	 * @param height is the height of the world grid.
 	 */
-	public JaakEnvironment(int width, int height) {
+	public JaakEnvironment(float width, float height) {
 		this(width, height, null);
 	}
 
@@ -158,28 +160,28 @@ public class JaakEnvironment implements EnvironmentArea {
 	/** {@inheritDoc}
 	 */
 	@Override
-	public int getX() {
+	public float getX() {
 		return 0;
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public int getY() {
+	public float getY() {
 		return 0;
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public int getWidth() {
+	public float getWidth() {
 		return this.grid.getWidth();
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public int getHeight() {
+	public float getHeight() {
 		return this.grid.getHeight();
 	}
 
@@ -252,8 +254,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	}
 
 	@Override
-	public synchronized float getTurtleSpeed(int x, int y) {
-		TurtleBody body = this.grid.getTurtle(x, y);
+	public synchronized float getTurtleSpeed(float x, float y) {
+		//TODO: get Turtle from tree data structure instead of grid
+		//TurtleBody body = this.grid.getTurtle(x, y);
+		TurtleBody body = null;
 		if (body != null) {
 			return body.getSpeed();
 		}
@@ -266,8 +270,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @param y is the coordinate of the cell.
 	 * @return the turtles even if they are in a burrow.
 	 */
-	public synchronized Collection<TurtleBody> getTurtles(int x, int y) {
-		return this.grid.getTurtles(x, y);
+	public synchronized Collection<TurtleBody> getTurtles(float x, float y) {
+		//TODO: get Turtle from tree data structure instead of grid
+		//return this.grid.getTurtles(x, y);
+		return null;
 	}
 
 	/** Replies the instant orientation of the turtle at the given position.
@@ -277,8 +283,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return the instant orientation of the turtle in radians,
 	 * or {@link Float#NaN} if no turtle.
 	 */
-	public synchronized float getTurtleOrientation(int x, int y) {
-		TurtleBody body = this.grid.getTurtle(x, y);
+	public synchronized float getTurtleOrientation(float x, float y) {
+		//TODO: get Turtle from tree data structure instead of grid
+		//TurtleBody body = this.grid.getTurtle(x, y);
+		TurtleBody body = null;
 		if (body != null) {
 			return body.getHeadingAngle();
 		}
@@ -292,8 +300,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return the instant direction of the turtle in radians,
 	 * or <code>null</code> if no turtle.
 	 */
-	public synchronized Vector2f getTurtleDirection(int x, int y) {
-		TurtleBody body = this.grid.getTurtle(x, y);
+	public synchronized Vector2f getTurtleDirection(float x, float y) {
+		//TODO: get direction from tree
+		//TurtleBody body = this.grid.getTurtle(x, y);
+		TurtleBody body = null;
 		if (body != null) {
 			return body.getHeadingVector();
 		}
@@ -313,13 +323,17 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @param type is the type of the desired objects.
 	 * @return the environment objects in the given cell.
 	 */
-	public synchronized <T extends EnvironmentalObject> Iterable<T> getEnvironmentalObjects(int x, int y, Class<T> type) {
-		return new FilteringIterable<>(type, this.grid.getObjects(x, y));
+	public synchronized <T extends EnvironmentalObject> Iterable<T> getEnvironmentalObjects(float x, float y, Class<T> type) {
+		//TODO: get Turtle from tree data structure instead of grid
+		//return new FilteringIterable<>(type, this.grid.getObjects(x, y));
+		return new FilteringIterable<>(type, null);
 	}
 
 	@Override
-	public synchronized Collection<EnvironmentalObject> getEnvironmentalObjects(int x, int y) {
-		return this.grid.getObjects(x, y);
+	public synchronized Collection<EnvironmentalObject> getEnvironmentalObjects(float x, float y) {
+		//TODO: get Objects from tree data structure instead of grid
+		//return this.grid.getObjects(x, y);
+		return null;
 	}
 
 	/** Set the endogenous engine to use.
@@ -343,8 +357,9 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return the position of the first free cell, or <code>null</code>
 	 * if no more cell is free.
 	 */
-	Point2i getFreeRandomPosition() {
-		Point2i p = new Point2i();
+	Point2f getFreeRandomPosition() {
+		//TODO: get a free random position from the tree data structure/ consider whether method is still relevant.  
+		Point2f p = new Point2f();
 		int i = 0;
 		int max = this.grid.getWidth() * this.grid.getHeight();
 		do {
@@ -364,7 +379,8 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return <code>true</code> if the body was successfully added,
 	 * <code>false</code> otherwise.
 	 */
-	synchronized boolean addBody(RealTurtleBody body, Point2i position) {
+	synchronized boolean addBody(RealTurtleBody body, Point2f position) {
+		//TODO: add in tree
 		assert (body != null);
 		assert (position != null);
 		if (!this.bodies.containsKey(body.getTurtleId())) {
@@ -386,10 +402,11 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return the success state of the removal action.
 	 */
 	public synchronized boolean removeBodyFor(UUID turtle) {
+		//TODO: remove from tree
 		if (turtle != null) {
 			RealTurtleBody body = this.bodies.remove(turtle);
 			if (body != null) {
-				Point2i position = body.getPosition();
+				Point2f position = body.getPosition();
 				this.grid.removeTurtle(position.x(), position.y(), body);
 				return true;
 			}
@@ -480,10 +497,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	}
 
 	private void computePerceptions() {
-		Point2i position;
+		Point2f position;
 		TurtleFrustum frustum;
 		TurtleBody turtleBody;
-		Iterator<Point2i> iterator;
+		Iterator<Point2f> iterator;
 		List<PerceivedTurtle> bodies;
 		MultiCollection<EnvironmentalObject> objects;
 		int x;
@@ -498,14 +515,15 @@ public class JaakEnvironment implements EnvironmentArea {
 					if (iterator != null) {
 						while (iterator.hasNext()) {
 							position = iterator.next();
-							if (this.grid.validatePosition(isWrapped(), true, position) != ValidationResult.DISCARDED) {
+							//TODO: adapt function to tree 
+							if (true/*this.grid.validatePosition(isWrapped(), true, position) != ValidationResult.DISCARDED*/) {
 								x = position.x();
 								y = position.y();
 								turtleBody = this.grid.getTurtle(x, y);
 								if (turtleBody != null && turtleBody != body) {
 									bodies.add(new PerceivedTurtle(
 											turtleBody.getTurtleId(),
-											new Point2i(position),
+											new Point2f(position),
 											turtleBody.getPosition(),
 											turtleBody.getSpeed(),
 											turtleBody.getHeadingAngle(),
@@ -652,7 +670,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean isFreeCell(Point2i position) {
+		public boolean isFreeCell(Point2f position) {
 			return isFree(position.x(), position.y());
 		}
 
@@ -662,7 +680,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		@Override
 		public TurtleBody createTurtleBody(
 				UUID turtleId,
-				Point2i desiredPosition,
+				Point2f desiredPosition,
 				float desiredAngle,
 				Serializable semantic) {
 			return createTurtleBody(
@@ -677,7 +695,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		@Override
 		public TurtleBody createTurtleBody(
 				UUID turtleId,
-				Point2i desiredPosition,
+				Point2f desiredPosition,
 				float desiredAngle) {
 			return createTurtleBody(
 					turtleId, desiredPosition,
@@ -691,7 +709,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		@Override
 		public TurtleBody createTurtleBody(
 				UUID turtleId,
-				Point2i desiredPosition) {
+				Point2f desiredPosition) {
 			return createTurtleBody(
 					turtleId, desiredPosition,
 					getDefaultFrustum());
@@ -739,7 +757,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		@Override
 		public TurtleBody createTurtleBody(
 				UUID turtleId,
-				Point2i desiredPosition,
+				Point2f desiredPosition,
 				Serializable semantic) {
 			return createTurtleBody(
 					turtleId, desiredPosition,
@@ -752,10 +770,10 @@ public class JaakEnvironment implements EnvironmentArea {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, float desiredAngle, Serializable semantic,
+				Point2f desiredPosition, float desiredAngle, Serializable semantic,
 				TurtleFrustum frustum) {
 			RealTurtleBody body = new RealTurtleBody(turtleId, frustum, desiredAngle, semantic);
-			Point2i position = null;
+			Point2f position = null;
 
 			if (desiredPosition == null) {
 				position = getFreeRandomPosition();
@@ -778,7 +796,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, float desiredAngle,
+				Point2f desiredPosition, float desiredAngle,
 				TurtleFrustum frustum) {
 			return createTurtleBody(turtleId,
 					desiredPosition, desiredAngle,
@@ -790,7 +808,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, TurtleFrustum frustum) {
+				Point2f desiredPosition, TurtleFrustum frustum) {
 			return createTurtleBody(turtleId,
 					desiredPosition, Float.NaN,
 					null, frustum);
@@ -834,7 +852,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2i desiredPosition, Serializable semantic, TurtleFrustum frustum) {
+				Point2f desiredPosition, Serializable semantic, TurtleFrustum frustum) {
 			return createTurtleBody(turtleId,
 					desiredPosition, Float.NaN,
 					semantic, frustum);

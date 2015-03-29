@@ -37,25 +37,25 @@ public interface EnvironmentArea {
 	 *
 	 * @return the min x.
 	 */
-	int getX();
+	float getX();
 
 	/** Replies the minimal y coordinate on the environment.
 	 *
 	 * @return the min y.
 	 */
-	int getY();
+	float getY();
 
 	/** Replies the width of the environment.
 	 *
 	 * @return the width of the environment.
 	 */
-	int getWidth();
+	float getWidth();
 
 	/** Replies the height of the environment.
 	 *
 	 * @return the height of the environment.
 	 */
-	int getHeight();
+	float getHeight();
 
 	/** Replies if the cell at the given position is free or not.
 	 * <p>
@@ -105,7 +105,7 @@ public interface EnvironmentArea {
 	 * @param y is the coordinate of the cell.
 	 * @return the collection of objects, never <code>null</code>.
 	 */
-	Collection<EnvironmentalObject> getEnvironmentalObjects(int x, int y);
+	Collection<EnvironmentalObject> getEnvironmentalObjects(float x, float y);
 
 	/** Replies the instant speed of the turtle at the given position.
 	 *
@@ -114,6 +114,6 @@ public interface EnvironmentArea {
 	 * @return the instant speed of the turtle in cells per second,
 	 * or {@link Float#NaN} if no turtle.
 	 */
-	float getTurtleSpeed(int x, int y);
+	float getTurtleSpeed(float x, float y);
 
 }

@@ -4,6 +4,7 @@ import io.sarl.jaak.demos.ants.environment.Food
 import io.sarl.jaak.demos.ants.environment.Pheromone
 import io.sarl.jaak.environment.external.PhysicBody
 import org.arakhne.afc.math.discrete.object2d.Point2i
+import org.arakhne.afc.math.continous.object2d.Point2f
 
 /** The skill to select a route of pheromone.
  * 
@@ -14,7 +15,7 @@ import org.arakhne.afc.math.discrete.object2d.Point2i
  */
 skill PheromoneFollowingSkill implements PheromoneFollowingCapacity {
 	
-	def followPheromone(position : Point2i, pheromones : Iterable<? extends Pheromone>) : Pheromone {
+	def followPheromone(position : Point2f, pheromones : Iterable<? extends Pheromone>) : Pheromone {
 		var minAmount = Float::POSITIVE_INFINITY
 		var currentP : Pheromone
 		var minP : Pheromone

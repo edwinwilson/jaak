@@ -3,6 +3,7 @@ package io.sarl.jaak.demos.ants.behaviors
 import io.sarl.jaak.demos.ants.environment.Food
 import io.sarl.jaak.demos.ants.environment.Pheromone
 import org.arakhne.afc.math.discrete.object2d.Point2i
+import org.arakhne.afc.math.continous.object2d.Point2f
 
 /** This interface defines the capacity to select a route of pheromone.
  * 
@@ -19,7 +20,7 @@ capacity PheromoneFollowingCapacity {
 	 * @param pheromones are the pheromones in which the selection should be done.
 	 * @return a selectesd pheromone to follow or <code>null</code> to follow nothing.
 	 */
-	def followPheromone(position : Point2i, pheromones : Iterable<? extends Pheromone>) : Pheromone
+	def followPheromone(position : Point2f, pheromones : Iterable<? extends Pheromone>) : Pheromone
 	
 }
 

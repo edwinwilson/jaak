@@ -23,6 +23,7 @@ package io.sarl.jaak.util;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class provides 2D Bresenham algorithms.
@@ -66,7 +67,7 @@ public final class Bresenham {
 	 * @param y1 is the y-coordinate of the last point of the Bresenham line.
 	 * @return an iterator on the points along the Bresenham line.
 	 */
-	public static Iterator<Point2i> line(int x0, int y0, int x1, int y1) {
+	public static Iterator<Point2f> line(float x0, float y0, float x1, float y1) {
 		return new LineIterator(x0, y0, x1, y1);
 	}
 
@@ -81,7 +82,7 @@ public final class Bresenham {
 	 * <code>3</code> for left.
 	 * @return an iterator on the points along the rectangle.
 	 */
-	public static Iterator<Point2i> rectangle(int x0, int y0, int width, int height, int firstSide) {
+	public static Iterator<Point2f> rectangle(float x0, float y0, float width, float height, int firstSide) {
 		return new RectangleIterator(x0, y0, width, height, firstSide);
 	}
 
@@ -107,17 +108,17 @@ public final class Bresenham {
 	 * @mavengroupid org.janus-project.jaak
 	 * @mavenartifactid util
 	 */
-	private static class LineIterator implements Iterator<Point2i> {
+	private static class LineIterator implements Iterator<Point2f> {
 
 		private final boolean steep;
-		private final int ystep;
-		private final int xstep;
-		private final int deltax;
-		private final int deltay;
-		private final int x1;
-		private int y;
-		private int x;
-		private int error;
+		private final float ystep;
+		private final float xstep;
+		private final float deltax;
+		private final float deltay;
+		private final float x1;
+		private float y;
+		private float x;
+		private float error;
 
 		/**
 		 * @param x0 is the x-coordinate of the first point of the Bresenham line.
@@ -125,15 +126,15 @@ public final class Bresenham {
 		 * @param x1 is the x-coordinate of the last point of the Bresenham line.
 		 * @param y1 is the y-coordinate of the last point of the Bresenham line.
 		 */
-		public LineIterator(int x0, int y0, int x1, int y1) {
-			int _x0 = x0;
-			int _y0 = y0;
-			int _x1 = x1;
-			int _y1 = y1;
+		public LineIterator(float x0, float y0, float x1, float y1) {
+			float _x0 = x0;
+			float _y0 = y0;
+			float _x1 = x1;
+			float _y1 = y1;
 
 			this.steep = Math.abs(_y1 - _y0) > Math.abs(_x1 - _x0);
 
-			int swapv;
+			float swapv;
 			if (this.steep) {
 				//swap(x0, y0);
 				swapv = _x0;
@@ -183,8 +184,8 @@ public final class Bresenham {
 		}
 
 		@Override
-		public Point2i next() {
-			Point2i p = new Point2i();
+		public Point2f next() {
+			Point2f p = new Point2f();
 
 			if (this.steep) {
 				p.set(this.y, this.x);
@@ -218,12 +219,12 @@ public final class Bresenham {
 	 * @mavengroupid org.janus-project.jaak
 	 * @mavenartifactid util
 	 */
-	private static class RectangleIterator implements Iterator<Point2i> {
+	private static class RectangleIterator implements Iterator<Point2f> {
 
-		private final int x0;
-		private final int y0;
-		private final int x1;
-		private final int y1;
+		private final float x0;
+		private final float y0;
+		private final float x1;
+		private final float y1;
 		private final int firstSide;
 
 		private int currentSide;
@@ -236,7 +237,7 @@ public final class Bresenham {
 		 * @param height
 		 * @param firstSide
 		 */
-		public RectangleIterator(int x, int y, int width, int height, int firstSide) {
+		public RectangleIterator(float x, float y, float width, float height, int firstSide) {
 			assert (firstSide >= 0 && firstSide < SIDES);
 			this.firstSide = firstSide;
 			this.x0 = x;
@@ -253,7 +254,7 @@ public final class Bresenham {
 			return this.currentSide != -1;
 		}
 
-		private void computeCoordinates(Point2i p) {
+		private void computeCoordinates(Point2f p) {
 			switch(this.currentSide) {
 			// top
 			case 0:
@@ -284,7 +285,7 @@ public final class Bresenham {
 			}
 		}
 
-		private void changeSideIfNecessary(Point2i p) {
+		private void changeSideIfNecessary(Point2f p) {
 			int newSide = -1;
 
 			switch(this.currentSide) {
@@ -334,8 +335,8 @@ public final class Bresenham {
 		}
 
 		@Override
-		public Point2i next() {
-			Point2i p = new Point2i();
+		public Point2f next() {
+			Point2f p = new Point2f();
 
 			computeCoordinates(p);
 			++this.i;

@@ -15,6 +15,7 @@ import io.sarl.jaak.util.RandomNumber
 import org.arakhne.afc.math.MathConstants
 import org.arakhne.afc.math.continous.object2d.Vector2f
 import org.arakhne.afc.math.discrete.object2d.Point2i
+import org.arakhne.afc.math.continous.object2d.Point2f
 
 /** This abstract class defines a behavior for all ants.
  * 
@@ -86,7 +87,7 @@ behavior AbstractAntBehavior {
 	 * @return <code>true</code> if the ant does not move according to this function,
 	 * <code>false</code> if the ant is moving.
 	 */
-	def gotoMotion(target : Point2i, enableRandom : boolean) : boolean {
+	def gotoMotion(target : Point2f, enableRandom : boolean) : boolean {
 		var dx = target.x() - x
 		var dy = target.y() - y
 		if (dx != 0 || dy != 0) {

@@ -22,6 +22,7 @@ package io.sarl.jaak.environment.external.perception;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
@@ -48,7 +49,7 @@ public class PerceivedTurtle extends AbstractPerceivable {
 	 * @param observedOrientation is the orientation angle of the observed turtle.
 	 * @param semantic is the semantic associated to the turtle body.
 	 */
-	public PerceivedTurtle(UUID perceivedTurtle, Point2i observer, Point2i observed,
+	public PerceivedTurtle(UUID perceivedTurtle, Point2f observer, Point2f observed,
 			float observedSpeed, float observedOrientation, Serializable semantic) {
 		super();
 		assert (perceivedTurtle != null);

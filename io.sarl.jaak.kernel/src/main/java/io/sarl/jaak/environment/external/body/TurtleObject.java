@@ -63,13 +63,13 @@ public interface TurtleObject extends JaakObject {
 	 *
 	 * @return the x-coordinate of the body.
 	 */
-	int getX();
+	float getX();
 
 	/** Replies y-coordinate of the position of the body.
 	 *
 	 * @return the y-coordinate of the body.
 	 */
-	int getY();
+	float getY();
 
 	/** Replies the all the perceptions of the body.
 	 *

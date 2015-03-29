@@ -23,6 +23,7 @@ import io.sarl.jaak.environment.external.body.TurtleBody;
 
 import java.io.Serializable;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a perceived turtle.
@@ -38,7 +39,7 @@ public abstract class AbstractPerceivable implements Perceivable, Serializable {
 
 	/** Position of the perceived object.
 	 */
-	final Point2i position = new Point2i();
+	final Point2f position = new Point2f();
 
 	/** Is the semantic associated to this perceived object.
 	 */
@@ -54,20 +55,20 @@ public abstract class AbstractPerceivable implements Perceivable, Serializable {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final Point2i getPosition() {
+	public final Point2f getPosition() {
 		return this.position;
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Point2i getRelativePosition(TurtleBody body) {
-		Point2i p = this.position;
+	public Point2f getRelativePosition(TurtleBody body) {
+		Point2f p = this.position;
 		if (body == null) {
 			return p;
 		}
-		Point2i bp = body.getPosition();
-		return new Point2i(bp.x() - p.x(), bp.y() - p.y());
+		Point2f bp = body.getPosition();
+		return new Point2f(bp.x() - p.x(), bp.y() - p.y());
 	}
 
 	/**
@@ -84,7 +85,7 @@ public abstract class AbstractPerceivable implements Perceivable, Serializable {
 	@Override
 	public String toString() {
 		StringBuilder buffer = new StringBuilder();
-		Point2i position = getPosition();
+		Point2f position = getPosition();
 		buffer.append('(');
 		buffer.append(position.getX());
 		buffer.append(';');

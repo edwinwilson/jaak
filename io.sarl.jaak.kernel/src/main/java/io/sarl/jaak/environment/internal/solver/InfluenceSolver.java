@@ -39,6 +39,7 @@ import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines the methods of a solver of
@@ -133,9 +134,9 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 			MotionInfluenceStatus mis = motionStatus;
 			TurtleBody emitter = (TurtleBody) influence.getEmitter();
 			assert (emitter != null);
-			Point2i position = emitter.getPosition();
+			Point2f position = emitter.getPosition();
 			assert (position != null);
-			Point2i newPosition = new Point2i();
+			Point2f newPosition = new Point2f();
 			MotionInfluence mi = (MotionInfluence) influence;
 			newPosition.set(
 					Math.round(position.getX() + mi.getLinearMotionX()),
@@ -199,7 +200,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 		} else if (influence instanceof PickUpInfluence) {
 			TurtleBody emitter = (TurtleBody) influence.getEmitter();
 			assert (emitter != null);
-			Point2i position = emitter.getPosition();
+			Point2f position = emitter.getPosition();
 			assert (position != null);
 			PickUpInfluence pui = (PickUpInfluence) influence;
 			EnvironmentalObject pickedUp = actionApplier.removeObject(position.x(), position.y(), pui.getPickUpObject());
@@ -211,7 +212,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 		} else if (influence instanceof DropDownInfluence) {
 			TurtleBody emitter = (TurtleBody) influence.getEmitter();
 			assert (emitter != null);
-			Point2i position = emitter.getPosition();
+			Point2f position = emitter.getPosition();
 			assert (position != null);
 			DropDownInfluence ddi = (DropDownInfluence) influence;
 			actionApplier.putObject(position.x(), position.y(), ddi.getDropOffObject());
@@ -219,7 +220,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 			EnvironmentalObjectRemovalInfluence eori = (EnvironmentalObjectRemovalInfluence) influence;
 			EnvironmentalObject obj = eori.getRemovableObject();
 			if (obj != null) {
-				Point2i position = obj.getPosition();
+				Point2f position = obj.getPosition();
 				assert (position != null);
 				actionApplier.removeObject(position.x(), position.y(), obj);
 			}
@@ -256,9 +257,11 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 	 * @param position is the position to validate.
 	 * @return how the position was validated.
 	 */
-	protected ValidationResult validatePosition(Point2i position) {
+	protected ValidationResult validatePosition(Point2f position) {
 		GridModel g = getGridModel();
-		return g.validatePosition(isWrapped(), false, position);
+		//TODO: adapat to tree
+		//return g.validatePosition(isWrapped(), false, position);
+		return null;
 	}
 
 }

@@ -23,6 +23,7 @@ import io.sarl.jaak.environment.external.EnvironmentArea;
 
 import java.util.Iterator;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a frustum for for a turtle which is
@@ -36,7 +37,7 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
  */
 public class CircleTurtleFrustum implements TurtleFrustum {
 
-	private final int radius;
+	private final float radius;
 
 	/**
 	 * @param radius is the radius of the perception frustum.
@@ -49,7 +50,7 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterator<Point2i> getPerceivedCells(Point2i origin, float direction, EnvironmentArea environment) {
+	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
 		return new PointIterator(origin);
 	}
 
@@ -57,7 +58,7 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 	 *
 	 * @return the perception radius.
 	 */
-	public int getRadius() {
+	public float getRadius() {
 		return this.radius;
 	}
 
@@ -69,25 +70,25 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 	 * @mavengroupid $GroupId$
 	 * @mavenartifactid $ArtifactId$
 	 */
-	private class PointIterator implements Iterator<Point2i> {
+	private class PointIterator implements Iterator<Point2f> {
 
-		private final int cx;
-		private final int cy;
-		private final Point2i replied = new Point2i();
-		private final int sx;
-		private final int ex;
-		private final int ey;
-		private int x;
-		private int y;
+		private final float cx;
+		private final float cy;
+		private final Point2f replied = new Point2f();
+		private final float sx;
+		private final float ex;
+		private final float ey;
+		private float x;
+		private float y;
 
 		/**
 		 * @param center
 		 */
-		public PointIterator(Point2i center) {
+		public PointIterator(Point2f center) {
 			this.cx = center.x();
 			this.cy = center.y();
 
-			int r = getRadius();
+			float r = getRadius();
 			this.sx = this.cx - r;
 			this.x = this.sx;
 			this.y = this.cy - r;
@@ -99,9 +100,9 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 		}
 
 		private void searchNext() {
-			int sr;
-			int dx;
-			int dy;
+			float sr;
+			float dx;
+			float dy;
 
 			sr = getRadius();
 			sr = sr * sr;
@@ -136,7 +137,7 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public Point2i next() {
+		public Point2f next() {
 			this.replied.set(this.x, this.y);
 			inc();
 			searchNext();

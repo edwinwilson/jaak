@@ -21,6 +21,7 @@ package io.sarl.jaak.environment.external.perception;
 
 import java.io.Serializable;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines an object in the Jaak environment.
@@ -36,7 +37,7 @@ public interface JaakObject {
 	 *
 	 * @return the position of this perceived object.
 	 */
-	Point2i getPosition();
+	Point2f getPosition();
 
 	/** Replies the semantic associated to this object.
 	 *

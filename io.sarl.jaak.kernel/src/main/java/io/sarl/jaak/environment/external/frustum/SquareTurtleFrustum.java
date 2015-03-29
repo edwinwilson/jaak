@@ -23,6 +23,7 @@ import io.sarl.jaak.environment.external.EnvironmentArea;
 
 import java.util.Iterator;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a frustum for for a turtle which is
@@ -57,7 +58,7 @@ public class SquareTurtleFrustum implements TurtleFrustum {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterator<Point2i> getPerceivedCells(Point2i origin, float direction, EnvironmentArea environment) {
+	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
 		return new PointIterator(origin);
 	}
 
@@ -69,19 +70,19 @@ public class SquareTurtleFrustum implements TurtleFrustum {
 	 * @mavengroupid $GroupId$
 	 * @mavenartifactid $ArtifactId$
 	 */
-	private class PointIterator implements Iterator<Point2i> {
+	private class PointIterator implements Iterator<Point2f> {
 
-		private final Point2i replied = new Point2i();
-		private final int sx;
-		private final int ex;
-		private final int ey;
-		private int x;
-		private int y;
+		private final Point2f replied = new Point2f();
+		private final float sx;
+		private final float ex;
+		private final float ey;
+		private float x;
+		private float y;
 
 		/**
 		 * @param center
 		 */
-		public PointIterator(Point2i center) {
+		public PointIterator(Point2f center) {
 			int s = getSideLength();
 			int ds = s / 2;
 			this.sx = center.x() - ds;
@@ -104,7 +105,7 @@ public class SquareTurtleFrustum implements TurtleFrustum {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public Point2i next() {
+		public Point2f next() {
 			this.replied.set(this.x, this.y);
 			++this.x;
 			if (this.x > this.ex) {

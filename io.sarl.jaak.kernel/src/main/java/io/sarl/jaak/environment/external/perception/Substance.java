@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a situated object which has specifical
@@ -137,7 +138,7 @@ public abstract class Substance extends EnvironmentalObject {
 		buffer.append(getEnvironmentalObjectIdentifier());
 		buffer.append(")="); //$NON-NLS-1$
 		buffer.append(getAmount().toString());
-		Point2i position = getPosition();
+		Point2f position = getPosition();
 		buffer.append("@("); //$NON-NLS-1$
 		buffer.append(position.getX());
 		buffer.append(';');

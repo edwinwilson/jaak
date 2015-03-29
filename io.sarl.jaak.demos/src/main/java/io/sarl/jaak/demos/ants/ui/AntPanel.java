@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 import javax.swing.JPanel;
 
+import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /**
@@ -118,8 +119,8 @@ public class AntPanel extends JPanel implements JaakListener, MouseListener {
 		EnvironmentArea environment = event.getEnvironment();
 		assert(environment != null);
 		if (this.grid==null) {
-			this.width = environment.getWidth();
-			this.height = environment.getHeight();
+			this.width = (int)environment.getWidth();
+			this.height = (int)environment.getHeight();
 			Dimension dim = new Dimension(
 					this.width*CELL_SIZE + 10,
 					this.height*CELL_SIZE + 10);
@@ -189,7 +190,7 @@ public class AntPanel extends JPanel implements JaakListener, MouseListener {
 			Iterator<BodySpawner> ptIterator = spawners.iterator();
 			for(int i=0; i<this.bases.length; i+=2) {
 				BodySpawner s = ptIterator.next();
-				Point2i p = s.getReferenceSpawningPosition();
+				Point2f p = s.getReferenceSpawningPosition();
 				this.bases[i] = p.x();
 				this.bases[i+1] = p.y();
 			}

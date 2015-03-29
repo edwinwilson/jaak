@@ -24,6 +24,7 @@ import io.sarl.jaak.environment.external.perception.Perceivable
 import org.arakhne.afc.math.continous.object2d.Vector2f
 import org.arakhne.afc.math.discrete.object2d.Point2i
 import java.io.Serializable
+import org.arakhne.afc.math.continous.object2d.Point2f
 
 capacity PhysicBody {	
 	
@@ -129,7 +130,7 @@ capacity PhysicBody {
 	def setSemantic(semantic : Serializable)
 
 	/** Replies the position of the body in the environment. */
-	def getPosition : Point2i
+	def getPosition : Point2f
 	
 	/** Replies the orientation of the turtle head
 	 * in radians according to a trigonometric circle.

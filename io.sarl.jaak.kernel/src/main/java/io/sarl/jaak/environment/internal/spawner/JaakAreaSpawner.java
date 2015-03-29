@@ -21,7 +21,9 @@ package io.sarl.jaak.environment.internal.spawner;
 
 import io.sarl.jaak.util.RandomNumber;
 
-import org.arakhne.afc.math.discrete.object2d.Point2i;
+import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.continous.object2d.Rectangle2f;
+import org.arakhne.afc.math.continous.object2d.Shape2f;
 import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
 import org.arakhne.afc.math.discrete.object2d.Shape2i;
 
@@ -34,10 +36,10 @@ import org.arakhne.afc.math.discrete.object2d.Shape2i;
  */
 public abstract class JaakAreaSpawner extends JaakSpawner {
 
-	private final int x;
-	private final int y;
-	private final int w;
-	private final int h;
+	private final float x;
+	private final float y;
+	private final float w;
+	private final float h;
 
 	/**
 	 * @param x is the position of the spawner.
@@ -45,7 +47,7 @@ public abstract class JaakAreaSpawner extends JaakSpawner {
 	 * @param width is the width of the spawner.
 	 * @param height is the width of the spawner.
 	 */
-	public JaakAreaSpawner(int x, int y, int width, int height) {
+	public JaakAreaSpawner(float x, float y, float width, float height) {
 		this.x = x;
 		this.y = y;
 		this.w = width;
@@ -55,31 +57,31 @@ public abstract class JaakAreaSpawner extends JaakSpawner {
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Point2i computeCurrentSpawningPosition(Point2i desiredPosition) {
+	public Point2f computeCurrentSpawningPosition(Point2f desiredPosition) {
 		if (desiredPosition != null
 				&& desiredPosition.x() >= this.x
 				&& desiredPosition.y() >= this.y
 				&& desiredPosition.x() <= this.x + this.w
 				&& desiredPosition.y() <= this.y + this.h) {
-			return new Point2i(desiredPosition);
+			return new Point2f(desiredPosition);
 		}
-		int dx = RandomNumber.nextInt(this.w);
-		int dy = RandomNumber.nextInt(this.h);
-		return new Point2i(this.x + dx, this.y + dy);
+		float dx = RandomNumber.nextFloat()*this.w;
+		float dy = RandomNumber.nextFloat()*this.h;
+		return new Point2f(this.x + dx, this.y + dy);
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Point2i getReferenceSpawningPosition() {
-		return new Point2i(this.x, this.y);
+	public Point2f getReferenceSpawningPosition() {
+		return new Point2f(this.x, this.y);
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
-	public Shape2i toShape() {
-		return new Rectangle2i(this.x, this.y, this.w, this.h);
+	public Shape2f toShape() {
+		return new Rectangle2f(this.x, this.y, this.w, this.h);
 	}
 
 }
