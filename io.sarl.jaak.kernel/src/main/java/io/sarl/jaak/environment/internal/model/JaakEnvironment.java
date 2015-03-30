@@ -239,11 +239,6 @@ public class JaakEnvironment implements EnvironmentArea {
 	}
 
 	@Override
-	public boolean isFree(int x, int y) {
-		return (this.grid.isFree(x, y));
-	}
-
-	@Override
 	public boolean hasObstacle(int x, int y) {
 		return (this.grid.hasObstacle(x, y));
 	}
@@ -664,14 +659,6 @@ public class JaakEnvironment implements EnvironmentArea {
 
 		private TurtleFrustum getDefaultFrustum() {
 			return new SquareTurtleFrustum(DEFAULT_PERCEPTION_DISTANCE);
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean isFreeCell(Point2f position) {
-			return isFree(position.x(), position.y());
 		}
 
 		/**

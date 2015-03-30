@@ -57,19 +57,6 @@ public interface EnvironmentArea {
 	 */
 	float getHeight();
 
-	/** Replies if the cell at the given position is free or not.
-	 * <p>
-	 * A cell is free when no turtle nor obstacle is inside.
-	 * Any coordinate outside the environment grid is assumed to be
-	 * not free.
-	 *
-	 * @param x - the position to test.
-	 * @param y - the position to test.
-	 * @return <code>true</code> if the cell at the given position is
-	 * free, otherwise <code>false</code>
-	 */
-	boolean isFree(int x, int y);
-
 	/** Replies if the cell at the given position contains an obstacle.
 	 * <p>
 	 * Any coordinate outside the environment grid is assumed to be
