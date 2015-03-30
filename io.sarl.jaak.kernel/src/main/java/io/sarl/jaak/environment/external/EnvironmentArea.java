@@ -20,6 +20,7 @@
 package io.sarl.jaak.environment.external;
 
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
+import io.sarl.jaak.environment.external.perception.Obstacle;
 
 import java.util.Collection;
 
@@ -57,27 +58,10 @@ public interface EnvironmentArea {
 	 */
 	float getHeight();
 
-	/** Replies if the cell at the given position contains an obstacle.
-	 * <p>
-	 * Any coordinate outside the environment grid is assumed to be
-	 * an obstacle.
-	 *
-	 * @param x - the position to test.
-	 * @param y - the position to test.
-	 * @return <code>true</code> if the cell at the given position contains
-	 * an obstacle, otherwise <code>false</code>
-	 */
-	boolean hasObstacle(int x, int y);
+	// Node or box
+	Node searchObstacle(Obstacle obstacle);
 
-	/** Replies if a turtle body is on the cell at the
-	 * given coordinate.
-	 *
-	 * @param x is the coordinate of the cell.
-	 * @param y is the coordinate of the cell.
-	 * @return <code>true</code> if a turtle body is
-	 * on the cell, otherwise <code>false</code>.
-	 */
-	boolean hasTurtle(int x, int y);
+	Node searchTurtle(Turtle turtle);
 
 	/** Replies the number of turtles on the environment.
 	 *
@@ -85,22 +69,8 @@ public interface EnvironmentArea {
 	 */
 	int getTurtleCount();
 
-	/** Replies a read-only collection of the environmental objects located
-	 * in the cell at the given coordinate.
-	 *
-	 * @param x is the coordinate of the cell.
-	 * @param y is the coordinate of the cell.
-	 * @return the collection of objects, never <code>null</code>.
-	 */
-	Collection<EnvironmentalObject> getEnvironmentalObjects(float x, float y);
+	Collection<EnvironmentalObject> getEnvironmentalObjects(Node n);
 
-	/** Replies the instant speed of the turtle at the given position.
-	 *
-	 * @param x is the coordinate of the cell.
-	 * @param y is the coordinate of the cell.
-	 * @return the instant speed of the turtle in cells per second,
-	 * or {@link Float#NaN} if no turtle.
-	 */
-	float getTurtleSpeed(float x, float y);
+	float getTurtleSpeed(Turtle turtle);
 
 }
