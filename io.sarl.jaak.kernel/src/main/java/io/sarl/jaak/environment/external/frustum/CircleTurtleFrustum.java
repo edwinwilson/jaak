@@ -50,8 +50,8 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
-		return new PointIterator(origin);
+	public Iterator<JaakObject> getPerceivedJaakObjects(Point2f origin, float direction, EnvironmentArea environment) {
+		return new JaakObjectIterator(origin);
 	}
 
 	/** Replies the perception radius.
@@ -70,7 +70,7 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 	 * @mavengroupid $GroupId$
 	 * @mavenartifactid $ArtifactId$
 	 */
-	private class PointIterator implements Iterator<Node> {
+	private class JaakObjectIterator implements Iterator<JaakObject> {
 
 		private final float cx;
 		private final float cy;
@@ -84,7 +84,7 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 		/**
 		 * @param center
 		 */
-		public PointIterator(Point2f center) {
+		public JaakObjectIterator(Point2f center) {
 			this.cx = center.x();
 			this.cy = center.y();
 

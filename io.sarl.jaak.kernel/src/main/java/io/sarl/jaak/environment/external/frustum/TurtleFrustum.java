@@ -36,13 +36,13 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
 public interface TurtleFrustum {
 
 	/**
-	 * Replies an iterator on the positions of the perceived cells.
+	 * Replies an iterator on the perceived objects.
 	 *
 	 * @param origin is the origin perception point.
 	 * @param direction is the angle which is corresponding to the turtle head direction.
 	 * @param environment is the environment in which the frustum should perceive.
-	 * @return the iterator on perceived cells' positions.
+	 * @return the iterator on perceived nodes.
 	 */
-	Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment);
+	Iterator<JaakObjects> getPerceivedJaakObjects(Point2f origin, float direction, EnvironmentArea environment);
 
 }
