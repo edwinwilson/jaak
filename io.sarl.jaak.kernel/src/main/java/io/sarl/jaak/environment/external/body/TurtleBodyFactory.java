@@ -333,6 +333,6 @@ public interface TurtleBodyFactory {
 	 * @return <code>true</code> if the new body could be put on the
 	 * cell, otherwise <code>false</code>.
 	 */
-	boolean isFreeCell(Point2f position);
+	boolean canOccupyPosition(Point2f position);
 
 }

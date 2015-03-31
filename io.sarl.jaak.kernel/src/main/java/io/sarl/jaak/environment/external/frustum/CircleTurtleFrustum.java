@@ -20,11 +20,11 @@
 package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
+import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.Iterator;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a frustum for for a turtle which is
  * restricted to a circle.
@@ -70,11 +70,11 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 	 * @mavengroupid $GroupId$
 	 * @mavenartifactid $ArtifactId$
 	 */
-	private class PointIterator implements Iterator<Point2f> {
+	private class PointIterator implements Iterator<Node> {
 
 		private final float cx;
 		private final float cy;
-		private final Point2f replied = new Point2f();
+		private final JaakObject replied;
 		private final float sx;
 		private final float ex;
 		private final float ey;
@@ -100,21 +100,6 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 		}
 
 		private void searchNext() {
-			float sr;
-			float dx;
-			float dy;
-
-			sr = getRadius();
-			sr = sr * sr;
-
-			while (this.x <= this.ex || this.y <= this.ey) {
-				dx = Math.abs(this.x - this.cx);
-				dy = Math.abs(this.y - this.cy);
-				if ((dx * dx + dy * dy) <= sr) {
-					return;
-				}
-				inc();
-			}
 		}
 
 		private void inc() {
@@ -130,18 +115,13 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 		 */
 		@Override
 		public boolean hasNext() {
-			return this.x <= this.ex || this.y <= this.ey;
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public Point2f next() {
-			this.replied.set(this.x, this.y);
-			inc();
-			searchNext();
-			return this.replied;
+		public JaakObject next() {
 		}
 
 		/**
