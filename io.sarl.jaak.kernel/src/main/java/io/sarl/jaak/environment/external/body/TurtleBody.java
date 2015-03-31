@@ -55,20 +55,6 @@ public interface TurtleBody extends TurtleObject {
 	 */
 	void move(Vector2f direction, boolean changeHeading);
 
-	/** Move the turtle straight ahead about the given number
-	 * of cells.
-	 *
-	 * @param cells is the count of cells to traverse.
-	 */
-	void moveForward(float cells);
-
-	/** Move the turtle backward about the given number
-	 * of cells.
-	 *
-	 * @param cells is the count of cells to traverse.
-	 */
-	void moveBackward(float cells);
-
 	/** Turn the head on the left of the turtle about the given
 	 * number of radians.
 	 *

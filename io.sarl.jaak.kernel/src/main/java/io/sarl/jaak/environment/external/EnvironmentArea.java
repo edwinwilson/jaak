@@ -59,9 +59,9 @@ public interface EnvironmentArea {
 	float getHeight();
 
 	// Node or box
-	Node searchObstacle(Obstacle obstacle);
+	Node getObstacleNode(Obstacle obstacle);
 
-	Node searchTurtle(Turtle turtle);
+	Node getTurtleNode(Turtle turtle);
 
 	/** Replies the number of turtles on the environment.
 	 *
