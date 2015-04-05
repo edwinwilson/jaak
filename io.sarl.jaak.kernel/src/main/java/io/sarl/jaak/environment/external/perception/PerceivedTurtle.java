@@ -19,6 +19,8 @@
  */
 package io.sarl.jaak.environment.external.perception;
 
+import io.sarl.jaak.environment.external.body.TurtleBody;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -49,14 +51,14 @@ public class PerceivedTurtle extends AbstractPerceivable {
 	 * @param observedOrientation is the orientation angle of the observed turtle.
 	 * @param semantic is the semantic associated to the turtle body.
 	 */
-	public PerceivedTurtle(UUID perceivedTurtle, Point2f observer, Point2f observed,
+	public PerceivedTurtle(UUID perceivedTurtle, TurtleBody observer, TurtleBody observed,
 			float observedSpeed, float observedOrientation, Serializable semantic) {
 		super();
 		assert (perceivedTurtle != null);
 		assert (observer != null);
 		assert (observed != null);
 		this.turtle = perceivedTurtle;
-		this.position.set(observed);
+		this.position.set(observed.getPosition());
 		this.speed = observedSpeed;
 		this.angle = observedOrientation;
 		this.semantic = semantic;

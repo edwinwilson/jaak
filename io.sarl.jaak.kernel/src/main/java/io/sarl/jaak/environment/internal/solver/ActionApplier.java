@@ -44,7 +44,7 @@ public interface ActionApplier {
 	 * @param body is the body to remove.
 	 * @return success state.
 	 */
-	boolean removeTurtle(int x, int y, TurtleBody body);
+	boolean removeTurtle(TurtleBody body);
 
 	/** Add the turtle body on the given cell.
 	 * <p>
@@ -56,7 +56,7 @@ public interface ActionApplier {
 	 * @param body is the body to add.
 	 * @return success state.
 	 */
-	boolean putTurtle(int x, int y, TurtleBody body);
+	boolean putTurtle(float x, float y, TurtleBody body);
 
 	/** Remove the environmental object on the given cell.
 	 *
@@ -66,7 +66,7 @@ public interface ActionApplier {
 	 * @return the removed object, not always the given object in the case
 	 * of substances.
 	 */
-	EnvironmentalObject removeObject(int x, int y, EnvironmentalObject object);
+	EnvironmentalObject removeObject(EnvironmentalObject object);
 
 	/** Remove all the environmental objects on the given cell.
 	 *
@@ -74,7 +74,7 @@ public interface ActionApplier {
 	 * @param y is the position of the cell.
 	 * @return the removed objects.
 	 */
-	Collection<EnvironmentalObject> removeObjects(int x, int y);
+	Collection<EnvironmentalObject> removeObjects(Node n);
 
 	/** Add the environmental object on the given cell.
 	 *
@@ -84,7 +84,7 @@ public interface ActionApplier {
 	 * @return the added object, not always the given object in the case
 	 * of substances.
 	 */
-	EnvironmentalObject putObject(int x, int y, EnvironmentalObject object);
+	EnvironmentalObject putObject(float x, float y, EnvironmentalObject object);
 
 	/**
 	 * Update the body state with the given informations.
@@ -96,6 +96,6 @@ public interface ActionApplier {
 	 * @param body is the body to change.
 	 * @return success state.
 	 */
-	boolean setPhysicalState(int x, int y, float headingAngle, float speed, TurtleBody body);
+	boolean setPhysicalState(float x, float y, float headingAngle, float speed, TurtleBody body);
 
 }

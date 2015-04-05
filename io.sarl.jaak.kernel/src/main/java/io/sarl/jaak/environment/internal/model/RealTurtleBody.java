@@ -152,7 +152,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * @param heading is the orientation of the turtle body head.
 	 * @param speed is the speed of the body in cells per second.
 	 */
-	synchronized void setPhysicalState(int x, int y, float heading, float speed) {
+	synchronized void setPhysicalState(float x, float y, float heading, float speed) {
 		this.x = x;
 		this.y = y;
 		this.heading = MathUtil.clampRadian(heading);
@@ -349,7 +349,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized void moveBackward(float cells) {
+	public synchronized void moveBackward(Vector2f direction) {
 		if (cells > 0) {
 			fireInfluenceReception();
 			Vector2f head = getHeadingVector();
@@ -369,7 +369,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized void moveForward(float cells) {
+	public synchronized void moveForward(Vector2f direction) {
 		if (cells > 0) {
 			fireInfluenceReception();
 			Vector2f head = getHeadingVector();

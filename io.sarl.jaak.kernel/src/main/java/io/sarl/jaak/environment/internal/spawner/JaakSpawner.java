@@ -151,8 +151,8 @@ public abstract class JaakSpawner implements BodySpawner {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean isFreeCell(Point2f position) {
-			return this.factory.isFreeCell(position);
+		public boolean isFreePosition(Point2f position) {
+			return this.factory.isFreePosition(position);
 		}
 
 		/** Compute a free position.
@@ -166,7 +166,7 @@ public abstract class JaakSpawner implements BodySpawner {
 			for (int i = 0; i < FREE_POSITION_COMPUTATION_RETRIES; ++i) {
 				p = computeCurrentSpawningPosition(dp);
 				assert (p != null);
-				if (isFreeCell(p)) {
+				if (isFreePosition(p)) {
 					return p;
 				}
 				dp = null;

@@ -158,8 +158,8 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 				}
 
 				if (actionApplier.putTurtle(newPosition.x(), newPosition.y(), emitter)) {
-					if (!actionApplier.removeTurtle(position.x(), position.y(), emitter)) {
-						actionApplier.removeTurtle(newPosition.x(), newPosition.y(), emitter);
+					if (!actionApplier.removeTurtle(emitter)) {
+						actionApplier.removeTurtle(emitter);
 						newPosition.set(position);
 						dx = 0;
 						dy = 0;
@@ -203,7 +203,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 			Point2f position = emitter.getPosition();
 			assert (position != null);
 			PickUpInfluence pui = (PickUpInfluence) influence;
-			EnvironmentalObject pickedUp = actionApplier.removeObject(position.x(), position.y(), pui.getPickUpObject());
+			EnvironmentalObject pickedUp = actionApplier.removeObject(pui.getPickUpObject());
 			if (pickedUp instanceof Substance) {
 				putBackPickingAction(emitter, new PickedObject(pickedUp));
 			} else if (pickedUp != null) {
@@ -222,7 +222,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 			if (obj != null) {
 				Point2f position = obj.getPosition();
 				assert (position != null);
-				actionApplier.removeObject(position.x(), position.y(), obj);
+				actionApplier.removeObject(obj);
 			}
 		} else if (influence instanceof SemanticChangeInfluence) {
 			SemanticChangeInfluence sci = (SemanticChangeInfluence) influence;

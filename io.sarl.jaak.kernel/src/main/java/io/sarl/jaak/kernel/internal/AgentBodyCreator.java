@@ -57,7 +57,7 @@ class AgentBodyCreator implements JaakBodyCreator {
 	 */
 	public boolean isPositionForced(JaakEnvironment environment) {
 		Point2f p = new Point2f(this.parameters.x, this.parameters.y);
-		return (environment.isFree(p.x(), p.y()));
+		return (environment.isFreePosition(p.x(), p.y()));
 	}
 
 	/** Change the creation parameters.
