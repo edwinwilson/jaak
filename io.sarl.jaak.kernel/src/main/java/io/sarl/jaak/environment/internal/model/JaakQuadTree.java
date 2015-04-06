@@ -49,8 +49,8 @@ public class JaakQuadTree implements QuadTreeModel{
 
 	@Override
 	public Iterable<? extends EnvironmentalObject> getEnvObjects(Point2f position) {
-		// TODO Auto-generated method stub
-		return null;
+		QuadTreeNode node = this.getNode(position);
+		return node.getEnvObjects();
 	}
 
 	@Override
@@ -73,25 +73,80 @@ public class JaakQuadTree implements QuadTreeModel{
 
 	@Override
 	public Iterable<TurtleBody> getTurtles(Point2f position) {
-		// TODO Auto-generated method stub
-		return null;
+		QuadTreeNode node = this.getNode(position);
+		return this.getTurtles(node);
 	}
 
+	/**
+	 * Copy/pasted from JaakGrid and changed variables to float.
+	 */
 	@Override
 	public ValidationResult validatePosition(boolean isWrapped, boolean allowDiscard, Point2f position) {
-		// TODO Auto-generated method stub
-		return null;
+		if (allowDiscard
+				&& (position.x() < 0
+					|| position.x() >= getWidth()
+					|| position.y() < 0
+					|| position.y() >= getHeight())) {
+				return ValidationResult.DISCARDED;
+			}
+
+			ValidationResult change = ValidationResult.NO_CHANGE;
+
+			// Check X coordinate to be on grid
+			while (position.x() < 0) {
+				if (isWrapped) {
+					float delta = -position.x();
+					position.setX(getWidth() - delta);
+					change = ValidationResult.WRAPPED;
+				} else {
+					position.setX(0);
+					change = ValidationResult.CLIPPED;
+				}
+			}
+
+			while (position.x() >= getWidth()) {
+				if (isWrapped) {
+					float delta = position.x() - getWidth();
+					position.setX(delta);
+					change = ValidationResult.WRAPPED;
+				} else {
+					position.setX(getWidth() - 1);
+					change = ValidationResult.CLIPPED;
+				}
+			}
+
+			// Check Y coordinate to be on grid
+			while (position.y() < 0) {
+				if (isWrapped) {
+					float delta = -position.y();
+					position.setY(getHeight() - delta);
+					change = ValidationResult.WRAPPED;
+				} else {
+					position.setY(0);
+					change = ValidationResult.CLIPPED;
+				}
+			}
+
+			while (position.y() >= getHeight()) {
+				if (isWrapped) {
+					float delta = position.y() - getHeight();
+					position.setY(delta);
+					change = ValidationResult.WRAPPED;
+				} else {
+					position.setY(getHeight() - 1);
+					change = ValidationResult.CLIPPED;
+				}
+			}
+
+			return change;
 	}
 
 	@Override
 	public QuadTreeNode getNode(Point2f position) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
 	public QuadTreeNode getObjectNode(EnvironmentalObject worldObject) {
-		// TODO Auto-generated method stub
-		return null;
+		return (this.getNode(worldObject.getPosition()));
 	}
 }
