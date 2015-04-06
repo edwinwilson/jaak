@@ -19,6 +19,7 @@
  */
 package io.sarl.jaak.environment.external;
 
+import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.Obstacle;
 
@@ -61,7 +62,7 @@ public interface EnvironmentArea {
 	// Node or box
 	Node getObstacleNode(Obstacle obstacle);
 
-	Node getTurtleNode(Turtle turtle);
+	Node getTurtleNode(TurtleBody turtle);
 
 	/** Replies the number of turtles on the environment.
 	 *
@@ -71,6 +72,6 @@ public interface EnvironmentArea {
 
 	Collection<EnvironmentalObject> getEnvironmentalObjects(Node n);
 
-	float getTurtleSpeed(Turtle turtle);
+	float getTurtleSpeed(TurtleBody turtle);
 
 }
