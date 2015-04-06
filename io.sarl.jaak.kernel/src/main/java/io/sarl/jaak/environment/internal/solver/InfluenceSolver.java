@@ -31,7 +31,7 @@ import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.PickedObject;
 import io.sarl.jaak.environment.external.perception.Substance;
 import io.sarl.jaak.environment.external.time.TimeManager;
-import io.sarl.jaak.environment.internal.GridModel;
+import io.sarl.jaak.environment.internal.QuadTreeModel;
 import io.sarl.jaak.environment.internal.ValidationResult;
 
 import java.io.Serializable;
@@ -40,7 +40,6 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines the methods of a solver of
  * influence conflicts.
@@ -54,7 +53,7 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
 public abstract class InfluenceSolver<T extends TurtleBody> {
 
 	private final AtomicBoolean isWrapped = new AtomicBoolean();
-	private WeakReference<GridModel> grid;
+	private WeakReference<QuadTreeModel> tree;
 	private WeakReference<TimeManager> timeManager;
 
 	/** Replies if the environment is wrapped.
@@ -75,20 +74,20 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 		this.isWrapped.set(wrapped);
 	}
 
-	/** Replies if the grid model used by the solver.
+	/** Replies if the tree model used by the solver.
 	 *
-	 * @return the grid model.
+	 * @return the tree model.
 	 */
-	public GridModel getGridModel() {
-		return this.grid == null ? null : this.grid.get();
+	public QuadTreeModel getTreeModel() {
+		return this.tree == null ? null : this.tree.get();
 	}
 
-	/** Set the grid model.
+	/** Set the tree model.
 	 *
-	 * @param grid - the model of the world, ie. the grid.
+	 * @param grid - the model of the world, ie. the tree.
 	 */
-	public void setGridModel(GridModel grid) {
-		this.grid = new WeakReference<>(grid);
+	public void setGridModel(QuadTreeModel tree) {
+		this.tree = new WeakReference<>(tree);
 	}
 
 	/** Replies the time manager used by the environment model.
@@ -258,7 +257,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 	 * @return how the position was validated.
 	 */
 	protected ValidationResult validatePosition(Point2f position) {
-		GridModel g = getGridModel();
+		QuadTreeModel t = getTreeModel();
 		//TODO: adapat to tree
 		//return g.validatePosition(isWrapped(), false, position);
 		return null;

@@ -21,6 +21,7 @@ package io.sarl.jaak.environment.internal.solver;
 
 import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
+import io.sarl.jaak.environment.internal.model.QuadTreeNode;
 
 import java.util.Collection;
 
@@ -74,7 +75,7 @@ public interface ActionApplier {
 	 * @param y is the position of the cell.
 	 * @return the removed objects.
 	 */
-	Collection<EnvironmentalObject> removeObjects(Node n);
+	Collection<EnvironmentalObject> removeObjects(QuadTreeNode n);
 
 	/** Add the environmental object on the given cell.
 	 *

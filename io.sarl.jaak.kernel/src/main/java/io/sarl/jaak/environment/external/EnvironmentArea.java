@@ -22,6 +22,7 @@ package io.sarl.jaak.environment.external;
 import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.Obstacle;
+import io.sarl.jaak.environment.internal.model.QuadTreeNode;
 
 import java.util.Collection;
 
@@ -58,11 +59,10 @@ public interface EnvironmentArea {
 	 * @return the height of the environment.
 	 */
 	float getHeight();
+	
+	QuadTreeNode getObstacleNode(Obstacle obstacle);
 
-	// Node or box
-	Node getObstacleNode(Obstacle obstacle);
-
-	Node getTurtleNode(TurtleBody turtle);
+	QuadTreeNode getTurtleNode(TurtleBody turtle);
 
 	/** Replies the number of turtles on the environment.
 	 *
@@ -70,7 +70,7 @@ public interface EnvironmentArea {
 	 */
 	int getTurtleCount();
 
-	Collection<EnvironmentalObject> getEnvironmentalObjects(Node n);
+	Collection<EnvironmentalObject> getEnvironmentalObjects(QuadTreeNode n);
 
 	float getTurtleSpeed(TurtleBody turtle);
 

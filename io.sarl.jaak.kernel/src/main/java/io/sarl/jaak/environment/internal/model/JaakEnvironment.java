@@ -80,8 +80,6 @@ public class JaakEnvironment implements EnvironmentArea {
 	
 	private final UUID id = UUID.randomUUID();
 	private final Map<UUID, RealTurtleBody> bodies = new TreeMap<>();
-	//TODO : replace grid by trees
-	private JaakGrid grid;
 	private TimeManager timeManager;
 	private final AtomicBoolean isWrapped = new AtomicBoolean(false);
 	private volatile EnvironmentEndogenousEngine endogenousEngine;

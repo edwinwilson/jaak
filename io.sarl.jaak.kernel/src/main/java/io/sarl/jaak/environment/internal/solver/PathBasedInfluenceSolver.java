@@ -24,7 +24,7 @@ import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.influence.MotionInfluence;
 import io.sarl.jaak.environment.external.influence.MotionInfluenceStatus;
 import io.sarl.jaak.environment.external.perception.JaakObject;
-import io.sarl.jaak.environment.internal.GridModel;
+import io.sarl.jaak.environment.internal.QuadTreeModel;
 import io.sarl.jaak.environment.internal.ValidationResult;
 import io.sarl.jaak.environment.internal.model.AbstractJaakEnvironmentInfluenceSolver;
 import io.sarl.jaak.environment.internal.model.RealTurtleBody;
@@ -40,7 +40,6 @@ import java.util.TreeMap;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 
 /** This class defines a default implementation for influence solver.
@@ -151,8 +150,8 @@ public class PathBasedInfluenceSolver extends AbstractJaakEnvironmentInfluenceSo
 			Collection<RealTurtleBody> bodies,
 			ActionApplier actionApplier) {
 
-		GridModel grid = getGridModel();
-		assert (grid != null);
+		QuadTreeModel tree = getTreeModel();
+		assert (tree != null);
 
 		Collection<Path> paths = new LinkedList<>();
 		Map<Point2f, List<PathElement>> conflictingCells = new TreeMap<>(POINT_COMPARATOR);
