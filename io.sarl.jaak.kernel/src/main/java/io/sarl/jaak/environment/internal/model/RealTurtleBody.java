@@ -72,6 +72,8 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	private Vector2f headingVector;
 	private float speed;
 	private boolean isPerceptionEnable = true;
+	private Shape box;
+	
 
 	/**
 	 * @param turtle is the identifier of the turtle which is owning this body.

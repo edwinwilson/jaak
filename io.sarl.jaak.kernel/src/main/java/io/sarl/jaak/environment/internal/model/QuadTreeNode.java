@@ -1,6 +1,6 @@
 package io.sarl.jaak.environment.internal.model;
 
-import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
+import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,22 +8,24 @@ import java.util.Collection;
 public class QuadTreeNode {
 	
 	private QuadTreeNode parent;
-	private Collection<EnvironmentalObject> nodeObjects;
+	private Collection<JaakObject> nodeObjects;
 	private Collection<QuadTreeNode> children;
+	private float cutX;
+	private float cutY;
 
 	public QuadTreeNode(){
 		this(null,null,null);
 	}
 	
-	public QuadTreeNode(Collection<EnvironmentalObject> nodeObjects){
+	public QuadTreeNode(Collection<JaakObject> nodeObjects){
 		this(null, nodeObjects, null);
 	}
 	
-	public QuadTreeNode(QuadTreeNode parent, Collection<EnvironmentalObject> nodeObjects){
+	public QuadTreeNode(QuadTreeNode parent, Collection<JaakObject> nodeObjects){
 		this(parent,nodeObjects,null);
 	}
 	
-	public QuadTreeNode(Collection<EnvironmentalObject> nodeObjects, Collection<QuadTreeNode> children){
+	public QuadTreeNode(Collection<JaakObject> nodeObjects, Collection<QuadTreeNode> children){
 		this(null,nodeObjects,children);
 	}
 	
@@ -31,7 +33,7 @@ public class QuadTreeNode {
 		this(parent,null,children);
 	}
 	
-	public QuadTreeNode(QuadTreeNode parent, Collection<EnvironmentalObject> nodeObjects, Collection<QuadTreeNode> children){
+	public QuadTreeNode(QuadTreeNode parent, Collection<JaakObject> nodeObjects, Collection<QuadTreeNode> children){
 		this.parent = parent;
 		if(nodeObjects == null){
 			this.nodeObjects = new ArrayList<>();
@@ -57,13 +59,13 @@ public class QuadTreeNode {
 
 
 
-	public Collection<EnvironmentalObject> getNodeObjects() {
+	public Collection<JaakObject> getNodeObjects() {
 		return nodeObjects;
 	}
 
 
 
-	public void setNodeObjects(Collection<EnvironmentalObject> nodeObjects) {
+	public void setNodeObjects(Collection<JaakObject> nodeObjects) {
 		this.nodeObjects = nodeObjects;
 	}
 
@@ -75,9 +77,23 @@ public class QuadTreeNode {
 
 
 
-	public Collection<EnvironmentalObject> getEnvObjects() {
+	public Collection<JaakObject> getEnvObjects() {
 		return this.nodeObjects;
 	}
 	
+	public void setCutX(float cutX){
+		this.cutX = cutX;
+	}
 	
+	public void setCutY(float cutY){
+		this.cutY = cutY;
+	}
+
+	public float getCutX() {
+		return this.cutX;
+	}
+	
+	public float getCutY() {
+		return this.cutY;
+	}
 }

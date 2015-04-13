@@ -19,6 +19,8 @@
  */
 package io.sarl.jaak.environment.external.perception;
 
+import io.sarl.jaak.environment.internal.model.Shape;
+
 import java.io.Serializable;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
@@ -44,4 +46,5 @@ public interface JaakObject {
 	 */
 	Serializable getSemantic();
 
+	Shape getShape();
 }

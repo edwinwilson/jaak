@@ -23,6 +23,7 @@ import java.io.Serializable;
 
 import io.sarl.jaak.environment.external.influence.EnvironmentalObjectRemovalInfluence;
 import io.sarl.jaak.environment.external.influence.Influence;
+import io.sarl.jaak.environment.internal.model.Shape;
 
 /** This class defines a situated object inside the Jaak environment
  * which is not an agent.
@@ -35,6 +36,7 @@ import io.sarl.jaak.environment.external.influence.Influence;
 public class EnvironmentalObject extends AbstractPerceivable implements JaakObject {
 
 	private static final long serialVersionUID = 4218782489455701467L;
+	private Shape box;
 
 	/**
 	 * @param semantic is the semantic associated to this environmental object.
@@ -145,6 +147,10 @@ public class EnvironmentalObject extends AbstractPerceivable implements JaakObje
 			return EnvironmentalObject.this;
 		}
 
+	}
+
+	public Shape getShape() {
+		return box;
 	}
 
 }

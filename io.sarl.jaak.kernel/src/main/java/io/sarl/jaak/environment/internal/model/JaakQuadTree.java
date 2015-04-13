@@ -2,7 +2,7 @@ package io.sarl.jaak.environment.internal.model;
 
 import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.endogenous.AutonomousEndogenousProcess;
-import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
+import io.sarl.jaak.environment.external.perception.JaakObject;
 import io.sarl.jaak.environment.external.perception.ObjectManipulator;
 import io.sarl.jaak.environment.internal.QuadTreeModel;
 import io.sarl.jaak.environment.internal.ValidationResult;
@@ -18,24 +18,22 @@ public class JaakQuadTree implements QuadTreeModel{
 
 	private final float width;
 	private final float height;
-	private final QuadTreeNode[] tree;
+	private QuadTreeNode root;
 	private final ObjectManipulator objectManipulator;
 	private final Collection<AutonomousEndogenousProcess> autonomousProcesses = new LinkedList<>();
+	private static final int SPLITCOUNT = 100; 
 	
 	
-	public JaakQuadTree(float width, float height, ObjectManipulator objectManipulator){
+	public JaakQuadTree(float width, float height, ObjectManipulator objectManipulator, Collection<JaakObject> envObjects){
 		assert (width > 0);
 		assert (height > 0);
 		assert (objectManipulator != null);
 		this.width = width;
 		this.height = height;
-		this.tree = new QuadTreeNode[computeNumberOfNodes()];
 		this.objectManipulator = objectManipulator;
+		buildTree(envObjects);
 	}
 	
-	private int computeNumberOfNodes(){
-		return 0;
-	}
 	
 	@Override
 	public float getWidth() {
@@ -48,21 +46,21 @@ public class JaakQuadTree implements QuadTreeModel{
 	}
 
 	@Override
-	public Iterable<? extends EnvironmentalObject> getEnvObjects(Point2f position) {
+	public Iterable<? extends JaakObject> getEnvObjects(Point2f position) {
 		QuadTreeNode node = this.getNode(position);
 		return node.getEnvObjects();
 	}
 
 	@Override
-	public Iterable<? extends EnvironmentalObject> getEnvObjects(QuadTreeNode node) {
+	public Iterable<? extends JaakObject> getEnvObjects(QuadTreeNode node) {
 		return node.getEnvObjects();
 	}
 
 	@Override
 	public Iterable<TurtleBody> getTurtles(QuadTreeNode node) {
-		Collection<EnvironmentalObject> envObjects = node.getEnvObjects();
+		Collection<JaakObject> envObjects = node.getEnvObjects();
 		List<TurtleBody> result = new ArrayList<>();
-		for(EnvironmentalObject envObject : envObjects){
+		for(JaakObject envObject : envObjects){
 			if(envObject instanceof TurtleBody){
 				TurtleBody body = (TurtleBody)envObject;
 				result.add(body);
@@ -143,10 +141,76 @@ public class JaakQuadTree implements QuadTreeModel{
 
 	@Override
 	public QuadTreeNode getNode(Point2f position) {
+		
 	}
 
 	@Override
-	public QuadTreeNode getObjectNode(EnvironmentalObject worldObject) {
+	public QuadTreeNode getObjectNode(JaakObject worldObject) {
 		return (this.getNode(worldObject.getPosition()));
+	}
+	
+	public void buildTree(Collection<JaakObject> envObjects){
+		this.root = new QuadTreeNode();
+		root.setCutX(this.width);
+		root.setCutY(this.height);
+		root.setNodeObjects(envObjects);
+		if(envObjects.size() > SPLITCOUNT){
+			buildChildren(this.root);
+		}
+	}
+	
+	private void buildChildren(QuadTreeNode parent){
+		if(parent == null){
+			return;//TODO exception
+		}
+		
+	}
+	
+	private int[] getEnclosingChildIndex(JaakObject envObject, QuadTreeNode node){
+		
+		Shape box= envObject.getShape();
+		int[] res = {};
+		
+		if(box.getMaxX() < node.getCutX() && box.getMaxY() < node.getCutY()) {
+			res[0] = 0;
+			return res;
+		}
+		if(box.getMinX() > node.getCutX() && box.getMaxY() < node.getCutY()){
+			res[0] = 1;
+			return res;
+		}
+		if(box.getMaxX() < node.getCutX() && box.getMaxY() > node.getCutY()) {
+			res[0] = 2;
+			return res;
+		}
+		if(box.getMinX() > node.getCutX() && box.getMaxY() > node.getCutY()){
+			res[0] = 3;
+			return res;
+		}
+		if(box.getMaxX()<node.getCutX()){
+			res[0] = 0;
+			res[1] = 2;
+			return res;
+		}
+		if(box.getMinX()>node.getCutX()){
+			res[0] = 1;
+			res[1] = 3;
+			return res;
+		}
+		if(box.getMinX()>node.getCutX()){
+			res[0] = 0;
+			res[1] = 1;
+			return res;
+		}
+		if(box.getMinX()>node.getCutX()){
+			res[0] = 2;
+			res[1] = 3;
+			return res;
+		}
+		res[0] = 0;
+		res[1] = 1;
+		res[2] = 2;
+		res[3] = 3;
+		return res;
 	}
 }
