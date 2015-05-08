@@ -31,7 +31,7 @@ import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.PickedObject;
 import io.sarl.jaak.environment.external.perception.Substance;
 import io.sarl.jaak.environment.external.time.TimeManager;
-import io.sarl.jaak.environment.internal.GridModel;
+import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.ValidationResult;
 
 import java.io.Serializable;
@@ -40,7 +40,6 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines the methods of a solver of
  * influence conflicts.
@@ -54,7 +53,7 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
 public abstract class InfluenceSolver<T extends TurtleBody> {
 
 	private final AtomicBoolean isWrapped = new AtomicBoolean();
-	private WeakReference<GridModel> grid;
+	private WeakReference<ContinuousModel> environment;
 	private WeakReference<TimeManager> timeManager;
 
 	/** Replies if the environment is wrapped.
@@ -79,16 +78,16 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 	 *
 	 * @return the grid model.
 	 */
-	public GridModel getGridModel() {
-		return this.grid == null ? null : this.grid.get();
+	public ContinuousModel getEnvironment() {
+		return this.environment == null ? null : this.environment.get();
 	}
 
 	/** Set the grid model.
 	 *
 	 * @param grid - the model of the world, ie. the grid.
 	 */
-	public void setGridModel(GridModel grid) {
-		this.grid = new WeakReference<>(grid);
+	public void setEnvironment(ContinuousModel environment) {
+		this.environment = new WeakReference<>(environment);
 	}
 
 	/** Replies the time manager used by the environment model.
@@ -139,27 +138,27 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 			Point2f newPosition = new Point2f();
 			MotionInfluence mi = (MotionInfluence) influence;
 			newPosition.set(
-					Math.round(position.getX() + mi.getLinearMotionX()),
-					Math.round(position.getY() + mi.getLinearMotionY()));
+					position.getX() + mi.getLinearMotionX(),
+					position.getY() + mi.getLinearMotionY());
 
 			ValidationResult validationResult = validatePosition(newPosition);
 
 			float heading = emitter.getHeadingAngle();
 			heading += mi.getAngularMotion();
 
-			int dx = newPosition.x() - position.x();
-			int dy = newPosition.y() - position.y();
+			float dx = newPosition.getX() - position.getX();
+			float dy = newPosition.getY() - position.getY();
 
 			if (dx != 0 || dy != 0) {
 
 				if (validationResult == ValidationResult.WRAPPED) {
-					dx = Math.round(mi.getLinearMotionX());
-					dy = Math.round(mi.getLinearMotionY());
+					dx = mi.getLinearMotionX();
+					dy = mi.getLinearMotionY();
 				}
 
-				if (actionApplier.putTurtle(newPosition.x(), newPosition.y(), emitter)) {
-					if (!actionApplier.removeTurtle(position.x(), position.y(), emitter)) {
-						actionApplier.removeTurtle(newPosition.x(), newPosition.y(), emitter);
+				if (actionApplier.putTurtle(newPosition.getX(), newPosition.getY(), emitter)) {
+					if (!actionApplier.removeTurtle(emitter)) {
+						actionApplier.removeTurtle(emitter);
 						newPosition.set(position);
 						dx = 0;
 						dy = 0;
@@ -184,13 +183,13 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 				}
 
 				actionApplier.setPhysicalState(
-						newPosition.x(), newPosition.y(),
+						newPosition.getX(), newPosition.getY(),
 						heading,
 						speed,
 						emitter);
 			} else {
 				actionApplier.setPhysicalState(
-						position.x(), position.y(),
+						position.getX(), position.getY(),
 						heading,
 						0f,
 						emitter);
@@ -203,7 +202,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 			Point2f position = emitter.getPosition();
 			assert (position != null);
 			PickUpInfluence pui = (PickUpInfluence) influence;
-			EnvironmentalObject pickedUp = actionApplier.removeObject(position.x(), position.y(), pui.getPickUpObject());
+			EnvironmentalObject pickedUp = actionApplier.removeObject(pui.getPickUpObject());
 			if (pickedUp instanceof Substance) {
 				putBackPickingAction(emitter, new PickedObject(pickedUp));
 			} else if (pickedUp != null) {
@@ -215,14 +214,14 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 			Point2f position = emitter.getPosition();
 			assert (position != null);
 			DropDownInfluence ddi = (DropDownInfluence) influence;
-			actionApplier.putObject(position.x(), position.y(), ddi.getDropOffObject());
+			actionApplier.putObject(position.getX(), position.getY(), ddi.getDropOffObject());
 		} else if (influence instanceof EnvironmentalObjectRemovalInfluence) {
 			EnvironmentalObjectRemovalInfluence eori = (EnvironmentalObjectRemovalInfluence) influence;
 			EnvironmentalObject obj = eori.getRemovableObject();
 			if (obj != null) {
 				Point2f position = obj.getPosition();
 				assert (position != null);
-				actionApplier.removeObject(position.x(), position.y(), obj);
+				actionApplier.removeObject(obj);
 			}
 		} else if (influence instanceof SemanticChangeInfluence) {
 			SemanticChangeInfluence sci = (SemanticChangeInfluence) influence;
@@ -258,7 +257,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 	 * @return how the position was validated.
 	 */
 	protected ValidationResult validatePosition(Point2f position) {
-		GridModel g = getGridModel();
+		ContinuousModel g = getEnvironment();
 		//TODO: adapat to tree
 		//return g.validatePosition(isWrapped(), false, position);
 		return null;

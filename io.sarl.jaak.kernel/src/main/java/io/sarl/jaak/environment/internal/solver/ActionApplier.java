@@ -34,68 +34,15 @@ import java.util.Collection;
  */
 public interface ActionApplier {
 
-	/** Remove the turtle body on the given cell.
-	 * <p>
-	 * If the given body is not on the cell at the given
-	 * position, this function does nothing.
-	 *
-	 * @param x is the position of the body.
-	 * @param y is the position of the body.
-	 * @param body is the body to remove.
-	 * @return success state.
-	 */
-	boolean removeTurtle(int x, int y, TurtleBody body);
+	boolean putTurtle(float x, float y, TurtleBody emitter);
 
-	/** Add the turtle body on the given cell.
-	 * <p>
-	 * If a body is already on the cell at the given
-	 * position, this function does nothing.
-	 *
-	 * @param x is the position of the body.
-	 * @param y is the position of the body.
-	 * @param body is the body to add.
-	 * @return success state.
-	 */
-	boolean putTurtle(int x, int y, TurtleBody body);
+	boolean removeTurtle(TurtleBody emitter);
 
-	/** Remove the environmental object on the given cell.
-	 *
-	 * @param x is the position of the object.
-	 * @param y is the position of the object.
-	 * @param object is the object to remove.
-	 * @return the removed object, not always the given object in the case
-	 * of substances.
-	 */
-	EnvironmentalObject removeObject(int x, int y, EnvironmentalObject object);
+	void setPhysicalState(float x, float y, float heading, float speed,
+			TurtleBody emitter);
 
-	/** Remove all the environmental objects on the given cell.
-	 *
-	 * @param x is the position of the cell.
-	 * @param y is the position of the cell.
-	 * @return the removed objects.
-	 */
-	Collection<EnvironmentalObject> removeObjects(int x, int y);
+	EnvironmentalObject removeObject(EnvironmentalObject pickUpObject);
 
-	/** Add the environmental object on the given cell.
-	 *
-	 * @param x is the position of the object.
-	 * @param y is the position of the object.
-	 * @param object is the object to add.
-	 * @return the added object, not always the given object in the case
-	 * of substances.
-	 */
-	EnvironmentalObject putObject(int x, int y, EnvironmentalObject object);
-
-	/**
-	 * Update the body state with the given informations.
-	 *
-	 * @param x is the position of the body.
-	 * @param y is the position of the body.
-	 * @param headingAngle is the heading direction
-	 * @param speed is the instant speed of the body in cells per second.
-	 * @param body is the body to change.
-	 * @return success state.
-	 */
-	boolean setPhysicalState(int x, int y, float headingAngle, float speed, TurtleBody body);
+	void putObject(float x, float y, EnvironmentalObject dropOffObject);
 
 }
