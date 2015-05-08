@@ -81,7 +81,6 @@ public class JaakEnvironment implements EnvironmentArea {
 	private final UUID id = UUID.randomUUID();
 	private final Map<UUID, RealTurtleBody> bodies = new TreeMap<>();
 	//TODO : replace grid by trees
-	private JaakGrid grid;
 	private TimeManager timeManager;
 	private final AtomicBoolean isWrapped = new AtomicBoolean(false);
 	private volatile EnvironmentEndogenousEngine endogenousEngine;
@@ -104,8 +103,8 @@ public class JaakEnvironment implements EnvironmentArea {
 	}
 
 	/**
-	 * @param width is the width of the world grid.
-	 * @param height is the height of the world grid.
+	 * @param width is the width of the world.
+	 * @param height is the height of the world.
 	 */
 	public JaakEnvironment(float width, float height) {
 		this(width, height, null);
@@ -175,14 +174,12 @@ public class JaakEnvironment implements EnvironmentArea {
 	 */
 	@Override
 	public float getWidth() {
-		return this.grid.getWidth();
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
 	public float getHeight() {
-		return this.grid.getHeight();
 	}
 
 	/** Set the time manager for the environment.
@@ -199,7 +196,6 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return the action applier for this environment.
 	 */
 	public ActionApplier getActionApplier() {
-		return this.grid;
 	}
 
 	/** Replies the unique identifier of this environment object.
@@ -238,98 +234,12 @@ public class JaakEnvironment implements EnvironmentArea {
 		this.isWrapped.set(wrapped);
 	}
 
-	@Override
-	public boolean hasObstacle(int x, int y) {
-		return (this.grid.hasObstacle(x, y));
-	}
-
-	@Override
-	public synchronized boolean hasTurtle(int x, int y) {
-		return this.grid.getTurtle(x, y) != null;
-	}
-
-	@Override
-	public synchronized float getTurtleSpeed(float x, float y) {
-		//TODO: get Turtle from tree data structure instead of grid
-		//TurtleBody body = this.grid.getTurtle(x, y);
-		TurtleBody body = null;
-		if (body != null) {
-			return body.getSpeed();
-		}
-		return Float.NaN;
-	}
-
-	/** Replies the turtles at the given position.
-	 *
-	 * @param x is the coordinate of the cell.
-	 * @param y is the coordinate of the cell.
-	 * @return the turtles even if they are in a burrow.
-	 */
-	public synchronized Collection<TurtleBody> getTurtles(float x, float y) {
-		//TODO: get Turtle from tree data structure instead of grid
-		//return this.grid.getTurtles(x, y);
-		return null;
-	}
-
-	/** Replies the instant orientation of the turtle at the given position.
-	 *
-	 * @param x is the coordinate of the cell.
-	 * @param y is the coordinate of the cell.
-	 * @return the instant orientation of the turtle in radians,
-	 * or {@link Float#NaN} if no turtle.
-	 */
-	public synchronized float getTurtleOrientation(float x, float y) {
-		//TODO: get Turtle from tree data structure instead of grid
-		//TurtleBody body = this.grid.getTurtle(x, y);
-		TurtleBody body = null;
-		if (body != null) {
-			return body.getHeadingAngle();
-		}
-		return Float.NaN;
-	}
-
-	/** Replies the instant direction of the turtle at the given position.
-	 *
-	 * @param x is the coordinate of the cell.
-	 * @param y is the coordinate of the cell.
-	 * @return the instant direction of the turtle in radians,
-	 * or <code>null</code> if no turtle.
-	 */
-	public synchronized Vector2f getTurtleDirection(float x, float y) {
-		//TODO: get direction from tree
-		//TurtleBody body = this.grid.getTurtle(x, y);
-		TurtleBody body = null;
-		if (body != null) {
-			return body.getHeadingVector();
-		}
-		return null;
-	}
 
 	@Override
 	public synchronized int getTurtleCount() {
 		return this.bodies.size();
 	}
 
-	/** Replies the objects in the cell at the given position.
-	 *
-	 * @param <T> is the type of the desired objects.
-	 * @param x is the position of the cell.
-	 * @param y is the position of the cell.
-	 * @param type is the type of the desired objects.
-	 * @return the environment objects in the given cell.
-	 */
-	public synchronized <T extends EnvironmentalObject> Iterable<T> getEnvironmentalObjects(float x, float y, Class<T> type) {
-		//TODO: get Turtle from tree data structure instead of grid
-		//return new FilteringIterable<>(type, this.grid.getObjects(x, y));
-		return new FilteringIterable<>(type, null);
-	}
-
-	@Override
-	public synchronized Collection<EnvironmentalObject> getEnvironmentalObjects(float x, float y) {
-		//TODO: get Objects from tree data structure instead of grid
-		//return this.grid.getObjects(x, y);
-		return null;
-	}
 
 	/** Set the endogenous engine to use.
 	 *
@@ -347,25 +257,6 @@ public class JaakEnvironment implements EnvironmentArea {
 		this.solver = solver;
 	}
 
-	/** Replies a free cell near a random position.
-	 *
-	 * @return the position of the first free cell, or <code>null</code>
-	 * if no more cell is free.
-	 */
-	Point2f getFreeRandomPosition() {
-		//TODO: get a free random position from the tree data structure/ consider whether method is still relevant.  
-		Point2f p = new Point2f();
-		int i = 0;
-		int max = this.grid.getWidth() * this.grid.getHeight();
-		do {
-			p.set(
-					RandomNumber.nextInt(this.grid.getWidth()),
-					RandomNumber.nextInt(this.grid.getHeight()));
-			++i;
-		}
-		while (!isFree(p.x(), p.y()) && i < max);
-		return (isFree(p.x(), p.y())) ? p : null;
-	}
 
 	/** Add a body in the environment.
 	 *
@@ -491,7 +382,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 	}
 
-	private void computePerceptions() {
+	/*private void computePerceptions() {
 		Point2f position;
 		TurtleFrustum frustum;
 		TurtleBody turtleBody;
@@ -511,7 +402,7 @@ public class JaakEnvironment implements EnvironmentArea {
 						while (iterator.hasNext()) {
 							position = iterator.next();
 							//TODO: adapt function to tree 
-							if (true/*this.grid.validatePosition(isWrapped(), true, position) != ValidationResult.DISCARDED*/) {
+							if (this.grid.validatePosition(isWrapped(), true, position) != ValidationResult.DISCARDED) {
 								x = position.x();
 								y = position.y();
 								turtleBody = this.grid.getTurtle(x, y);
@@ -532,7 +423,7 @@ public class JaakEnvironment implements EnvironmentArea {
 			}
 			body.setPerceptions(bodies, objects);
 		}
-	}
+	}*/
 
 	private void solveConflicts() {
 		InfluenceSolver<RealTurtleBody> theSolver = this.solver;
@@ -755,7 +646,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		/**
 		 * {@inheritDoc}
 		 */
-		@Override
+		/*@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Point2f desiredPosition, float desiredAngle, Serializable semantic,
 				TurtleFrustum frustum) {
@@ -776,7 +667,7 @@ public class JaakEnvironment implements EnvironmentArea {
 				return body;
 			}
 			return null;
-		}
+		}*/
 
 		/**
 		 * {@inheritDoc}

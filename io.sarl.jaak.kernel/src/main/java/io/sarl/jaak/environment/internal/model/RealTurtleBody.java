@@ -349,44 +349,6 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * {@inheritDoc}
 	 */
 	@Override
-	public synchronized void moveBackward(float cells) {
-		if (cells > 0) {
-			fireInfluenceReception();
-			Vector2f head = getHeadingVector();
-			float f = -cells / head.length();
-			float x = head.getX() * f;
-			float y = head.getY() * f;
-			if (this.lastMotionInfluence == null) {
-				this.lastMotionInfluence = new MotionInfluence(this, new Vector2f(x, y));
-			} else {
-				this.lastMotionInfluence.setLinearMotion(x, y);
-			}
-			this.lastMotionInfluence.setAngularMotion(0);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public synchronized void moveForward(float cells) {
-		if (cells > 0) {
-			fireInfluenceReception();
-			Vector2f head = getHeadingVector();
-			float x = head.getX() * cells;
-			float y = head.getY() * cells;
-			if (this.lastMotionInfluence == null) {
-				this.lastMotionInfluence = new MotionInfluence(this, new Vector2f(x, y));
-			} else {
-				this.lastMotionInfluence.setLinearMotion(x, y);
-			}
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
 	public synchronized void setHeading(float radians) {
 		fireInfluenceReception();
 		float v = radians - this.heading;
@@ -409,20 +371,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public synchronized void turnLeft(float radians) {
-		fireInfluenceReception();
-		if (this.lastMotionInfluence == null) {
-			this.lastMotionInfluence = new MotionInfluence(this, -radians);
-		} else {
-			this.lastMotionInfluence.setAngularMotion(-radians);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
+	/*@Override
 	public synchronized void turnRight(float radians) {
 		fireInfluenceReception();
 		if (this.lastMotionInfluence == null) {
@@ -430,7 +379,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 		} else {
 			this.lastMotionInfluence.setAngularMotion(radians);
 		}
-	}
+	}*/
 
 	/**
 	 * {@inheritDoc}
@@ -570,7 +519,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 */
 	@Override
 	public synchronized float getX() {
-		return this.x;
+		return this.getX();
 	}
 
 	/**
@@ -578,7 +527,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 */
 	@Override
 	public synchronized float getY() {
-		return this.y;
+		return this.getY();
 	}
 
 	/**
