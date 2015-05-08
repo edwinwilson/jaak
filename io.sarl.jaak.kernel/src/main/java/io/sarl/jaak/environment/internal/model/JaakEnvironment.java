@@ -662,8 +662,8 @@ public class JaakEnvironment implements EnvironmentArea {
 			Point2f position = null;
 
 			if (desiredPosition == null) {
-				position = getFreeRandomPosition();
-			} else if (isFree(desiredPosition.x(), desiredPosition.y())) {
+				position = getRandomPosition();
+			} else {
 				position = desiredPosition;
 			}
 
@@ -681,10 +681,9 @@ public class JaakEnvironment implements EnvironmentArea {
 			
 			FixtureDef ballFixture = new FixtureDef();
 			ballFixture.shape = ballShape;
-			ballFixture.density = 10;
+			ballFixture.density = 1;
 			ballFixture.friction = 0.4f;
 			
-			ballBodydef.position.set(105, 20);
 			Body ballBody = this.getWorld().createBody(ballBodydef);
 			ballBody.createFixture(ballFixture);
 			ballBody.setUserData(turtleId);
@@ -693,6 +692,11 @@ public class JaakEnvironment implements EnvironmentArea {
 			if (JaakEnvironment.this.addBody(body, position)) {
 				return body;
 			}
+			return null;
+		}
+
+		private Point2f getRandomPosition() {
+			// TODO Auto-generated method stub
 			return null;
 		}
 
