@@ -326,13 +326,4 @@ public interface TurtleBodyFactory {
 			Serializable semantic,
 			TurtleFrustum frustum);
 
-	/** Replies if the cell at the given position is able to
-	 * receive the new turtle body.
-	 *
-	 * @param position - the position to test.
-	 * @return <code>true</code> if the new body could be put on the
-	 * cell, otherwise <code>false</code>.
-	 */
-	boolean isFreeCell(Point2f position);
-
 }
