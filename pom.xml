@@ -124,6 +124,12 @@
 				<scope>test</scope>
 				<version>1.10.8</version>
 			</dependency>
+			
+			<dependency>
+    				<groupId>org.jbox2d</groupId>
+    				<artifactId>jbox2d-library</artifactId>
+    				<version>LATEST</version>
+			</dependency>
 		</dependencies>
 
 	</dependencyManagement>
