@@ -20,6 +20,7 @@
 package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
+import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.Collections;
 import java.util.Iterator;
@@ -38,12 +39,13 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
  */
 public class PointTurtleFrustum implements TurtleFrustum {
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
-		return Collections.singleton(origin).iterator();
+	public Iterator<JaakObject> getPerceivedObjects(Point2f origin,
+			float direction, EnvironmentArea environment) {
+		// TODO Auto-generated method stub
+		return null;
 	}
+	
+	
 
 }

@@ -20,6 +20,7 @@
 package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
+import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.Iterator;
 
@@ -43,6 +44,6 @@ public interface TurtleFrustum {
 	 * @param environment is the environment in which the frustum should perceive.
 	 * @return the iterator on perceived cells' positions.
 	 */
-	Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment);
+	Iterator<JaakObject> getPerceivedObjects(Point2f origin, float direction, EnvironmentArea environment);
 
 }

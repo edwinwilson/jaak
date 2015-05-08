@@ -20,6 +20,7 @@
 package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
+import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.Iterator;
 
@@ -37,12 +38,12 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
  */
 public class SquareTurtleFrustum implements TurtleFrustum {
 
-	private final int side;
+	private final float side;
 
 	/**
 	 * @param side is the length of the square side
 	 */
-	public SquareTurtleFrustum(int side) {
+	public SquareTurtleFrustum(float side) {
 		this.side = side;
 	}
 
@@ -50,79 +51,15 @@ public class SquareTurtleFrustum implements TurtleFrustum {
 	 *
 	 * @return the side of the square.
 	 */
-	public int getSideLength() {
+	public float getSideLength() {
 		return this.side;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
-		return new PointIterator(origin);
-	}
-
-	/** This class defines a frustum for for a turtle which is
-	 * restricted to a square.
-	 *
-	 * @author $Author: sgalland$
-	 * @version $FullVersion$
-	 * @mavengroupid $GroupId$
-	 * @mavenartifactid $ArtifactId$
-	 */
-	private class PointIterator implements Iterator<Point2f> {
-
-		private final Point2f replied = new Point2f();
-		private final float sx;
-		private final float ex;
-		private final float ey;
-		private float x;
-		private float y;
-
-		/**
-		 * @param center
-		 */
-		public PointIterator(Point2f center) {
-			int s = getSideLength();
-			int ds = s / 2;
-			this.sx = center.x() - ds;
-			this.x = this.sx;
-			this.y = center.y() - ds;
-
-			this.ex = center.x() + ds;
-			this.ey = center.y() + ds;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean hasNext() {
-			return this.x <= this.ex && this.y <= this.ey;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Point2f next() {
-			this.replied.set(this.x, this.y);
-			++this.x;
-			if (this.x > this.ex) {
-				++this.y;
-				this.x = this.sx;
-			}
-			return this.replied;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void remove() {
-			//
-		}
-
+	public Iterator<JaakObject> getPerceivedObjects(Point2f origin,
+			float direction, EnvironmentArea environment) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

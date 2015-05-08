@@ -20,6 +20,7 @@
 package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
+import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.Iterator;
 
@@ -42,16 +43,8 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 	/**
 	 * @param radius is the radius of the perception frustum.
 	 */
-	public CircleTurtleFrustum(int radius) {
+	public CircleTurtleFrustum(float radius) {
 		this.radius = radius;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Iterator<Point2f> getPerceivedCells(Point2f origin, float direction, EnvironmentArea environment) {
-		return new PointIterator(origin);
 	}
 
 	/** Replies the perception radius.
@@ -62,96 +55,10 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 		return this.radius;
 	}
 
-	/** This class defines a frustum for for a turtle which is
-	 * restricted to a circle.
-	 *
-	 * @author $Author: sgalland$
-	 * @version $FullVersion$
-	 * @mavengroupid $GroupId$
-	 * @mavenartifactid $ArtifactId$
-	 */
-	private class PointIterator implements Iterator<Point2f> {
-
-		private final float cx;
-		private final float cy;
-		private final Point2f replied = new Point2f();
-		private final float sx;
-		private final float ex;
-		private final float ey;
-		private float x;
-		private float y;
-
-		/**
-		 * @param center
-		 */
-		public PointIterator(Point2f center) {
-			this.cx = center.x();
-			this.cy = center.y();
-
-			float r = getRadius();
-			this.sx = this.cx - r;
-			this.x = this.sx;
-			this.y = this.cy - r;
-
-			this.ex = this.cx + r;
-			this.ey = this.cy + r;
-
-			searchNext();
-		}
-
-		private void searchNext() {
-			float sr;
-			float dx;
-			float dy;
-
-			sr = getRadius();
-			sr = sr * sr;
-
-			while (this.x <= this.ex || this.y <= this.ey) {
-				dx = Math.abs(this.x - this.cx);
-				dy = Math.abs(this.y - this.cy);
-				if ((dx * dx + dy * dy) <= sr) {
-					return;
-				}
-				inc();
-			}
-		}
-
-		private void inc() {
-			++this.x;
-			if (this.x > this.ex) {
-				++this.y;
-				this.x = this.sx;
-			}
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public boolean hasNext() {
-			return this.x <= this.ex || this.y <= this.ey;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public Point2f next() {
-			this.replied.set(this.x, this.y);
-			inc();
-			searchNext();
-			return this.replied;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public void remove() {
-			//
-		}
-
+	@Override
+	public Iterator<JaakObject> getPerceivedObjects(Point2f origin,
+			float direction, EnvironmentArea environment) {
+		// TODO Auto-generated method stub
+		return null;
 	}
-
 }
