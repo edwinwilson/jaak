@@ -63,7 +63,7 @@ public abstract class JaakPointSpawner extends JaakSpawner {
 	 */
 	@Override
 	public Shape2f toShape() {
-		return new Rectangle2f(this.position.x(), this.position.y(), 1, 1);
+		return new Rectangle2f(this.position.getX(), this.position.getY(), 1, 1);
 	}
 
 }

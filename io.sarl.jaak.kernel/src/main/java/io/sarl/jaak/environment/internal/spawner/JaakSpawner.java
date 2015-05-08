@@ -151,33 +151,6 @@ public abstract class JaakSpawner implements BodySpawner {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public boolean isFreeCell(Point2f position) {
-			return this.factory.isFreeCell(position);
-		}
-
-		/** Compute a free position.
-		 *
-		 * @param desiredPosition is the desired position given by the factory invoker.
-		 * @return a free position
-		 */
-		public Point2f computeValidPosition(Point2f desiredPosition) {
-			Point2f dp = desiredPosition;
-			Point2f p;
-			for (int i = 0; i < FREE_POSITION_COMPUTATION_RETRIES; ++i) {
-				p = computeCurrentSpawningPosition(dp);
-				assert (p != null);
-				if (isFreeCell(p)) {
-					return p;
-				}
-				dp = null;
-			}
-			return null;
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Point2f desiredPosition, float desiredAngle, Serializable semantic) {
 			Point2f p = computeValidPosition(desiredPosition);
