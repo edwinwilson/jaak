@@ -55,33 +55,6 @@ public interface TurtleBody extends TurtleObject {
 	 */
 	void move(Vector2f direction, boolean changeHeading);
 
-	/** Move the turtle straight ahead about the given number
-	 * of cells.
-	 *
-	 * @param cells is the count of cells to traverse.
-	 */
-	void moveForward(float cells);
-
-	/** Move the turtle backward about the given number
-	 * of cells.
-	 *
-	 * @param cells is the count of cells to traverse.
-	 */
-	void moveBackward(float cells);
-
-	/** Turn the head on the left of the turtle about the given
-	 * number of radians.
-	 *
-	 * @param radians is the rotation angle.
-	 */
-	void turnLeft(float radians);
-
-	/** Turn the head on the right of the turtle about the given
-	 * number of radians.
-	 *
-	 * @param radians is the rotation angle.
-	 */
-	void turnRight(float radians);
 
 	/** Set the orientation of the turtle head
 	 * to the given angle according to the trigonometric
@@ -157,7 +130,8 @@ public interface TurtleBody extends TurtleObject {
 	 */
 	void setSemantic(Serializable semantic);
 
-	/** Replies if this body has registered influences which are not
+	/** Replies if this 
+	 * body has registered influences which are not
 	 * yet consumed by the environment.
 	 *
 	 * @return <code>true</code> if the body has not-consumed influences,
