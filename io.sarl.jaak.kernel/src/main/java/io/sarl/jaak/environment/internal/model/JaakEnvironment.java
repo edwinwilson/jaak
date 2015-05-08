@@ -52,6 +52,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
+import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 
 /** This class defines the Jaak environment model.
  * <p>
@@ -273,8 +279,9 @@ public class JaakEnvironment implements EnvironmentArea {
 			if (this.grid.putTurtle(position.x(), position.y(), body)) {
 				this.bodies.put(body.getTurtleId(), body);
 				body.setPhysicalState(
-						position.x(), position.y(),
+						position.getX(), position.getY(),
 						body.getHeadingAngle(),
+						null,
 						0f);
 				return true;
 			}
@@ -646,11 +653,12 @@ public class JaakEnvironment implements EnvironmentArea {
 		/**
 		 * {@inheritDoc}
 		 */
-		/*@Override
+		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Point2f desiredPosition, float desiredAngle, Serializable semantic,
 				TurtleFrustum frustum) {
-			RealTurtleBody body = new RealTurtleBody(turtleId, frustum, desiredAngle, semantic);
+			float bodyRadius = 1;
+
 			Point2f position = null;
 
 			if (desiredPosition == null) {
@@ -662,12 +670,31 @@ public class JaakEnvironment implements EnvironmentArea {
 			if (position == null) {
 				return null;
 			}
-
+			//create and configure Jbox body
+			BodyDef ballBodydef = new BodyDef();
+			ballBodydef.type = BodyType.DYNAMIC;
+			ballBodydef.position = new Vec2(desiredPosition.getX(),desiredPosition.getY());
+			ballBodydef.angle = desiredAngle;
+			
+			CircleShape ballShape = new CircleShape();
+			ballShape.setRadius(bodyRadius);
+			
+			FixtureDef ballFixture = new FixtureDef();
+			ballFixture.shape = ballShape;
+			ballFixture.density = 10;
+			ballFixture.friction = 0.4f;
+			
+			ballBodydef.position.set(105, 20);
+			Body ballBody = this.getWorld().createBody(ballBodydef);
+			ballBody.createFixture(ballFixture);
+			ballBody.setUserData(turtleId);
+			
+			RealTurtleBody body = new RealTurtleBody(turtleId, frustum, semantic,ballBody);
 			if (JaakEnvironment.this.addBody(body, position)) {
 				return body;
 			}
 			return null;
-		}*/
+		}
 
 		/**
 		 * {@inheritDoc}
