@@ -19,8 +19,8 @@
  */
 package io.sarl.jaak.kernel.external;
 
-import io.sarl.jaak.environment.external.Perception;
 import io.sarl.jaak.environment.external.influence.Influence;
+import io.sarl.jaak.environment.external.perception.Perceivable;
 import io.sarl.lang.core.EventListener;
 import io.sarl.lang.core.Space;
 
@@ -61,7 +61,7 @@ public interface JaakPhysicSpace extends Space {
 	 *
 	 * @param perception - the event to give to the agent.
 	 */
-	void notifyPerception(Perception perception);
+	void notifyPerception(Perceivable perception);
 
 	/** Emit an influence for the given agent.
 	 *
