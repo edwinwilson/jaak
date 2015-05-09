@@ -50,16 +50,6 @@ class AgentBodyCreator implements JaakBodyCreator {
 		//
 	}
 
-	/** Check if the position is forced.
-	 *
-	 * @param environment - the environment.
-	 * @return <code>true</code> if the position if forced.
-	 */
-	public boolean isPositionForced(JaakEnvironment environment) {
-		Point2f p = new Point2f(this.parameters.x, this.parameters.y);
-		return (environment.isFree(p.x(), p.y()));
-	}
-
 	/** Change the creation parameters.
 	 *
 	 * @param creationEvent - the event used for creating.
@@ -77,7 +67,7 @@ class AgentBodyCreator implements JaakBodyCreator {
 			TurtleFrustum f = createFrustum();
 			if (f != null) {
 				return bodyFactory.createTurtleBody(turtleId,
-						new Point2i(this.parameters.x, this.parameters.y),
+						new Point2f(this.parameters.x, this.parameters.y),
 						f);
 			}
 		}

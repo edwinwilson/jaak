@@ -133,11 +133,6 @@ public interface TurtleObject extends JaakObject {
 	 */
 	TurtleFrustum getPerceptionFrustum();
 
-	/** Replies the instant speed of the turtle.
-	 *
-	 * @return the instant speed of the turtle in cells per second.
-	 */
-	float getSpeed();
 
 	/** Replies the status of the application of the last motion influence
 	 * sent by via this turtle body.

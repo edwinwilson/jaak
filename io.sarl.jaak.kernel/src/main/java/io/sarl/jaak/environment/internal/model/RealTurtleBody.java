@@ -45,6 +45,11 @@ import org.arakhne.afc.math.MathUtil;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 
 /** This class defines an implementation of turtle body.
  *
@@ -59,6 +64,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 
 	private final UUID turtle;
 	private final transient TurtleFrustum frustum;
+	private Body jboxBody;
 	private Serializable semantic;
 	private Collection<EnvironmentalObject> perceivedObjects;
 	private Collection<PerceivedTurtle> perceivedBodies;
@@ -66,11 +72,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	private transient MotionInfluence lastMotionInfluence;
 	private MotionInfluenceStatus lastMotionInfluenceStatus;
 	private transient List<Influence> otherInfluences;
-	private float x;
-	private float y;
-	private float heading;
 	private Vector2f headingVector;
-	private float speed;
 	private boolean isPerceptionEnable = true;
 
 	/**
@@ -83,13 +85,13 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	RealTurtleBody(
 			UUID turtle,
 			TurtleFrustum frustum,
-			float headingAngle,
-			Serializable semantic) {
+			Serializable semantic,
+			Body jboxBody) {
 		assert (turtle != null);
 		this.turtle = turtle;
 		this.frustum = frustum;
 		this.semantic = semantic;
-		this.heading = headingAngle;
+		this.jboxBody = jboxBody;
 	}
 
 	private void fireInfluenceReception() {
@@ -152,12 +154,12 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * @param heading is the orientation of the turtle body head.
 	 * @param speed is the speed of the body in cells per second.
 	 */
-	synchronized void setPhysicalState(float x2, float y2, float heading, float speed) {
-		this.x = x2;
-		this.y = y2;
-		this.heading = MathUtil.clampRadian(heading);
+	synchronized void setPhysicalState(float x, float y, float heading, float speed,Vector2f linearVelocity, float angularVelocity) {
+		this.getJboxBody().setTransform(new Vec2(x,y), MathUtil.clampRadian(heading));
+		if(linearVelocity!=null)
+			this.getJboxBody().setLinearVelocity(new Vec2(linearVelocity.x(),linearVelocity.y()));
+		this.getJboxBody().setAngularVelocity(angularVelocity);
 		this.headingVector = null;
-		this.speed = speed;
 	}
 
 	/** Replies the last motion influence stored by the body and remove it
@@ -351,7 +353,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	@Override
 	public synchronized void setHeading(float radians) {
 		fireInfluenceReception();
-		float v = radians - this.heading;
+		float v = radians - this.jboxBody.getAngle();
 		if (this.lastMotionInfluence == null) {
 			this.lastMotionInfluence = new MotionInfluence(this, v);
 		} else {
@@ -386,7 +388,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 */
 	@Override
 	public synchronized float getHeadingAngle() {
-		return this.heading;
+		return this.jboxBody.getAngle();
 	}
 
 	/**
@@ -395,7 +397,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	@Override
 	public synchronized Vector2f getHeadingVector() {
 		if (this.headingVector == null) {
-			this.headingVector = Vector2f.toOrientationVector(this.heading);
+			this.headingVector = Vector2f.toOrientationVector(this.jboxBody.getAngle());
 		}
 		return this.headingVector;
 	}
@@ -511,7 +513,7 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 */
 	@Override
 	public synchronized Point2f getPosition() {
-		return new Point2f(this.x, this.y);
+		return new Point2f(this.getX(), this.getY());
 	}
 
 	/**
@@ -593,13 +595,13 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	public UUID getTurtleId() {
 		return this.turtle;
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public float getSpeed() {
-		return this.speed;
+	
+	public Vector2f getLinearVelocity(){
+		return new Vector2f(this.jboxBody.getLinearVelocity().x,this.jboxBody.getLinearVelocity().y);
+	}
+	
+	public float getAngularVelocity(){
+		return this.jboxBody.getAngularVelocity();
 	}
 
 	/**
@@ -616,6 +618,14 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	@Override
 	public boolean isPerceptionEnable() {
 		return this.isPerceptionEnable;
+	}
+	
+	public Body getJboxBody() {
+		return jboxBody;
+	}
+
+	public void setJboxBody(Body jboxBody) {
+		this.jboxBody = jboxBody;
 	}
 
 	/**
