@@ -22,6 +22,7 @@ package io.sarl.jaak.environment.internal.endogenousengine;
 
 import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.time.TimeManager;
+import io.sarl.jaak.environment.internal.ContinuousModel;
 
 import java.util.Collection;
 

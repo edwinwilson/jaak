@@ -147,14 +147,14 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	/** Update the physical attribute of the body, ie. its position and
 	 * its orientation.
 	 *
-	 * @param x is the new position of the turtle body.
-	 * @param y is the new position of the turtle body.
+	 * @param x2 is the new position of the turtle body.
+	 * @param y2 is the new position of the turtle body.
 	 * @param heading is the orientation of the turtle body head.
 	 * @param speed is the speed of the body in cells per second.
 	 */
-	synchronized void setPhysicalState(int x, int y, float heading, float speed) {
-		this.x = x;
-		this.y = y;
+	synchronized void setPhysicalState(float x2, float y2, float heading, float speed) {
+		this.x = x2;
+		this.y = y2;
 		this.heading = MathUtil.clampRadian(heading);
 		this.headingVector = null;
 		this.speed = speed;

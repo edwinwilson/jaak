@@ -22,7 +22,7 @@ package io.sarl.jaak.environment.internal.solver;
 import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 
-import java.util.Collection;
+import java.util.UUID;
 
 /** This interface defines the methods which are used
  * to apply actions in a Jaak environment.
@@ -36,9 +36,9 @@ public interface ActionApplier {
 
 	boolean putTurtle(float x, float y, TurtleBody emitter);
 
-	boolean removeTurtle(TurtleBody emitter);
+	boolean removeTurtle(UUID emitter);
 
-	void setPhysicalState(float x, float y, float heading, float speed,
+	boolean setPhysicalState(float x, float y, float heading, float speed,
 			TurtleBody emitter);
 
 	EnvironmentalObject removeObject(EnvironmentalObject pickUpObject);

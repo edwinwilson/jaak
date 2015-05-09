@@ -26,23 +26,17 @@ import io.sarl.jaak.environment.external.frustum.SquareTurtleFrustum;
 import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
 import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
-import io.sarl.jaak.environment.external.perception.PerceivedTurtle;
-import io.sarl.jaak.environment.external.perception.StandardObjectManipulator;
 import io.sarl.jaak.environment.external.time.TimeManager;
-import io.sarl.jaak.environment.internal.ValidationResult;
+import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.endogenousengine.EnvironmentEndogenousEngine;
 import io.sarl.jaak.environment.internal.solver.ActionApplier;
 import io.sarl.jaak.environment.internal.solver.InfluenceSolver;
-import io.sarl.jaak.environment.internal.solver.PathBasedInfluenceSolver;
 import io.sarl.jaak.util.MultiCollection;
-import io.sarl.jaak.util.RandomNumber;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -50,8 +44,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.continous.object2d.Vector2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines the Jaak environment model.
  * <p>
@@ -76,11 +68,12 @@ public class JaakEnvironment implements EnvironmentArea {
 
 	/** Defines the default perception distance for turtles.
 	 */
-	public static final int DEFAULT_PERCEPTION_DISTANCE = 7;
+	public static final float DEFAULT_PERCEPTION_DISTANCE = 7;
 	
 	private final UUID id = UUID.randomUUID();
 	private final Map<UUID, RealTurtleBody> bodies = new TreeMap<>();
-	//TODO : replace grid by trees
+	private final Map<String, EnvironmentalObject> environmentalObjects = new TreeMap<>();
+	private JaakContinuousWorld model;
 	private TimeManager timeManager;
 	private final AtomicBoolean isWrapped = new AtomicBoolean(false);
 	private volatile EnvironmentEndogenousEngine endogenousEngine;
@@ -99,6 +92,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	 */
 	public JaakEnvironment(float width, float height, TimeManager timeManager) {
 		//this.grid = new JaakGrid(width, height, new StandardObjectManipulator());
+		this.model = new JaakContinuousWorld();
 		this.timeManager = timeManager;
 	}
 
@@ -174,12 +168,14 @@ public class JaakEnvironment implements EnvironmentArea {
 	 */
 	@Override
 	public float getWidth() {
+		return model.getWidth();
 	}
 
 	/** {@inheritDoc}
 	 */
 	@Override
 	public float getHeight() {
+		return model.getHeight();
 	}
 
 	/** Set the time manager for the environment.
@@ -196,6 +192,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return the action applier for this environment.
 	 */
 	public ActionApplier getActionApplier() {
+		return this.model;
 	}
 
 	/** Replies the unique identifier of this environment object.
@@ -266,11 +263,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * <code>false</code> otherwise.
 	 */
 	synchronized boolean addBody(RealTurtleBody body, Point2f position) {
-		//TODO: add in tree
 		assert (body != null);
 		assert (position != null);
 		if (!this.bodies.containsKey(body.getTurtleId())) {
-			if (this.grid.putTurtle(position.x(), position.y(), body)) {
+			if (this.model.putTurtle(position.x(), position.y(), body)) {
 				this.bodies.put(body.getTurtleId(), body);
 				body.setPhysicalState(
 						position.x(), position.y(),
@@ -288,12 +284,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @return the success state of the removal action.
 	 */
 	public synchronized boolean removeBodyFor(UUID turtle) {
-		//TODO: remove from tree
 		if (turtle != null) {
 			RealTurtleBody body = this.bodies.remove(turtle);
 			if (body != null) {
-				Point2f position = body.getPosition();
-				this.grid.removeTurtle(position.x(), position.y(), body);
+				this.model.removeTurtle(turtle);
 				return true;
 			}
 		}
@@ -342,11 +336,15 @@ public class JaakEnvironment implements EnvironmentArea {
 		firePreAgentScheduling();
 	}
 
+	private void computePerceptions() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/** Run the environment behaviour after all turtle executions.
 	 */
 	public synchronized void runPostTurtles() {
 		runEndogenousEngine();
-		solveConflicts();
 		firePostAgentScheduling();
 	}
 
@@ -363,7 +361,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		MultiCollection<Influence> endoInfluences = new MultiCollection<>();
 
 		this.lastSimulationTime = currentTime;
-		Collection<Influence> col = this.grid.runAutonomousProcesses(currentTime, simulationStepDuration);
+		Collection<Influence> col = this.model.runAutonomousProcesses(currentTime, simulationStepDuration);
 		if (col != null && !col.isEmpty()) {
 			endoInfluences.addCollection(col);
 		}
@@ -371,7 +369,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		// Run endogenous engine
 		EnvironmentEndogenousEngine engine = this.endogenousEngine;
 		if (engine != null) {
-			col = engine.computeInfluences(this.grid, this.timeManager);
+			col = engine.computeInfluences(this.model, this.timeManager);
 			if (col != null && !col.isEmpty()) {
 				endoInfluences.addCollection(col);
 			}
@@ -382,60 +380,6 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 	}
 
-	/*private void computePerceptions() {
-		Point2f position;
-		TurtleFrustum frustum;
-		TurtleBody turtleBody;
-		Iterator<Point2f> iterator;
-		List<PerceivedTurtle> bodies;
-		MultiCollection<EnvironmentalObject> objects;
-		int x;
-		int y;
-		for (RealTurtleBody body : this.bodies.values()) {
-			bodies = new ArrayList<>();
-			objects = new MultiCollection<>();
-			if (body.isPerceptionEnable()) {
-				frustum = body.getPerceptionFrustum();
-				if (frustum != null) {
-					iterator = frustum.getPerceivedCells(body.getPosition(), body.getHeadingAngle(), this);
-					if (iterator != null) {
-						while (iterator.hasNext()) {
-							position = iterator.next();
-							//TODO: adapt function to tree 
-							if (this.grid.validatePosition(isWrapped(), true, position) != ValidationResult.DISCARDED) {
-								x = position.x();
-								y = position.y();
-								turtleBody = this.grid.getTurtle(x, y);
-								if (turtleBody != null && turtleBody != body) {
-									bodies.add(new PerceivedTurtle(
-											turtleBody.getTurtleId(),
-											new Point2f(position),
-											turtleBody.getPosition(),
-											turtleBody.getSpeed(),
-											turtleBody.getHeadingAngle(),
-											turtleBody.getSemantic()));
-								}
-								objects.addCollection(this.grid.getObjects(x, y));
-							}
-						}
-					}
-				}
-			}
-			body.setPerceptions(bodies, objects);
-		}
-	}*/
-
-	private void solveConflicts() {
-		InfluenceSolver<RealTurtleBody> theSolver = this.solver;
-		if (theSolver == null) {
-			this.solver = new PathBasedInfluenceSolver();
-			theSolver = this.solver;
-			theSolver.setGridModel(this.grid);
-			theSolver.setTimeManager(this.timeManager);
-		}
-		theSolver.setWrapped(isWrapped());
-		theSolver.solve(this.endogenousInfluences, this.bodies.values(), getActionApplier());
-	}
 
 	/** This class defines an iterable object which is able to filter
 	 * its content.
@@ -755,5 +699,13 @@ public class JaakEnvironment implements EnvironmentArea {
 		void apply(T object);
 
 	} /* interface Lambda */
+
+	public EnvironmentalObject getEnvironmentalObject(UUID id) {
+		return this.environmentalObjects.get(id);
+	}
+
+	public EnvironmentalObject removeEnvironmentalObject(UUID id) {
+		return this.environmentalObjects.remove(id);
+	}
 
 }

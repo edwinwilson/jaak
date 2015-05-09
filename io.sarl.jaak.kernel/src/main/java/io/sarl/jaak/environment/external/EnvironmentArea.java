@@ -57,4 +57,6 @@ public interface EnvironmentArea {
 	 */
 	float getHeight();
 
+	int getTurtleCount();
+
 }
