@@ -52,6 +52,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
+import org.jbox2d.dynamics.World;
 
 /** This class defines the Jaak environment model.
  * <p>
@@ -91,7 +92,7 @@ public class JaakEnvironment implements EnvironmentArea {
 
 	private final LinkedList<JaakEnvironmentListener> listeners = new LinkedList<>();
 
-	private final RealTurtleBodyFactory factory = new RealTurtleBodyFactory();
+	private final RealTurtleBodyFactory factory ;
 
 	/**
 	 * @param width is the width of the world grid.
@@ -102,6 +103,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		//this.grid = new JaakGrid(width, height, new StandardObjectManipulator());
 		this.model = new JaakContinuousWorld();
 		this.timeManager = timeManager;
+		this.factory= new RealTurtleBodyFactory(model.getWorld());
 	}
 
 	/**
@@ -494,11 +496,13 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @mavenartifactid $ArtifactId$
 	 */
 	private class RealTurtleBodyFactory implements TurtleBodyFactory {
+		
+		World world;
 
 		/**
 		 */
-		public RealTurtleBodyFactory() {
-			//
+		public RealTurtleBodyFactory(World world) {
+			this.world = world;
 		}
 
 		private TurtleFrustum getDefaultFrustum() {
@@ -630,7 +634,7 @@ public class JaakEnvironment implements EnvironmentArea {
 			ballFixture.density = 1;
 			ballFixture.friction = 0.4f;
 			
-			Body ballBody = this.getWorld().createBody(ballBodydef);
+			Body ballBody = this.world.createBody(ballBodydef);
 			ballBody.createFixture(ballFixture);
 			ballBody.setUserData(turtleId);
 			
