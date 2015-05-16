@@ -53,6 +53,10 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 		return this.width;
 	}
 
+	public World getWorld() {
+		return world;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
