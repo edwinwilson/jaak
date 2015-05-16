@@ -27,7 +27,6 @@ import io.sarl.jaak.environment.external.influence.MotionInfluence;
 import io.sarl.jaak.environment.external.influence.MotionInfluenceStatus;
 import io.sarl.jaak.environment.external.influence.PickUpInfluence;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
-import io.sarl.jaak.environment.external.perception.Perceivable;
 import io.sarl.jaak.environment.external.perception.PerceivedTurtle;
 import io.sarl.jaak.environment.external.perception.PickedObject;
 import io.sarl.jaak.util.MultiCollection;
@@ -50,6 +49,8 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
+
+import eurockeennes.environment.perception.Perceivable;
 
 /** This class defines an implementation of turtle body.
  *

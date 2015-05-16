@@ -24,7 +24,6 @@ import io.sarl.jaak.environment.external.body.TurtleBody;
 import java.io.Serializable;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a object which was picked up from the cell
  * according to a previous picking-up influence.

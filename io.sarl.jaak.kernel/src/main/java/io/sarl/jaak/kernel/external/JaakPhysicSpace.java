@@ -20,11 +20,12 @@
 package io.sarl.jaak.kernel.external;
 
 import io.sarl.jaak.environment.external.influence.Influence;
-import io.sarl.jaak.environment.external.perception.Perceivable;
 import io.sarl.lang.core.EventListener;
 import io.sarl.lang.core.Space;
 
 import java.util.UUID;
+
+import eurockeennes.environment.perception.Perceivable;
 
 /** Space that is representing the Jaak environment.
  *

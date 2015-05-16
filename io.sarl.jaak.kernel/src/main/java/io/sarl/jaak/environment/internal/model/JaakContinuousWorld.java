@@ -64,11 +64,6 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	}
 
 	@Override
-	public boolean putTurtle(float x, float y, TurtleBody emitter) {
-		// TODO check this method and turtle movement
-	}
-
-	@Override
 	public boolean removeTurtle(UUID turtleId) {
 
 		if (!this.bodies.containsKey(turtleId)) {
@@ -137,6 +132,12 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	public void putObject(float x, float y, EnvironmentalObject dropOffObject) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean putTurtle(float x, float y, TurtleBody emitter) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
