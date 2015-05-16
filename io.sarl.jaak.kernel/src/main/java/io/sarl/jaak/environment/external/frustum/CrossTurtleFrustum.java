@@ -20,6 +20,7 @@
 package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
+import io.sarl.jaak.environment.external.body.TurtleObject;
 import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.BitSet;
@@ -60,7 +61,7 @@ public class CrossTurtleFrustum implements TurtleFrustum {
 	}
 
 	@Override
-	public Iterator<JaakObject> getPerceivedObjects(Point2f origin,
+	public Iterator<JaakObject> getPerceivedObjects(TurtleObject perceiver,
 			float direction, EnvironmentArea environment) {
 		// TODO Auto-generated method stub
 		return null;
