@@ -19,7 +19,6 @@ public final class ShapeMapper {
 			PolygonShape poly = (PolygonShape)fixture.getShape();
 			//We only handle rectangle
 			if(poly.getVertexCount()==4){
-				//TODO: Make sure the right vertices are used.
 				res = new Rectangle2f(new Point2f(poly.getVertex(0).x,poly.getVertex(0).y),new Point2f(poly.getVertex(2).x,poly.getVertex(2).y));
 			}
 		}

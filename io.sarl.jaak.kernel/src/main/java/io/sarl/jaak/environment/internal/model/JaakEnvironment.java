@@ -374,10 +374,10 @@ public class JaakEnvironment implements EnvironmentArea {
 												.getPosition(), perceivedBody
 												.getPosition(),
 										(float) Math.sqrt(Math.pow(
-												perceivedBody.getForceVector()
+												perceivedBody.getHeadingVector()
 														.x(), 2)
 												+ Math.pow(perceivedBody
-														.getForceVector().y(),
+														.getHeadingVector().y(),
 														2)), perceivedBody
 												.getHeadingAngle(), perceivedBody.getSemantic()));
 							} else {

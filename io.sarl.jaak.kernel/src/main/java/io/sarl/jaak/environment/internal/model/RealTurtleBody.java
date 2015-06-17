@@ -645,10 +645,4 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 		return this.getLinearVelocity();
 	}
 
-	@Override
-	public Tuple2f<Point2D> getForceVector() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

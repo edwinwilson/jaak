@@ -156,6 +156,4 @@ public interface TurtleBody extends TurtleObject {
 	 */
 	boolean isPerceptionEnable();
 
-	Tuple2f<Point2D> getForceVector();
-
 }
