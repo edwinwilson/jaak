@@ -22,6 +22,7 @@ package io.sarl.jaak.environment.external.perception;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 
@@ -75,6 +76,18 @@ public abstract class Substance extends EnvironmentalObject {
 	@Override
 	public final boolean isSubstance() {
 		return true;
+	}
+
+	/** Replies an identifier for this object.
+	 * The identifier is unique for environmental objects
+	 * which are not a {@link Substance} and is common
+	 * to all instances of the same <code>Substance</code> class.
+	 *
+	 * @return the identifier of the environmental object.
+	 */
+	@Override
+	public UUID getEnvironmentalObjectIdentifier() {
+		return this.getId(); 
 	}
 
 	/**

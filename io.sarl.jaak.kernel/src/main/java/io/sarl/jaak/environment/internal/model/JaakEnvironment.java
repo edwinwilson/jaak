@@ -304,7 +304,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		assert (body != null);
 		assert (position != null);
 		if (!this.bodies.containsKey(body.getTurtleId())) {
-			if (this.model.putTurtle(position.x(), position.y(), body)) {
+			if (this.model.putTurtle(body)) {
 				this.bodies.put(body.getTurtleId(), body);
 				body.setPhysicalState(position.getX(), position.getY(),
 						body.getHeadingAngle(), 0f, new Vector2f());
@@ -430,10 +430,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	/**
 	 * Run the environment behaviour after all turtle executions.
 	 */
-	public synchronized void runPostTurtles() {
+	public synchronized void runPostTurtles() {	
+		runEndogenousEngine();
 		applyInfluences();
 		stepBox2d();
-		runEndogenousEngine();
 		firePostAgentScheduling();
 	}
 

@@ -41,7 +41,7 @@ public class StandardObjectManipulator implements ObjectManipulator {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void setPosition(EnvironmentalObject object, int x, int y) {
+	public void setPosition(EnvironmentalObject object, float x, float y) {
 		assert (object != null);
 		object.setPosition(x, y);
 	}

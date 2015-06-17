@@ -9,6 +9,7 @@ import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.perception.Burrow;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.ObjectManipulator;
+import io.sarl.jaak.environment.external.perception.Obstacle;
 import io.sarl.jaak.environment.external.perception.Substance;
 import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.solver.ActionApplier;
@@ -162,14 +163,42 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	}
 
 	@Override
-	public void putObject(float x, float y, EnvironmentalObject dropOffObject) {
-		// TODO Auto-generated method stub
+	public synchronized EnvironmentalObject putObject(float x, float y, EnvironmentalObject dropOffObject) {
+		/*assert (dropOffObject != null);
+		EnvironmentalObject change = null;
+		if (dropOffObject instanceof Substance) {
+			EnvironmentalObject currentObject = dropOffObject;
+			if (currentObject instanceof Substance) {
+				Substance newObject = (Substance) dropOffObject;
+				change = this.objectManipulator.combine((Substance) currentObject, newObject, true);
+				if (change != null) {
+					this.objectManipulator.setPosition(dropOffObject, x, y);
+				}
+				return change;
+			}
+		} else if (object instanceof Burrow) {
+			cell.createBurrow();
+		}
+
+
+		if (object instanceof Obstacle) {
+			cell.createObstacle((Obstacle) object);
+		} else {
+			cell.getEnvironmentObjects().put(id, object);
+		}
+		this.objectManipulator.setPosition(dropOffObject, x, y);
+		if (object instanceof AutonomousEndogenousProcess) {
+			this.autonomousProcesses.add((AutonomousEndogenousProcess) dropOffObject);
+		}
+		change = dropOffObject;
+		return change;*/
+		return null;
 	}
 
 	@Override
-	public boolean putTurtle(float x, float y, TurtleBody emitter) {
-		// TODO Auto-generated method stub
-		return false;
+	public synchronized boolean putTurtle(TurtleBody emitter) {
+		this.bodies.put(emitter.getTurtleId(), emitter.getBox());
+		return true;
 	}
 
 }
