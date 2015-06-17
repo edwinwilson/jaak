@@ -157,8 +157,7 @@ public class EnvironmentalObject extends AbstractPerceivable implements JaakObje
 
 	@Override
 	public Body getBox() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getBox();
 	}
 
 }
