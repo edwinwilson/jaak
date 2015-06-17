@@ -26,6 +26,7 @@ import io.sarl.jaak.environment.external.frustum.SquareTurtleFrustum;
 import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
 import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
+import io.sarl.jaak.environment.external.perception.PerceivedTurtle;
 import io.sarl.jaak.environment.external.time.TimeManager;
 import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.endogenousengine.EnvironmentEndogenousEngine;
@@ -34,9 +35,11 @@ import io.sarl.jaak.environment.internal.solver.InfluenceSolver;
 import io.sarl.jaak.util.MultiCollection;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -348,7 +351,49 @@ public class JaakEnvironment implements EnvironmentArea {
 	}
 
 	private void computePerceptions() {
-		// TODO Auto-generated method stub
+		UUID id;
+		TurtleBody perceivedBody;
+		EnvironmentalObject perceivedObject;
+		List<PerceivedTurtle> bodies;
+		List<EnvironmentalObject> objects;
+		TurtleFrustum frustum;
+		Iterator<UUID> iterator;
+		for (RealTurtleBody observerBody : this.bodies.values()) {
+			bodies = new ArrayList<>();
+			objects = new ArrayList<>();
+			if (observerBody.isPerceptionEnable()) {
+				frustum = observerBody.getPerceptionFrustum();
+				if (frustum != null) {
+					iterator = frustum.getPerceivedObjects(observerBody, lastSimulationTime, null);
+					if (iterator != null) {
+						while (iterator.hasNext()) {
+							id = iterator.next();
+							perceivedBody = this.getBodyFor(id);
+							if (perceivedBody != null) {
+								bodies.add(new PerceivedTurtle(
+										perceivedBody.getId(), observerBody
+												.getPosition(), perceivedBody
+												.getPosition(),
+										(float) Math.sqrt(Math.pow(
+												perceivedBody.getForceVector()
+														.x(), 2)
+												+ Math.pow(perceivedBody
+														.getForceVector().y(),
+														2)), perceivedBody
+												.getHeadingAngle(), null,
+										perceivedBody.getState()));
+							} else {
+								perceivedObject = this
+										.getEnvironmentalObject(id);
+								if (perceivedObject != null)
+									objects.add(perceivedObject);
+							}
+						}
+					}
+				}
+			}
+			observerBody.setPerceptions(bodies, objects);
+		}
 		
 	}
 

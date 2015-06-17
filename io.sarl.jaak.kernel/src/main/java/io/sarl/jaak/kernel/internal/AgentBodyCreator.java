@@ -21,6 +21,7 @@ package io.sarl.jaak.kernel.internal;
 
 import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.body.TurtleBodyFactory;
+import io.sarl.jaak.environment.external.frustum.CircleTurtleFrustum;
 import io.sarl.jaak.environment.external.frustum.PointTurtleFrustum;
 import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
 import io.sarl.jaak.environment.external.time.TimeManager;
@@ -88,7 +89,7 @@ class AgentBodyCreator implements JaakBodyCreator {
 				//
 			}
 		}
-		return new PointTurtleFrustum();
+		return new CircleTurtleFrustum(15);
 	}
 
 }
