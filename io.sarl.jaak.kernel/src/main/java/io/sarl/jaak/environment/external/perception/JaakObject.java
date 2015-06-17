@@ -23,6 +23,7 @@ import java.io.Serializable;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
+import org.jbox2d.dynamics.Body;
 
 /** This class defines an object in the Jaak environment.
  *
@@ -44,5 +45,7 @@ public interface JaakObject {
 	 * @return the semantic associated to this object.
 	 */
 	Serializable getSemantic();
+	
+	Body getBox();
 
 }

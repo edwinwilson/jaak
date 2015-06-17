@@ -104,7 +104,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	 */
 	public JaakEnvironment(float width, float height, TimeManager timeManager) {
 		//this.grid = new JaakGrid(width, height, new StandardObjectManipulator());
-		this.model = new JaakContinuousWorld();
+		this.model = new JaakContinuousWorld(this);
 		this.timeManager = timeManager;
 		this.factory= new RealTurtleBodyFactory(model.getWorld());
 	}
@@ -400,8 +400,16 @@ public class JaakEnvironment implements EnvironmentArea {
 	/** Run the environment behaviour after all turtle executions.
 	 */
 	public synchronized void runPostTurtles() {
+		applyInfluence();
+		stepBox2d();
 		runEndogenousEngine();
 		firePostAgentScheduling();
+	}
+	private void applyInfluence(){
+		
+	}
+	private void stepBox2d(){
+		this.model.getWorld().step(this.timeManager.getLastStepDuration(), 6, 3);
 	}
 
 	private void runEndogenousEngine() {
