@@ -25,7 +25,6 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** Factory of bodies for turtles.
  *
