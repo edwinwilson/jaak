@@ -278,14 +278,14 @@ agent JaakKernelAgent {
 					var p = iterator.next
 					creator.set(p.value) 
 					iterator.remove
-					if (creator.isPositionForced(physicEnvironment)) {
+					//if (creator.isPositionForced(physicEnvironment)) {
 						defaultSpawner.spawnBodyFor(
 			            		  p.key,
 			            		  ID,
 			            		  factory,
 			            		  this.timeManager,
 			            		  creator)
-					} else {
+					 /* } else {
 						var spawner = this.spawners.get(
 							RandomNumber.nextInt(this.spawners.length)
 						)
@@ -300,7 +300,7 @@ agent JaakKernelAgent {
 			            	this.timeManager.lastStepDuration,
 			            	body),
 			            	Scopes::addresses(new Address(defaultSpace.ID, p.key)))
-					}
+					}*/
 				}
 			}
 		}
