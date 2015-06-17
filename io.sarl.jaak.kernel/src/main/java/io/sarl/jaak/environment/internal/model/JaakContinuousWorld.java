@@ -21,6 +21,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Vector2f;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.World;
 
@@ -44,6 +45,13 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	private ObjectManipulator objectManipulator;
 	private WeakReference<JaakEnvironment> environmentRef;
 	private final Collection<AutonomousEndogenousProcess> autonomousProcesses = new LinkedList<>();
+	
+	public JaakContinuousWorld(JaakEnvironment env){
+		Vec2 gravity = new Vec2(0,1);
+		boolean doSleep = true;
+		world = new World(gravity);
+		this.environmentRef = new WeakReference<JaakEnvironment>(env);
+	}
 
 	/*
 	 * (non-Javadoc)
