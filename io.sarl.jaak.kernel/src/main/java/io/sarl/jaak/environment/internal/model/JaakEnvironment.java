@@ -432,10 +432,10 @@ public class JaakEnvironment implements EnvironmentArea {
 	/**
 	 * Run the environment behaviour after all turtle executions.
 	 */
-	public synchronized void runPostTurtles() {
+	public synchronized void runPostTurtles() {	
+		runEndogenousEngine();
 		applyInfluences();
 		stepBox2d();
-		runEndogenousEngine();
 		firePostAgentScheduling();
 	}
 
