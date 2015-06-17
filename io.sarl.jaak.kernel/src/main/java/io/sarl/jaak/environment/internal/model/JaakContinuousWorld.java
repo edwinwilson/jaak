@@ -38,7 +38,7 @@ import org.jbox2d.dynamics.World;
 public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 
 	private final Map<UUID, Body> bodies = new TreeMap<>();
-	private final Map<String,Body> environmentObjectBodies = new TreeMap<>();
+	private final Map<UUID,Body> environmentObjectBodies = new TreeMap<>();
 	private World world;
 	private float width;
 	private float height;
@@ -156,8 +156,10 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	}
 
 	private void deleteBurrow(UUID id) {
-		// TODO Auto-generated method stub
-		
+		Body body = environmentObjectBodies.get(id);
+		world.destroyBody(body);
+		environmentObjectBodies.remove(id);
+		environmentRef.get().removeEnvironmentalObject(id);
 	}
 
 	@Override

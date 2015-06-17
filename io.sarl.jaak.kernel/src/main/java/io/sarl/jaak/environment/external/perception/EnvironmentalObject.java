@@ -55,12 +55,16 @@ public class EnvironmentalObject extends AbstractPerceivable implements JaakObje
 	 *
 	 * @return the identifier of the environmental object.
 	 */
-	public String getEnvironmentalObjectIdentifier() {
+	/*public String getEnvironmentalObjectIdentifier() {
 		StringBuffer buf = new StringBuffer();
 		buf.append(getClass().getCanonicalName());
 		buf.append("-o-o-o-"); //$NON-NLS-1$
 		buf.append(Integer.toHexString(System.identityHashCode(this)));
 		return buf.toString();
+	}*/
+	
+	public UUID getEnvironmentalObjectIdentifier() {
+		return this.objectId;
 	}
 
 	/** Set the position of this object.

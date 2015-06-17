@@ -83,7 +83,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	
 	private final UUID id = UUID.randomUUID();
 	private final Map<UUID, RealTurtleBody> bodies = new TreeMap<>();
-	private final Map<String, EnvironmentalObject> environmentalObjects = new TreeMap<>();
+	private final Map<UUID, EnvironmentalObject> environmentalObjects = new TreeMap<>();
 	private JaakContinuousWorld model;
 	private TimeManager timeManager;
 	private final AtomicBoolean isWrapped = new AtomicBoolean(false);
