@@ -40,7 +40,7 @@ public interface ActionApplier {
 
 	boolean removeTurtle(UUID emitter);
 
-	boolean setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity, float angularVelocity, TurtleBody emitter);
+	boolean setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity, TurtleBody emitter);
 
 	EnvironmentalObject removeObject(EnvironmentalObject pickUpObject);
 

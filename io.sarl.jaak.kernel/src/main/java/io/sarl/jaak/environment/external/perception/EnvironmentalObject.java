@@ -25,6 +25,8 @@ import io.sarl.jaak.environment.external.influence.Influence;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.jbox2d.dynamics.Body;
+
 /** This class defines a situated object inside the Jaak environment
  * which is not an agent.
  *
@@ -151,6 +153,12 @@ public class EnvironmentalObject extends AbstractPerceivable implements JaakObje
 
 	public UUID getId() {
 		return this.objectId;
+	}
+
+	@Override
+	public Body getBox() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

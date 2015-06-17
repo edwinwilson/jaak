@@ -40,6 +40,7 @@ import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.continous.object2d.Vector2f;
 
 /** This class defines the methods of a solver of
  * influence conflicts.
@@ -148,6 +149,10 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 
 			float dx = newPosition.getX() - position.getX();
 			float dy = newPosition.getY() - position.getY();
+			
+			Vector2f linearMotion = mi.getLinearMotion();
+			
+			
 
 			if (dx != 0 || dy != 0) {
 
@@ -186,12 +191,14 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 						newPosition.getX(), newPosition.getY(),
 						heading,
 						speed,
+						linearMotion,
 						emitter);
 			} else {
 				actionApplier.setPhysicalState(
 						position.getX(), position.getY(),
 						heading,
 						0f,
+						linearMotion,
 						emitter);
 				mis = MotionInfluenceStatus.NO_MOTION;
 			}

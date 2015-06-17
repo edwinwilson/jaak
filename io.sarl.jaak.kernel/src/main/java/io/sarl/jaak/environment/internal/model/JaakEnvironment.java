@@ -28,7 +28,6 @@ import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.PerceivedTurtle;
 import io.sarl.jaak.environment.external.time.TimeManager;
-import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.endogenousengine.EnvironmentEndogenousEngine;
 import io.sarl.jaak.environment.internal.solver.ActionApplier;
 import io.sarl.jaak.environment.internal.solver.Box2DInfluenceSolver;
@@ -49,7 +48,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -286,8 +284,7 @@ public class JaakEnvironment implements EnvironmentArea {
 						position.getX(), position.getY(),
 						body.getHeadingAngle(),
 						0f,
-						new Vector2f(),
-						0f);
+						new Vector2f());
 				return true;
 			}
 		}

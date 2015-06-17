@@ -89,9 +89,9 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	}
 
 	@Override
-	public boolean setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity, float angularVelocity, TurtleBody emitter) {
+	public boolean setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity, TurtleBody emitter) {
 		if (emitter instanceof RealTurtleBody) {
-			((RealTurtleBody) emitter).setPhysicalState(x, y, heading, speed, linearVelocity, angularVelocity);
+			((RealTurtleBody) emitter).setPhysicalState(x, y, heading, speed, linearVelocity);
 			return true;
 		}
 		return false;

@@ -153,11 +153,11 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * @param heading is the orientation of the turtle body head.
 	 * @param speed is the speed of the body in cells per second.
 	 */
-	synchronized void setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity, float angularVelocity) {
+	synchronized void setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity) {
 		this.getJboxBody().setTransform(new Vec2(x,y), MathUtil.clampRadian(heading));
 		if(linearVelocity!=null)
 			this.getJboxBody().setLinearVelocity(new Vec2(linearVelocity.x(),linearVelocity.y()));
-		this.getJboxBody().setAngularVelocity(angularVelocity);
+		this.getJboxBody().setAngularVelocity(heading);
 		this.headingVector = null;
 	}
 
