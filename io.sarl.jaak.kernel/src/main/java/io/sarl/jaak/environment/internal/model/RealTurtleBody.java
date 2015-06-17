@@ -154,10 +154,10 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	 * @param speed is the speed of the body in cells per second.
 	 */
 	synchronized void setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity) {
-		this.getJboxBody().setTransform(new Vec2(x,y), MathUtil.clampRadian(heading));
+		this.getBox().setTransform(new Vec2(x,y), MathUtil.clampRadian(heading));
 		if(linearVelocity!=null)
-			this.getJboxBody().setLinearVelocity(new Vec2(linearVelocity.x(),linearVelocity.y()));
-		this.getJboxBody().setAngularVelocity(heading);
+			this.getBox().setLinearVelocity(new Vec2(linearVelocity.x(),linearVelocity.y()));
+		this.getBox().setAngularVelocity(heading);
 		this.headingVector = null;
 	}
 
@@ -617,10 +617,6 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	@Override
 	public boolean isPerceptionEnable() {
 		return this.isPerceptionEnable;
-	}
-	
-	public Body getJboxBody() {
-		return jboxBody;
 	}
 
 	public void setJboxBody(Body jboxBody) {

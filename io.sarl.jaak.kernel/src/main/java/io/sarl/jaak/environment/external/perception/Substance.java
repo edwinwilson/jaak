@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class defines a situated object which has specifical
  * physical properties.
@@ -76,18 +75,6 @@ public abstract class Substance extends EnvironmentalObject {
 	@Override
 	public final boolean isSubstance() {
 		return true;
-	}
-
-	/** Replies an identifier for this object.
-	 * The identifier is unique for environmental objects
-	 * which are not a {@link Substance} and is common
-	 * to all instances of the same <code>Substance</code> class.
-	 *
-	 * @return the identifier of the environmental object.
-	 */
-	@Override
-	public String getEnvironmentalObjectIdentifier() {
-		return getClass().getCanonicalName() + "-o-o-o-*"; //$NON-NLS-1$
 	}
 
 	/**

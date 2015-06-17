@@ -20,6 +20,7 @@
 package io.sarl.jaak.environment.external.body;
 
 import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
+import io.sarl.jaak.environment.internal.model.JaakEnvironment;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -324,5 +325,7 @@ public interface TurtleBodyFactory {
 			Point2f desiredPosition,
 			Serializable semantic,
 			TurtleFrustum frustum);
+
+	JaakEnvironment getEnvironment();
 
 }
