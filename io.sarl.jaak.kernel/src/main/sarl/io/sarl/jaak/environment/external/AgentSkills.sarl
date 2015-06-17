@@ -156,7 +156,7 @@ skill PhysicBodySkill implements PhysicBody {
 		binder.body.semantic
 	}
 
-	def getSpeed : float {
+	def getSpeed : Vector2f {
 		binder.body.speed
 	}
 	

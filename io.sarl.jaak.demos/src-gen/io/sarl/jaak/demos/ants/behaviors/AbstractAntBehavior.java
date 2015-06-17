@@ -182,7 +182,7 @@ public class AbstractAntBehavior extends Behavior {
    */
   @Generated
   @ImportedCapacityFeature(PhysicBody.class)
-  protected float getSpeed() {
+  protected Vector2f getSpeed() {
     return getSkill(io.sarl.jaak.environment.external.PhysicBody.class).getSpeed();
   }
   
