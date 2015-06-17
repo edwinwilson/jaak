@@ -190,9 +190,9 @@ public interface PhysicBody extends Capacity {
   public abstract Serializable getSemantic();
   
   /**
-   * Replies the instant speed of the turtle.
+   * Replies the linear velocity of the turtle.
    * 
-   * @return the instant speed of the turtle in cells per second.
+   * @return the linear velocity of the turtle.
    */
-  public abstract float getSpeed();
+  public abstract Vector2f getSpeed();
 }

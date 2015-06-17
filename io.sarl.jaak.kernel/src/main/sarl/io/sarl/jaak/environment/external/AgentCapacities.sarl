@@ -163,10 +163,10 @@ capacity PhysicBody {
 	 */
 	def getSemantic : Serializable
 
-	/** Replies the instant speed of the turtle.
+	/** Replies the linear velocity of the turtle.
 	 * 
-	 * @return the instant speed of the turtle in cells per second.
+	 * @return the linear velocity of the turtle.
 	 */
-	def getSpeed : float
+	def getSpeed : Vector2f
 	
 }

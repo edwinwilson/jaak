@@ -133,15 +133,17 @@ public interface TurtleObject extends JaakObject {
 	 * this body is not able to perceive.
 	 */
 	TurtleFrustum getPerceptionFrustum();
-
+	
 
 	/** Replies the status of the application of the last motion influence
 	 * sent by via this turtle body.
 	 *
 	 * @return the application status of the last motion influence.
 	 */
-	MotionInfluenceStatus getLastMotionInfluenceStatus();
+	MotionInfluenceStatus getLastMotionInfluenceStatus();	
 	
 	Body getBox();
+	
+	Vector2f getSpeed();
 
 }
