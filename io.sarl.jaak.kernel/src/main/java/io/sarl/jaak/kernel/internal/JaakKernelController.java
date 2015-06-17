@@ -19,6 +19,8 @@
  */
 package io.sarl.jaak.kernel.internal;
 
+import io.sarl.jaak.environment.external.SimulationStarted;
+import io.sarl.jaak.environment.external.SimulationStopped;
 import io.sarl.jaak.environment.external.time.TimeManager;
 import io.sarl.jaak.kernel.external.JaakController;
 import io.sarl.lang.core.Address;

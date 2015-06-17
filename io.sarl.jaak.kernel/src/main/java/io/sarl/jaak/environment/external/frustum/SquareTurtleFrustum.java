@@ -20,12 +20,21 @@
 package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
+import io.sarl.jaak.environment.external.body.TurtleObject;
 import io.sarl.jaak.environment.external.perception.JaakObject;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
+import org.jbox2d.callbacks.QueryCallback;
+import org.jbox2d.collision.AABB;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.Fixture;
 
 /** This class defines a frustum for for a turtle which is
  * restricted to a square.
@@ -38,28 +47,43 @@ import org.arakhne.afc.math.discrete.object2d.Point2i;
  */
 public class SquareTurtleFrustum implements TurtleFrustum {
 
-	private final float side;
+	private final float radius;
 
-	/**
-	 * @param side is the length of the square side
-	 */
+
 	public SquareTurtleFrustum(float side) {
-		this.side = side;
+		this.radius = side;
 	}
 
 	/** Replies the side of the square.
 	 *
 	 * @return the side of the square.
 	 */
-	public float getSideLength() {
-		return this.side;
+	public float getRadiusLength() {
+		return this.radius;
 	}
 
 	@Override
-	public Iterator<JaakObject> getPerceivedObjects(Point2f origin,
+	public Iterator<UUID> getPerceivedObjects(TurtleObject perceiver,
 			float direction, EnvironmentArea environment) {
-		// TODO Auto-generated method stub
-		return null;
+		//return new PerceivableIterator(perceiver);
+		final List<UUID> nearBodies = new ArrayList<UUID>();
+		//Get the bodies near the perceiver.
+		Vec2 topLeft = new Vec2(perceiver.getPosition().x()-radius,perceiver.getPosition().y()-radius);
+		Vec2 bottomRight = new Vec2(perceiver.getPosition().x()+radius,perceiver.getPosition().y()+radius);
+		QueryCallback queryCallback = new QueryCallback() {
+
+            @Override
+            public boolean reportFixture(Fixture fixture) {
+                Body body = fixture.getBody();
+                if(body.getUserData() instanceof UUID){
+                	nearBodies.add((UUID)(body.getUserData()));
+                }  
+                return true;
+            }
+
+        };
+		perceiver.getBox().getWorld().queryAABB(queryCallback, new AABB(topLeft,bottomRight));
+		return nearBodies.iterator();
 	}
 
 }

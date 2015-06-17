@@ -30,6 +30,7 @@ import java.util.Collection;
 import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Vector2f;
+import org.jbox2d.dynamics.Body;
 
 /** This interface defines a body for a turtle.
  *
@@ -140,5 +141,7 @@ public interface TurtleObject extends JaakObject {
 	 * @return the application status of the last motion influence.
 	 */
 	MotionInfluenceStatus getLastMotionInfluenceStatus();
+	
+	Body getBox();
 
 }
