@@ -1,14 +1,10 @@
 package io.sarl.jaak.util;
 
-import javafx.util.Pair;
-
 import org.arakhne.afc.math.continous.object2d.Circle2f;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Rectangle2f;
 import org.arakhne.afc.math.continous.object2d.Shape2f;
-import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.collision.shapes.ShapeType;
 import org.jbox2d.dynamics.Fixture;
 
@@ -29,18 +25,4 @@ public final class ShapeMapper {
 		}
 		return res;
 	}
-	
-	public static Pair<Point2f,Shape> getJboxShapeFromShape(Shape2f shape){
-		Shape resShape = null;
-		Point2f resPos=null;
-		Pair<Point2f,Shape> res =null;
-		if(shape instanceof Circle2f){
-			resShape = new CircleShape();
-			resShape.setRadius(((Circle2f) shape).getRadius());
-			resPos = new Point2f(((Circle2f) shape).getX(),((Circle2f) shape).getY());
-			res = new Pair<Point2f,Shape>(resPos,resShape);
-		}
-		return res;
-	}
-
 }

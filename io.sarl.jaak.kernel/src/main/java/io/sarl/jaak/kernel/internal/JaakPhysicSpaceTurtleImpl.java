@@ -22,7 +22,6 @@ package io.sarl.jaak.kernel.internal;
 import io.janusproject.services.distributeddata.DistributedDataStructureService;
 import io.sarl.jaak.environment.external.Perception;
 import io.sarl.jaak.environment.external.influence.Influence;
-import io.sarl.jaak.environment.external.perception.Perceivable;
 import io.sarl.lang.core.Event;
 import io.sarl.lang.core.EventListener;
 import io.sarl.lang.core.Scope;
@@ -84,9 +83,7 @@ class JaakPhysicSpaceTurtleImpl extends AbstractJaakPhysicSpace {
 	}
 
 	@Override
-	public void notifyPerception(Perceivable perception) {
+	public void notifyPerception(Perception perception) {
 		// TODO Auto-generated method stub
-		
 	}
-
 }

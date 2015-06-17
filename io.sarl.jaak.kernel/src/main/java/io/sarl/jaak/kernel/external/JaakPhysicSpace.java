@@ -19,8 +19,8 @@
  */
 package io.sarl.jaak.kernel.external;
 
+import io.sarl.jaak.environment.external.Perception;
 import io.sarl.jaak.environment.external.influence.Influence;
-import io.sarl.jaak.environment.external.perception.Perceivable;
 import io.sarl.lang.core.EventListener;
 import io.sarl.lang.core.Space;
 
