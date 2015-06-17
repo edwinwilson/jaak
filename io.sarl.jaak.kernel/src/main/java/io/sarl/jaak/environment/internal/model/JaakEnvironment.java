@@ -599,7 +599,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	 */
 	private class RealTurtleBodyFactory implements TurtleBodyFactory {
 
-		World world;
+		private World world;
 
 		/**
 		 */
@@ -824,6 +824,11 @@ public class JaakEnvironment implements EnvironmentArea {
 					semantic, frustum);
 		}
 
+		@Override
+		public JaakEnvironment getEnvironment() {
+			return JaakEnvironment.this;
+		}
+
 	} /* class RealTurtleBodyFactory */
 
 	/**
@@ -858,5 +863,13 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 		return null;
 	}
+
+	/**
+	 * @return the bodies
+	 */
+	public Map<UUID, RealTurtleBody> getBodies() {
+		return bodies;
+	}
+
 
 }

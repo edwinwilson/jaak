@@ -24,11 +24,20 @@ import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.body.TurtleBodyFactory;
 import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
 import io.sarl.jaak.environment.external.time.TimeManager;
+import io.sarl.jaak.environment.internal.model.JaakEnvironment;
+import io.sarl.jaak.environment.internal.model.RealTurtleBody;
 
 import java.io.Serializable;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
 
 /** Provide implementation for a turtle spawner in Jaak environment.
  *
@@ -386,11 +395,65 @@ public abstract class JaakSpawner implements BodySpawner {
 					frustum);
 		}
 
-	}
+		public Point2f computeValidPosition(Point2f desiredPosition) {
+			if(desiredPosition == null){
+				return getRandomSpawningPosition();
+			}
+			if(canSpawnHere(desiredPosition)){
+				return desiredPosition;
+			}
+			else{
+				return getRandomSpawningPosition();
+			}
+		}
 
-	public Point2f computeValidPosition(Point2f desiredPosition) {
-		// TODO Auto-generated method stub
-		return null;
+		public Point2f getRandomSpawningPosition() {
+			Random r = new Random();
+			while (true) {
+				float x = r.nextFloat() * factory.getEnvironment().getWidth();
+				float y = r.nextFloat() * factory.getEnvironment().getHeight();
+				Point2f resultPoint = new Point2f(x, y);
+				if (spaceOccupiedByEnvironmentalObject(resultPoint)) {
+					return resultPoint;
+				}
+			}
+		}
+		
+		/**
+		 * Checks if the position indicated by a given point is contained in a
+		 * static object of the world.
+		 * 
+		 * @param pointToTest
+		 * @return
+		 */
+		public boolean spaceOccupiedByEnvironmentalObject(Point2f pointToTest) {
+			if(pointToTest == null){
+				return false;
+			}
+			Map<UUID, RealTurtleBody> bodyMap = factory.getEnvironment().getBodies();
+			Iterator<UUID> bodyMapIt = bodyMap.keySet().iterator();
+			while(bodyMapIt.hasNext()) {
+				Body body = bodyMap.get(bodyMapIt.next()).getBox();
+				if (body.getType() == BodyType.STATIC) {
+					Fixture f = body.getFixtureList();
+					if (f.testPoint(new Vec2(pointToTest.getX(), pointToTest.getY()))) {
+						return true;
+					}
+				}
+				body = body.getNext();
+			}
+			return false;
+		}
+
+		public boolean canSpawnHere(Point2f desiredSpawningPosition) {
+			return !spaceOccupiedByEnvironmentalObject(desiredSpawningPosition);
+		}
+
+		@Override
+		public JaakEnvironment getEnvironment() {
+			// returns null
+			return null;
+		}
 	}
 
 }
