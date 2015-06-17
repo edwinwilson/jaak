@@ -44,6 +44,6 @@ public interface ActionApplier {
 
 	EnvironmentalObject removeObject(EnvironmentalObject pickUpObject);
 
-	void putObject(float x, float y, EnvironmentalObject dropOffObject);
+	EnvironmentalObject putObject(float x, float y, EnvironmentalObject dropOffObject);
 
 }

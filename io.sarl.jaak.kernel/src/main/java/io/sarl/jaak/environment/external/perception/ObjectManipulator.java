@@ -34,7 +34,7 @@ public interface ObjectManipulator {
 	 * @param x is the position of the object.
 	 * @param y is the position of the object.
 	 */
-	void setPosition(EnvironmentalObject object, int x, int y);
+	void setPosition(EnvironmentalObject object, float x, float y);
 
 	/**
 	 * Combine the given substance s2 with the current substance.
