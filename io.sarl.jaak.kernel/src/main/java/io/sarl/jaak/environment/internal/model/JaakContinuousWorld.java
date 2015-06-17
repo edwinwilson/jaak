@@ -9,7 +9,6 @@ import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.perception.Burrow;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.ObjectManipulator;
-import io.sarl.jaak.environment.external.perception.Obstacle;
 import io.sarl.jaak.environment.external.perception.Substance;
 import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.solver.ActionApplier;
