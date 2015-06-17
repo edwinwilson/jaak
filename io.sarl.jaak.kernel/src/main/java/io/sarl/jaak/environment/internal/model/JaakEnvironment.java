@@ -31,6 +31,7 @@ import io.sarl.jaak.environment.external.time.TimeManager;
 import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.endogenousengine.EnvironmentEndogenousEngine;
 import io.sarl.jaak.environment.internal.solver.ActionApplier;
+import io.sarl.jaak.environment.internal.solver.Box2DInfluenceSolver;
 import io.sarl.jaak.environment.internal.solver.InfluenceSolver;
 import io.sarl.jaak.util.MultiCollection;
 
@@ -91,6 +92,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	private volatile EnvironmentEndogenousEngine endogenousEngine;
 	private volatile Collection<Influence> endogenousInfluences;
 	private volatile InfluenceSolver<RealTurtleBody> solver;
+	private Box2DInfluenceSolver boxSolver;
 	private float lastSimulationTime = Float.NaN;
 
 	private final LinkedList<JaakEnvironmentListener> listeners = new LinkedList<>();
@@ -400,13 +402,18 @@ public class JaakEnvironment implements EnvironmentArea {
 	/** Run the environment behaviour after all turtle executions.
 	 */
 	public synchronized void runPostTurtles() {
-		applyInfluence();
+		applyInfluences();
 		stepBox2d();
 		runEndogenousEngine();
 		firePostAgentScheduling();
 	}
-	private void applyInfluence(){
-		
+	private void applyInfluences(){
+		Box2DInfluenceSolver theSolver = this.boxSolver;
+		if (theSolver == null) {
+			this.boxSolver = new Box2DInfluenceSolver();
+			theSolver = this.boxSolver;
+		}
+		theSolver.solve(this.bodies.values());
 	}
 	private void stepBox2d(){
 		this.model.getWorld().step(this.timeManager.getLastStepDuration(), 6, 3);
