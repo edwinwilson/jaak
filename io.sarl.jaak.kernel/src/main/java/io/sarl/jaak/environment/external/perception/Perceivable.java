@@ -22,7 +22,6 @@ package io.sarl.jaak.environment.external.perception;
 import io.sarl.jaak.environment.external.body.TurtleBody;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This interface defines a situated object which is perceivable
  * inside the Jaak environment.
