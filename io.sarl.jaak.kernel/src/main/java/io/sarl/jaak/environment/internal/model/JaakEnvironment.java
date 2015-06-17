@@ -31,7 +31,6 @@ import io.sarl.jaak.environment.external.time.TimeManager;
 import io.sarl.jaak.environment.internal.endogenousengine.EnvironmentEndogenousEngine;
 import io.sarl.jaak.environment.internal.solver.ActionApplier;
 import io.sarl.jaak.environment.internal.solver.Box2DInfluenceSolver;
-import io.sarl.jaak.environment.internal.solver.InfluenceSolver;
 import io.sarl.jaak.util.MultiCollection;
 
 import java.io.Serializable;
@@ -90,7 +89,6 @@ public class JaakEnvironment implements EnvironmentArea {
 	private final AtomicBoolean isWrapped = new AtomicBoolean(false);
 	private volatile EnvironmentEndogenousEngine endogenousEngine;
 	private volatile Collection<Influence> endogenousInfluences;
-	private volatile InfluenceSolver<RealTurtleBody> solver;
 	private Box2DInfluenceSolver boxSolver;
 	private float lastSimulationTime = Float.NaN;
 
@@ -288,8 +286,8 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @param solver
 	 *            is the solver of influence conflicts to use.
 	 */
-	public void setInfluenceSolver(InfluenceSolver<RealTurtleBody> solver) {
-		this.solver = solver;
+	public void setInfluenceSolver(Box2DInfluenceSolver solver) {
+		this.boxSolver = solver;
 	}
 
 	/**

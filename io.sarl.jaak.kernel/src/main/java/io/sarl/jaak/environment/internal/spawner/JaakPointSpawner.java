@@ -22,9 +22,6 @@ package io.sarl.jaak.environment.internal.spawner;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Rectangle2f;
 import org.arakhne.afc.math.continous.object2d.Shape2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
-import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
-import org.arakhne.afc.math.discrete.object2d.Shape2i;
 
 /** Provide implementation for a turtle spawner on a point.
  *

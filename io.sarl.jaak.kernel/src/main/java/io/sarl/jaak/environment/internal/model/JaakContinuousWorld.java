@@ -48,7 +48,6 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	
 	public JaakContinuousWorld(JaakEnvironment env){
 		Vec2 gravity = new Vec2(0,1);
-		boolean doSleep = true;
 		world = new World(gravity);
 		this.environmentRef = new WeakReference<JaakEnvironment>(env);
 	}

@@ -24,11 +24,8 @@ import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.Perceivable;
 
 import java.io.Serializable;
-import java.util.UUID;
 
-import org.arakhne.afc.math.continous.object2d.Tuple2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
-import org.arakhne.afc.math.generic.Point2D;
 
 /** This interface defines a body for a turtle.
  *

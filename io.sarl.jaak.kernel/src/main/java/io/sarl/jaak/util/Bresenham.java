@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** This class provides 2D Bresenham algorithms.
  * <p>

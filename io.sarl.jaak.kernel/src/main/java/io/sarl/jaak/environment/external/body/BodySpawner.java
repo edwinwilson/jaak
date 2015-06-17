@@ -21,8 +21,6 @@ package io.sarl.jaak.environment.external.body;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Shape2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
-import org.arakhne.afc.math.discrete.object2d.Shape2i;
 
 /** Describes the public/read-only API of a body spawner.
  *

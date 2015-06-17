@@ -264,10 +264,10 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 	 * @return how the position was validated.
 	 */
 	protected ValidationResult validatePosition(Point2f position) {
-		ContinuousModel g = getEnvironment();
+		//ContinuousModel g = getEnvironment();
 		//TODO: adapat to box2D
 		//return g.validatePosition(isWrapped(), false, position);
-		return null;
+		throw new UnsupportedOperationException("Wrapping not supported in this version.");
 	}
 
 }

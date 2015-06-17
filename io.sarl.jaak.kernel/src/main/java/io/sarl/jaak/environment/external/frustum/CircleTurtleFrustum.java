@@ -99,7 +99,7 @@ public class CircleTurtleFrustum implements TurtleFrustum {
 			while(!this.nearBodies.isEmpty() && this.inViewBodies.isEmpty()){
 				Body b = nearBodies.remove(0);				
 				Shape2f bodyShape = ShapeMapper.getShapeFromFixture(b.getFixtureList());
-				if(shape.intersects(this.shape)){
+				if(bodyShape.intersects(this.shape)){
 					inViewBodies.add((UUID)b.getUserData());
 				}	
 			}

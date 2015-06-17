@@ -21,15 +21,12 @@ package io.sarl.jaak.environment.external.frustum;
 
 import io.sarl.jaak.environment.external.EnvironmentArea;
 import io.sarl.jaak.environment.external.body.TurtleObject;
-import io.sarl.jaak.environment.external.perception.JaakObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 import org.jbox2d.callbacks.QueryCallback;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;

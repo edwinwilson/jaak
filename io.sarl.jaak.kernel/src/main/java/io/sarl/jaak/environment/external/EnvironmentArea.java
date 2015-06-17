@@ -19,9 +19,6 @@
  */
 package io.sarl.jaak.environment.external;
 
-import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
-
-import java.util.Collection;
 
 
 /** This interface is for the area covered by the environment.

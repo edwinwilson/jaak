@@ -31,8 +31,6 @@ import org.arakhne.afc.math.MathConstants;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Rectangle2f;
 import org.arakhne.afc.math.continous.object2d.Shape2f;
-import org.arakhne.afc.math.discrete.object2d.Rectangle2i;
-import org.arakhne.afc.math.discrete.object2d.Shape2i;
 
 /** A spawner which is spawning on the overall world surface.
  *
