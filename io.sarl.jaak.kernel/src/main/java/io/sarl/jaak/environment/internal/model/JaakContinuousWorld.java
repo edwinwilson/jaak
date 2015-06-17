@@ -165,7 +165,6 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	@Override
 	public void putObject(float x, float y, EnvironmentalObject dropOffObject) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
