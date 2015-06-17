@@ -24,6 +24,8 @@ import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 
 import java.util.UUID;
 
+import org.arakhne.afc.math.continous.object2d.Vector2f;
+
 /** This interface defines the methods which are used
  * to apply actions in a Jaak environment.
  *
@@ -38,8 +40,7 @@ public interface ActionApplier {
 
 	boolean removeTurtle(UUID emitter);
 
-	boolean setPhysicalState(float x, float y, float heading, float speed,
-			TurtleBody emitter);
+	boolean setPhysicalState(float x, float y, float heading, float speed, Vector2f linearVelocity, float angularVelocity, TurtleBody emitter);
 
 	EnvironmentalObject removeObject(EnvironmentalObject pickUpObject);
 

@@ -27,6 +27,7 @@ import io.sarl.jaak.environment.external.influence.MotionInfluence;
 import io.sarl.jaak.environment.external.influence.MotionInfluenceStatus;
 import io.sarl.jaak.environment.external.influence.PickUpInfluence;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
+import io.sarl.jaak.environment.external.perception.Perceivable;
 import io.sarl.jaak.environment.external.perception.PerceivedTurtle;
 import io.sarl.jaak.environment.external.perception.PickedObject;
 import io.sarl.jaak.util.MultiCollection;
@@ -43,14 +44,9 @@ import java.util.UUID;
 import org.arakhne.afc.math.MathUtil;
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
 
-import eurockeennes.environment.perception.Perceivable;
 
 /** This class defines an implementation of turtle body.
  *
@@ -635,6 +631,11 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	@Override
 	public MotionInfluenceStatus getLastMotionInfluenceStatus() {
 		return this.lastMotionInfluenceStatus == null ? MotionInfluenceStatus.NOT_AVAILABLE : this.lastMotionInfluenceStatus;
+	}
+
+	@Override
+	public Body getBox() {
+		return this.jboxBody;
 	}
 
 }

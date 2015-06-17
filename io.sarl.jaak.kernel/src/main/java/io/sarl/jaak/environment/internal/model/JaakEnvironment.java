@@ -22,12 +22,12 @@ package io.sarl.jaak.environment.internal.model;
 import io.sarl.jaak.environment.external.EnvironmentArea;
 import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.body.TurtleBodyFactory;
+import io.sarl.jaak.environment.external.endogenous.AutonomousEndogenousProcess;
 import io.sarl.jaak.environment.external.frustum.SquareTurtleFrustum;
 import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
 import io.sarl.jaak.environment.external.influence.Influence;
 import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.time.TimeManager;
-import io.sarl.jaak.environment.internal.ContinuousModel;
 import io.sarl.jaak.environment.internal.endogenousengine.EnvironmentEndogenousEngine;
 import io.sarl.jaak.environment.internal.solver.ActionApplier;
 import io.sarl.jaak.environment.internal.solver.InfluenceSolver;
@@ -45,7 +45,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
@@ -54,19 +53,17 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
-/** This class defines the Jaak environment model.
+/**
+ * This class defines the Jaak environment model.
  * <p>
- * The environment is a grid composed of cells.
- * Each cell is able to contain zero or one turtle
- * body and many environmental objects.
+ * The environment is a grid composed of cells. Each cell is able to contain
+ * zero or one turtle body and many environmental objects.
  * <p>
- * The environment may be wrapped or not. When the
- * environment is wrapped and a turtle is trying
- * to go outside the environment grid, it is moved
- * on the opposite side of the grid.
- * If the envrionment is not wrapped, when a turtle
- * is trying to move outside the grid, it is moved
- * until it reach the border of the grid.
+ * The environment may be wrapped or not. When the environment is wrapped and a
+ * turtle is trying to go outside the environment grid, it is moved on the
+ * opposite side of the grid. If the envrionment is not wrapped, when a turtle
+ * is trying to move outside the grid, it is moved until it reach the border of
+ * the grid.
  *
  * @author $Author: sgalland$
  * @version $FullVersion$
@@ -75,10 +72,11 @@ import org.jbox2d.dynamics.World;
  */
 public class JaakEnvironment implements EnvironmentArea {
 
-	/** Defines the default perception distance for turtles.
+	/**
+	 * Defines the default perception distance for turtles.
 	 */
 	public static final float DEFAULT_PERCEPTION_DISTANCE = 7;
-	
+
 	private final UUID id = UUID.randomUUID();
 	private final Map<UUID, RealTurtleBody> bodies = new TreeMap<>();
 	private final Map<String, EnvironmentalObject> environmentalObjects = new TreeMap<>();
@@ -89,34 +87,43 @@ public class JaakEnvironment implements EnvironmentArea {
 	private volatile Collection<Influence> endogenousInfluences;
 	private volatile InfluenceSolver<RealTurtleBody> solver;
 	private float lastSimulationTime = Float.NaN;
+	private final Collection<AutonomousEndogenousProcess> autonomousProcesses = new LinkedList<>();
 
 	private final LinkedList<JaakEnvironmentListener> listeners = new LinkedList<>();
 
-	private final RealTurtleBodyFactory factory ;
+	private final RealTurtleBodyFactory factory;
 
 	/**
-	 * @param width is the width of the world grid.
-	 * @param height is the height of the world grid.
-	 * @param timeManager is the time manager used to run Jaak.
+	 * @param width
+	 *            is the width of the world grid.
+	 * @param height
+	 *            is the height of the world grid.
+	 * @param timeManager
+	 *            is the time manager used to run Jaak.
 	 */
 	public JaakEnvironment(float width, float height, TimeManager timeManager) {
-		//this.grid = new JaakGrid(width, height, new StandardObjectManipulator());
+		// this.grid = new JaakGrid(width, height, new
+		// StandardObjectManipulator());
 		this.model = new JaakContinuousWorld();
 		this.timeManager = timeManager;
-		this.factory= new RealTurtleBodyFactory(model.getWorld());
+		this.factory = new RealTurtleBodyFactory(model.getWorld());
 	}
 
 	/**
-	 * @param width is the width of the world.
-	 * @param height is the height of the world.
+	 * @param width
+	 *            is the width of the world.
+	 * @param height
+	 *            is the height of the world.
 	 */
 	public JaakEnvironment(float width, float height) {
 		this(width, height, null);
 	}
 
-	/** Add listener on environment events.
+	/**
+	 * Add listener on environment events.
 	 *
-	 * @param listener - the listener.
+	 * @param listener
+	 *            - the listener.
 	 */
 	public void addJaakEnvironmentListener(JaakEnvironmentListener listener) {
 		synchronized (this.listeners) {
@@ -124,9 +131,11 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 	}
 
-	/** Remove listener on environment events.
+	/**
+	 * Remove listener on environment events.
 	 *
-	 * @param listener - the listener.
+	 * @param listener
+	 *            - the listener.
 	 */
 	public void removeJaakEnvironmentListener(JaakEnvironmentListener listener) {
 		synchronized (this.listeners) {
@@ -134,7 +143,8 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 	}
 
-	/** Fire pre agent scheduling event.
+	/**
+	 * Fire pre agent scheduling event.
 	 */
 	protected void firePreAgentScheduling() {
 		JaakEnvironmentListener[] list;
@@ -147,7 +157,8 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 	}
 
-	/** Fire post agent scheudling event.
+	/**
+	 * Fire post agent scheudling event.
 	 */
 	protected void firePostAgentScheduling() {
 		JaakEnvironmentListener[] list;
@@ -160,44 +171,51 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 	}
 
-	/** {@inheritDoc}
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public float getX() {
 		return 0;
 	}
 
-	/** {@inheritDoc}
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public float getY() {
 		return 0;
 	}
 
-	/** {@inheritDoc}
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public float getWidth() {
 		return model.getWidth();
 	}
 
-	/** {@inheritDoc}
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public float getHeight() {
 		return model.getHeight();
 	}
 
-	/** Set the time manager for the environment.
+	/**
+	 * Set the time manager for the environment.
 	 *
-	 * @param timeManager is the time manager which must be used by the environment.
+	 * @param timeManager
+	 *            is the time manager which must be used by the environment.
 	 */
 	public void setTimeManager(TimeManager timeManager) {
 		assert (timeManager != null);
 		this.timeManager = timeManager;
 	}
 
-	/** Replies the action applier for this environment.
+	/**
+	 * Replies the action applier for this environment.
 	 *
 	 * @return the action applier for this environment.
 	 */
@@ -205,7 +223,8 @@ public class JaakEnvironment implements EnvironmentArea {
 		return this.model;
 	}
 
-	/** Replies the unique identifier of this environment object.
+	/**
+	 * Replies the unique identifier of this environment object.
 	 *
 	 * @return the identifier of the environment.
 	 */
@@ -213,9 +232,11 @@ public class JaakEnvironment implements EnvironmentArea {
 		return this.id;
 	}
 
-	/** Replies a factory for the bodies which is connected to this environment.
+	/**
+	 * Replies a factory for the bodies which is connected to this environment.
 	 * <p>
-	 * Caution: this factory create bodies, and adds them inside the environment.
+	 * Caution: this factory create bodies, and adds them inside the
+	 * environment.
 	 *
 	 * @return a body factory.
 	 */
@@ -223,54 +244,60 @@ public class JaakEnvironment implements EnvironmentArea {
 		return this.factory;
 	}
 
-	/** Replies if the environment is wrapped.
+	/**
+	 * Replies if the environment is wrapped.
 	 *
-	 * @return <code>true</code> if the environment is
-	 * wrapped, otherwise <code>false</code>.
+	 * @return <code>true</code> if the environment is wrapped, otherwise
+	 *         <code>false</code>.
 	 */
 	public boolean isWrapped() {
 		return this.isWrapped.get();
 	}
 
-	/** Change the wrapping flag of the environment.
+	/**
+	 * Change the wrapping flag of the environment.
 	 *
-	 * @param wrapped indicates if the environment is
-	 * wrapped or not.
+	 * @param wrapped
+	 *            indicates if the environment is wrapped or not.
 	 */
 	public void setWrapped(boolean wrapped) {
 		this.isWrapped.set(wrapped);
 	}
-
 
 	@Override
 	public synchronized int getTurtleCount() {
 		return this.bodies.size();
 	}
 
-
-	/** Set the endogenous engine to use.
+	/**
+	 * Set the endogenous engine to use.
 	 *
-	 * @param engine is the endogenous engine to use.
+	 * @param engine
+	 *            is the endogenous engine to use.
 	 */
 	public void setEndogenousEngine(EnvironmentEndogenousEngine engine) {
 		this.endogenousEngine = engine;
 	}
 
-	/** Set the solver of influence conflicts.
+	/**
+	 * Set the solver of influence conflicts.
 	 *
-	 * @param solver is the solver of influence conflicts to use.
+	 * @param solver
+	 *            is the solver of influence conflicts to use.
 	 */
 	public void setInfluenceSolver(InfluenceSolver<RealTurtleBody> solver) {
 		this.solver = solver;
 	}
 
-
-	/** Add a body in the environment.
+	/**
+	 * Add a body in the environment.
 	 *
-	 * @param body is the body to add.
-	 * @param position is the position of the body.
+	 * @param body
+	 *            is the body to add.
+	 * @param position
+	 *            is the position of the body.
 	 * @return <code>true</code> if the body was successfully added,
-	 * <code>false</code> otherwise.
+	 *         <code>false</code> otherwise.
 	 */
 	synchronized boolean addBody(RealTurtleBody body, Point2f position) {
 		assert (body != null);
@@ -278,20 +305,20 @@ public class JaakEnvironment implements EnvironmentArea {
 		if (!this.bodies.containsKey(body.getTurtleId())) {
 			if (this.model.putTurtle(position.x(), position.y(), body)) {
 				this.bodies.put(body.getTurtleId(), body);
-				body.setPhysicalState(
-						position.getX(), position.getY(),
-						body.getHeadingAngle(),
-						null,
-						0f);
+				body.setPhysicalState(position.getX(), position.getY(),
+						body.getHeadingAngle(), 0f, new Vector2f(), 0f);
 				return true;
 			}
 		}
 		return false;
 	}
 
-	/** Remove a body from the environment.
+	/**
+	 * Remove a body from the environment.
 	 *
-	 * @param turtle is the identifier of the turtle for which the body must be removed.
+	 * @param turtle
+	 *            is the identifier of the turtle for which the body must be
+	 *            removed.
 	 * @return the success state of the removal action.
 	 */
 	public synchronized boolean removeBodyFor(UUID turtle) {
@@ -305,10 +332,13 @@ public class JaakEnvironment implements EnvironmentArea {
 		return false;
 	}
 
-	/** Replies if the given address is associated to a body in the environment.
+	/**
+	 * Replies if the given address is associated to a body in the environment.
 	 *
-	 * @param turtle is the identifier of the turtle.
-	 * @return <code>true</code> if the turtle has a body, otherwise <code>false</code>.
+	 * @param turtle
+	 *            is the identifier of the turtle.
+	 * @return <code>true</code> if the turtle has a body, otherwise
+	 *         <code>false</code>.
 	 */
 	public synchronized boolean hasBodyFor(UUID turtle) {
 		if (turtle != null) {
@@ -317,10 +347,11 @@ public class JaakEnvironment implements EnvironmentArea {
 		return false;
 	}
 
-
-	/** Replies the body for the given address.
+	/**
+	 * Replies the body for the given address.
 	 *
-	 * @param turtle is the identifier of the turtle.
+	 * @param turtle
+	 *            is the identifier of the turtle.
 	 * @return the turtle body or <code>null</code>.
 	 */
 	public synchronized TurtleBody getBodyFor(UUID turtle) {
@@ -330,9 +361,11 @@ public class JaakEnvironment implements EnvironmentArea {
 		return null;
 	}
 
-	/** Apply the given function on all the bodies.
+	/**
+	 * Apply the given function on all the bodies.
 	 *
-	 * @param function - the function to apply.
+	 * @param function
+	 *            - the function to apply.
 	 */
 	public synchronized void apply(Lambda<TurtleBody> function) {
 		for (TurtleBody body : this.bodies.values()) {
@@ -340,7 +373,8 @@ public class JaakEnvironment implements EnvironmentArea {
 		}
 	}
 
-	/** Run the environment behaviour before any turtle execution.
+	/**
+	 * Run the environment behaviour before any turtle execution.
 	 */
 	public synchronized void runPreTurtles() {
 		computePerceptions();
@@ -349,10 +383,11 @@ public class JaakEnvironment implements EnvironmentArea {
 
 	private void computePerceptions() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	/** Run the environment behaviour after all turtle executions.
+	/**
+	 * Run the environment behaviour after all turtle executions.
 	 */
 	public synchronized void runPostTurtles() {
 		runEndogenousEngine();
@@ -372,7 +407,8 @@ public class JaakEnvironment implements EnvironmentArea {
 		MultiCollection<Influence> endoInfluences = new MultiCollection<>();
 
 		this.lastSimulationTime = currentTime;
-		Collection<Influence> col = this.model.runAutonomousProcesses(currentTime, simulationStepDuration);
+		Collection<Influence> col = this.model.runAutonomousProcesses(
+				currentTime, simulationStepDuration);
 		if (col != null && !col.isEmpty()) {
 			endoInfluences.addCollection(col);
 		}
@@ -389,11 +425,20 @@ public class JaakEnvironment implements EnvironmentArea {
 		if (!endoInfluences.isEmpty()) {
 			this.endogenousInfluences = endoInfluences;
 		}
+
 	}
 
+	public EnvironmentalObject getEnvironmentalObject(UUID id) {
+		return this.environmentalObjects.get(id);
+	}
 
-	/** This class defines an iterable object which is able to filter
-	 * its content.
+	public EnvironmentalObject removeEnvironmentalObject(UUID id) {
+		return this.environmentalObjects.remove(id);
+	}
+
+	/**
+	 * This class defines an iterable object which is able to filter its
+	 * content.
 	 *
 	 * @author $Author: sgalland$
 	 * @version $FullVersion$
@@ -406,8 +451,10 @@ public class JaakEnvironment implements EnvironmentArea {
 		private final Collection<?> collection;
 
 		/**
-		 * @param type is the type of the elements to reply
-		 * @param collection is the collection to iterate on.
+		 * @param type
+		 *            is the type of the elements to reply
+		 * @param collection
+		 *            is the collection to iterate on.
 		 */
 		public FilteringIterable(Class<T> type, Collection<?> collection) {
 			this.type = type;
@@ -419,13 +466,15 @@ public class JaakEnvironment implements EnvironmentArea {
 		 */
 		@Override
 		public Iterator<T> iterator() {
-			return new FilteringIterator<>(this.type, this.collection.iterator());
+			return new FilteringIterator<>(this.type,
+					this.collection.iterator());
 		}
 
 	}
 
-	/** This class defines an iterable object which is able to filter
-	 * its content.
+	/**
+	 * This class defines an iterable object which is able to filter its
+	 * content.
 	 *
 	 * @author $Author: sgalland$
 	 * @version $FullVersion$
@@ -439,8 +488,10 @@ public class JaakEnvironment implements EnvironmentArea {
 		private T next;
 
 		/**
-		 * @param type is the type of the elements to reply
-		 * @param iterator is the iterator to use.
+		 * @param type
+		 *            is the type of the elements to reply
+		 * @param iterator
+		 *            is the iterator to use.
 		 */
 		public FilteringIterator(Class<T> type, Iterator<?> iterator) {
 			this.type = type;
@@ -485,10 +536,10 @@ public class JaakEnvironment implements EnvironmentArea {
 		public void remove() {
 			//
 		}
-
 	}
 
-	/** This class defines an implementation of turtle body factory.
+	/**
+	 * This class defines an implementation of turtle body factory.
 	 *
 	 * @author $Author: sgalland$
 	 * @version $FullVersion$
@@ -496,7 +547,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	 * @mavenartifactid $ArtifactId$
 	 */
 	private class RealTurtleBodyFactory implements TurtleBodyFactory {
-		
+
 		World world;
 
 		/**
@@ -513,90 +564,20 @@ public class JaakEnvironment implements EnvironmentArea {
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TurtleBody createTurtleBody(
-				UUID turtleId,
-				Point2f desiredPosition,
-				float desiredAngle,
+		public TurtleBody createTurtleBody(UUID turtleId,
+				Point2f desiredPosition, float desiredAngle,
 				Serializable semantic) {
-			return createTurtleBody(
-					turtleId, desiredPosition,
-					desiredAngle, semantic,
-					getDefaultFrustum());
+			return createTurtleBody(turtleId, desiredPosition, desiredAngle,
+					semantic, getDefaultFrustum());
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TurtleBody createTurtleBody(
-				UUID turtleId,
-				Point2f desiredPosition,
-				float desiredAngle) {
-			return createTurtleBody(
-					turtleId, desiredPosition,
-					desiredAngle,
-					getDefaultFrustum());
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public TurtleBody createTurtleBody(
-				UUID turtleId,
-				Point2f desiredPosition) {
-			return createTurtleBody(
-					turtleId, desiredPosition,
-					getDefaultFrustum());
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public TurtleBody createTurtleBody(UUID turtleId) {
-			return createTurtleBody(
-					turtleId,
-					getDefaultFrustum());
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public TurtleBody createTurtleBody(
-				UUID turtleId,
-				float desiredAngle,
-				Serializable semantic) {
-			return createTurtleBody(
-					turtleId,
-					desiredAngle, semantic,
-					getDefaultFrustum());
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public TurtleBody createTurtleBody(
-				UUID turtleId,
-				Serializable semantic) {
-			return createTurtleBody(
-					turtleId, semantic,
-					getDefaultFrustum());
-		}
-
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		public TurtleBody createTurtleBody(
-				UUID turtleId,
-				Point2f desiredPosition,
-				Serializable semantic) {
-			return createTurtleBody(
-					turtleId, desiredPosition,
-					semantic,
+		public TurtleBody createTurtleBody(UUID turtleId,
+				Point2f desiredPosition, float desiredAngle) {
+			return createTurtleBody(turtleId, desiredPosition, desiredAngle,
 					getDefaultFrustum());
 		}
 
@@ -605,8 +586,54 @@ public class JaakEnvironment implements EnvironmentArea {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2f desiredPosition, float desiredAngle, Serializable semantic,
-				TurtleFrustum frustum) {
+				Point2f desiredPosition) {
+			return createTurtleBody(turtleId, desiredPosition,
+					getDefaultFrustum());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public TurtleBody createTurtleBody(UUID turtleId) {
+			return createTurtleBody(turtleId, getDefaultFrustum());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public TurtleBody createTurtleBody(UUID turtleId, float desiredAngle,
+				Serializable semantic) {
+			return createTurtleBody(turtleId, desiredAngle, semantic,
+					getDefaultFrustum());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public TurtleBody createTurtleBody(UUID turtleId, Serializable semantic) {
+			return createTurtleBody(turtleId, semantic, getDefaultFrustum());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public TurtleBody createTurtleBody(UUID turtleId,
+				Point2f desiredPosition, Serializable semantic) {
+			return createTurtleBody(turtleId, desiredPosition, semantic,
+					getDefaultFrustum());
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public TurtleBody createTurtleBody(UUID turtleId,
+				Point2f desiredPosition, float desiredAngle,
+				Serializable semantic, TurtleFrustum frustum) {
 			float bodyRadius = 1;
 
 			Point2f position = null;
@@ -620,25 +647,27 @@ public class JaakEnvironment implements EnvironmentArea {
 			if (position == null) {
 				return null;
 			}
-			//create and configure Jbox body
+			// create and configure Jbox body
 			BodyDef ballBodydef = new BodyDef();
 			ballBodydef.type = BodyType.DYNAMIC;
-			ballBodydef.position = new Vec2(desiredPosition.getX(),desiredPosition.getY());
+			ballBodydef.position = new Vec2(desiredPosition.getX(),
+					desiredPosition.getY());
 			ballBodydef.angle = desiredAngle;
-			
+
 			CircleShape ballShape = new CircleShape();
 			ballShape.setRadius(bodyRadius);
-			
+
 			FixtureDef ballFixture = new FixtureDef();
 			ballFixture.shape = ballShape;
 			ballFixture.density = 1;
 			ballFixture.friction = 0.4f;
-			
+
 			Body ballBody = this.world.createBody(ballBodydef);
 			ballBody.createFixture(ballFixture);
 			ballBody.setUserData(turtleId);
-			
-			RealTurtleBody body = new RealTurtleBody(turtleId, frustum, semantic,ballBody);
+
+			RealTurtleBody body = new RealTurtleBody(turtleId, frustum,
+					semantic, ballBody);
 			if (JaakEnvironment.this.addBody(body, position)) {
 				return body;
 			}
@@ -657,8 +686,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Point2f desiredPosition, float desiredAngle,
 				TurtleFrustum frustum) {
-			return createTurtleBody(turtleId,
-					desiredPosition, desiredAngle,
+			return createTurtleBody(turtleId, desiredPosition, desiredAngle,
 					null, frustum);
 		}
 
@@ -668,31 +696,26 @@ public class JaakEnvironment implements EnvironmentArea {
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Point2f desiredPosition, TurtleFrustum frustum) {
-			return createTurtleBody(turtleId,
-					desiredPosition, Float.NaN,
-					null, frustum);
+			return createTurtleBody(turtleId, desiredPosition, Float.NaN, null,
+					frustum);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TurtleBody createTurtleBody(UUID turtleId,
-				TurtleFrustum frustum) {
-			return createTurtleBody(turtleId,
-					null, Float.NaN,
-					null, frustum);
+		public TurtleBody createTurtleBody(UUID turtleId, TurtleFrustum frustum) {
+			return createTurtleBody(turtleId, null, Float.NaN, null, frustum);
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
 		@Override
-		public TurtleBody createTurtleBody(UUID turtleId,
-				float desiredAngle, Serializable semantic, TurtleFrustum frustum) {
-			return createTurtleBody(turtleId,
-					null, desiredAngle,
-					semantic, frustum);
+		public TurtleBody createTurtleBody(UUID turtleId, float desiredAngle,
+				Serializable semantic, TurtleFrustum frustum) {
+			return createTurtleBody(turtleId, null, desiredAngle, semantic,
+					frustum);
 		}
 
 		/**
@@ -701,9 +724,8 @@ public class JaakEnvironment implements EnvironmentArea {
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
 				Serializable semantic, TurtleFrustum frustum) {
-			return createTurtleBody(turtleId,
-					null, Float.NaN,
-					semantic, frustum);
+			return createTurtleBody(turtleId, null, Float.NaN, semantic,
+					frustum);
 		}
 
 		/**
@@ -711,17 +733,19 @@ public class JaakEnvironment implements EnvironmentArea {
 		 */
 		@Override
 		public TurtleBody createTurtleBody(UUID turtleId,
-				Point2f desiredPosition, Serializable semantic, TurtleFrustum frustum) {
-			return createTurtleBody(turtleId,
-					desiredPosition, Float.NaN,
+				Point2f desiredPosition, Serializable semantic,
+				TurtleFrustum frustum) {
+			return createTurtleBody(turtleId, desiredPosition, Float.NaN,
 					semantic, frustum);
 		}
 
 	} /* class RealTurtleBodyFactory */
 
-	/** Definition of a function.
+	/**
+	 * Definition of a function.
 	 *
-	 * @param <T> - the type of the lambda's parameter.
+	 * @param <T>
+	 *            - the type of the lambda's parameter.
 	 * @author $Author: sgalland$
 	 * @version $FullVersion$
 	 * @mavengroupid $GroupId$
@@ -729,20 +753,13 @@ public class JaakEnvironment implements EnvironmentArea {
 	 */
 	public interface Lambda<T> {
 
-		/** Apply the lambda.
+		/**
+		 * Apply the lambda.
 		 *
-		 * @param object - the object on whic hthe lambda must be applied.
+		 * @param object
+		 *            - the object on whic hthe lambda must be applied.
 		 */
 		void apply(T object);
 
 	} /* interface Lambda */
-
-	public EnvironmentalObject getEnvironmentalObject(UUID id) {
-		return this.environmentalObjects.get(id);
-	}
-
-	public EnvironmentalObject removeEnvironmentalObject(UUID id) {
-		return this.environmentalObjects.remove(id);
-	}
-
 }
