@@ -84,6 +84,6 @@ class JaakPhysicSpaceTurtleImpl extends AbstractJaakPhysicSpace {
 
 	@Override
 	public void notifyPerception(Perception perception) {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
 	}
 }
