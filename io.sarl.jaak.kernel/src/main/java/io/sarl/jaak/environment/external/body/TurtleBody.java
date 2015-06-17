@@ -24,8 +24,11 @@ import io.sarl.jaak.environment.external.perception.EnvironmentalObject;
 import io.sarl.jaak.environment.external.perception.Perceivable;
 
 import java.io.Serializable;
+import java.util.UUID;
 
+import org.arakhne.afc.math.continous.object2d.Tuple2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
+import org.arakhne.afc.math.generic.Point2D;
 
 /** This interface defines a body for a turtle.
  *
@@ -152,5 +155,7 @@ public interface TurtleBody extends TurtleObject {
 	 * <code>false</code> if they are disable.
 	 */
 	boolean isPerceptionEnable();
+
+	Tuple2f<Point2D> getForceVector();
 
 }

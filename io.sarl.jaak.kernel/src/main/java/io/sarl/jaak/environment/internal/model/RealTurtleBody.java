@@ -43,7 +43,9 @@ import java.util.UUID;
 
 import org.arakhne.afc.math.MathUtil;
 import org.arakhne.afc.math.continous.object2d.Point2f;
+import org.arakhne.afc.math.continous.object2d.Tuple2f;
 import org.arakhne.afc.math.continous.object2d.Vector2f;
+import org.arakhne.afc.math.generic.Point2D;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
@@ -636,6 +638,18 @@ public final class RealTurtleBody implements TurtleBody, Comparable<RealTurtleBo
 	@Override
 	public Body getBox() {
 		return this.jboxBody;
+	}
+
+	@Override
+	public UUID getId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Tuple2f<Point2D> getForceVector() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

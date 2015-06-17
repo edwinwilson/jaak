@@ -107,7 +107,7 @@ public class JaakEnvironment implements EnvironmentArea {
 	public JaakEnvironment(float width, float height, TimeManager timeManager) {
 		// this.grid = new JaakGrid(width, height, new
 		// StandardObjectManipulator());
-		this.model = new JaakContinuousWorld();
+		this.model = new JaakContinuousWorld(this);
 		this.timeManager = timeManager;
 		this.factory = new RealTurtleBodyFactory(model.getWorld());
 	}
@@ -405,7 +405,7 @@ public class JaakEnvironment implements EnvironmentArea {
 							perceivedBody = this.getBodyFor(id);
 							if (perceivedBody != null) {
 								bodies.add(new PerceivedTurtle(
-										perceivedBody.getId(), observerBody
+										perceivedBody.getTurtleId(), observerBody
 												.getPosition(), perceivedBody
 												.getPosition(),
 										(float) Math.sqrt(Math.pow(
@@ -414,8 +414,7 @@ public class JaakEnvironment implements EnvironmentArea {
 												+ Math.pow(perceivedBody
 														.getForceVector().y(),
 														2)), perceivedBody
-												.getHeadingAngle(), null,
-										perceivedBody.getState()));
+												.getHeadingAngle(), perceivedBody.getSemantic()));
 							} else {
 								perceivedObject = this
 										.getEnvironmentalObject(id);
@@ -428,8 +427,6 @@ public class JaakEnvironment implements EnvironmentArea {
 			}
 			observerBody.setPerceptions(bodies, objects);
 		}
-		
->>>>>>> 840032d31ad0cfa8ccd45dc618b7d617c50e29bb
 	}
 
 	/**

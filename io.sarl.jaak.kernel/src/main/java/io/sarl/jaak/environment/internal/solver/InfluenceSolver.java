@@ -157,8 +157,8 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 				}
 
 				if (actionApplier.putTurtle(newPosition.getX(), newPosition.getY(), emitter)) {
-					if (!actionApplier.removeTurtle(emitter)) {
-						actionApplier.removeTurtle(emitter);
+					if (!actionApplier.removeTurtle(emitter.getTurtleId())) {
+						actionApplier.removeTurtle(emitter.getTurtleId());
 						newPosition.set(position);
 						dx = 0;
 						dy = 0;
