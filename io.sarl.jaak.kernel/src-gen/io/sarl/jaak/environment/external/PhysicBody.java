@@ -22,7 +22,7 @@ public interface PhysicBody extends Capacity {
    * Default value for the parameter changeHeading
    */
   @Generated(" false")
-  public final static boolean ___FORMAL_PARAMETER_DEFAULT_VALUE_1_1 = false;
+  public final static boolean ___FORMAL_PARAMETER_DEFAULT_VALUE_MOVE_1 = false;
   
   /**
    * Move the turtle along the given direction and
@@ -36,7 +36,7 @@ public interface PhysicBody extends Capacity {
    * otherwise <code>false</code>.
    */
   @DefaultValueSource
-  public abstract void move(final Vector2f direction, @DefaultValue("1_1") final boolean changeHeading);
+  public abstract void move(final Vector2f direction, @DefaultValue("io.sarl.jaak.environment.external.PhysicBody#MOVE_1") final boolean changeHeading);
   
   /**
    * Move the turtle along the given direction and
