@@ -36,7 +36,7 @@ import org.arakhne.afc.math.continous.object2d.Vector2f;
  */
 public interface ActionApplier {
 
-	boolean putTurtle(float x, float y, TurtleBody emitter);
+	boolean putTurtle(TurtleBody emitter);
 
 	boolean removeTurtle(UUID emitter);
 

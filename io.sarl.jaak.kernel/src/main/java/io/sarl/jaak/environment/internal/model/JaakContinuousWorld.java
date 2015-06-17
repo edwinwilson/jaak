@@ -168,9 +168,9 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	}
 
 	@Override
-	public boolean putTurtle(float x, float y, TurtleBody emitter) {
-		// TODO Auto-generated method stub
-		return false;
+	public synchronized boolean putTurtle(TurtleBody emitter) {
+		this.bodies.put(emitter.getTurtleId(), emitter.getBox());
+		return true;
 	}
 
 }

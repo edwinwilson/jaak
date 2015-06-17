@@ -306,7 +306,7 @@ public class JaakEnvironment implements EnvironmentArea {
 		assert (body != null);
 		assert (position != null);
 		if (!this.bodies.containsKey(body.getTurtleId())) {
-			if (this.model.putTurtle(position.x(), position.y(), body)) {
+			if (this.model.putTurtle(body)) {
 				this.bodies.put(body.getTurtleId(), body);
 				body.setPhysicalState(position.getX(), position.getY(),
 						body.getHeadingAngle(), 0f, new Vector2f());
