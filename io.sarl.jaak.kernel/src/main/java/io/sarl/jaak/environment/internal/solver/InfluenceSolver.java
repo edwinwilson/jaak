@@ -265,7 +265,7 @@ public abstract class InfluenceSolver<T extends TurtleBody> {
 	 */
 	protected ValidationResult validatePosition(Point2f position) {
 		ContinuousModel g = getEnvironment();
-		//TODO: adapat to tree
+		//TODO: adapat to box2D
 		//return g.validatePosition(isWrapped(), false, position);
 		return null;
 	}
