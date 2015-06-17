@@ -797,7 +797,8 @@ public class JaakEnvironment implements EnvironmentArea {
 	}
 
 	public EnvironmentalObject removeEnvironmentalObject(UUID id) {
-		return this.environmentalObjects.remove(id);
+		if(environmentalObjects.containsKey(id)) {return this.environmentalObjects.remove(id);}
+		return null;
 	}
 
 }

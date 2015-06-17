@@ -158,7 +158,7 @@ public class JaakContinuousWorld implements ContinuousModel, ActionApplier {
 	private void deleteBurrow(UUID id) {
 		Body body = environmentObjectBodies.get(id);
 		world.destroyBody(body);
-		environmentObjectBodies.remove(id);
+		if(environmentObjectBodies.containsKey(id)){ environmentObjectBodies.remove(id);}
 		environmentRef.get().removeEnvironmentalObject(id);
 	}
 
