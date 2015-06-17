@@ -22,17 +22,14 @@ package io.sarl.jaak.kernel.internal;
 import io.sarl.jaak.environment.external.body.TurtleBody;
 import io.sarl.jaak.environment.external.body.TurtleBodyFactory;
 import io.sarl.jaak.environment.external.frustum.CircleTurtleFrustum;
-import io.sarl.jaak.environment.external.frustum.PointTurtleFrustum;
 import io.sarl.jaak.environment.external.frustum.TurtleFrustum;
 import io.sarl.jaak.environment.external.time.TimeManager;
-import io.sarl.jaak.environment.internal.model.JaakEnvironment;
 import io.sarl.jaak.environment.internal.spawner.JaakBodyCreator;
 
 import java.lang.reflect.Constructor;
 import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
-import org.arakhne.afc.math.discrete.object2d.Point2i;
 
 /** Creator of bodies for the SARL agents.
  *

@@ -388,4 +388,9 @@ public abstract class JaakSpawner implements BodySpawner {
 
 	}
 
+	public Point2f computeValidPosition(Point2f desiredPosition) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

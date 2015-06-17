@@ -22,6 +22,7 @@ package io.sarl.jaak.kernel.internal;
 import io.janusproject.services.distributeddata.DistributedDataStructureService;
 import io.sarl.jaak.environment.external.Perception;
 import io.sarl.jaak.environment.external.influence.Influence;
+import io.sarl.jaak.environment.external.perception.Perceivable;
 import io.sarl.lang.core.Event;
 import io.sarl.lang.core.EventListener;
 import io.sarl.lang.core.Scope;
@@ -66,11 +67,6 @@ class JaakPhysicSpaceTurtleImpl extends AbstractJaakPhysicSpace {
 	}
 
 	@Override
-	public void notifyPerception(Perception perception) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public void influence(float influenceTime, Influence influence) {
 		AgentInfluence event = new AgentInfluence(influenceTime, 0, influence);
 		putOnNetwork(event, getCreatorID());
@@ -85,6 +81,12 @@ class JaakPhysicSpaceTurtleImpl extends AbstractJaakPhysicSpace {
 			this.logger.error(JaakPhysicSpaceTurtleImpl.class,
 					"INVALID_SCOPE", scope, event); //$NON-NLS-1$
 		}
+	}
+
+	@Override
+	public void notifyPerception(Perceivable perception) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
