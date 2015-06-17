@@ -22,6 +22,7 @@ package io.sarl.jaak.environment.external.perception;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.UUID;
 
 import org.arakhne.afc.math.continous.object2d.Point2f;
 import org.arakhne.afc.math.discrete.object2d.Point2i;
@@ -86,8 +87,8 @@ public abstract class Substance extends EnvironmentalObject {
 	 * @return the identifier of the environmental object.
 	 */
 	@Override
-	public String getEnvironmentalObjectIdentifier() {
-		return getClass().getCanonicalName() + "-o-o-o-*"; //$NON-NLS-1$
+	public UUID getEnvironmentalObjectIdentifier() {
+		return this.getId(); 
 	}
 
 	/**
